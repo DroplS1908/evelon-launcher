@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline - Evelon Launcher</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #0D0D0D;
+            color: #fff;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .container {
+            max-width: 600px;
+            background: rgba(18, 18, 22, 0.85);
+            padding: 50px;
+            border-radius: 24px;
+            box-shadow: 0 0 40px rgba(57, 255, 20, 0.25), 
+                        0 10px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(57, 255, 20, 0.15);
+            transition: all 0.4s ease;
+        }
+        .container:hover {
+            box-shadow: 0 0 60px rgba(57, 255, 20, 0.4), 
+                        0 15px 30px rgba(0, 0, 0, 0.4);
+            transform: translateY(-5px);
+        }
+        h1 {
+            color: #39FF14;
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 0 0 15px rgba(57, 255, 20, 0.6);
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        p {
+            font-size: 18px;
+            color: #eee;
+            margin-bottom: 35px;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+        .retry-btn {
+            background: linear-gradient(135deg, #39FF14, #2ECC71);
+            color: #000;
+            padding: 16px 38px;
+            font-size: 18px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.5),
+                        0 5px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .retry-btn:hover {
+            transform: scale(1.05) translateY(-3px);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.7),
+                        0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        .retry-btn:active {
+            transform: scale(0.98) translateY(0);
+        }
+        .retry-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transform: skewX(-25deg);
+            transition: all 0.6s ease;
+        }
+        .retry-btn:hover::before {
+            left: 100%;
+        }
+        .offline-icon {
+            width: 150px;
+            margin-bottom: 30px;
+            filter: drop-shadow(0 0 15px rgba(57, 255, 20, 0.6));
+            animation: float 6s infinite ease-in-out;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-8px) rotate(2deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(8px) rotate(-2deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .status-indicator {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background: #ff3333;
+            border-radius: 50%;
+            margin-right: 12px;
+            vertical-align: middle;
+            box-shadow: 0 0 15px #ff3333;
+            animation: blink 2s infinite;
+        }
+        
+        @keyframes blink {
+            0% { opacity: 1; box-shadow: 0 0 15px #ff3333; }
+            50% { opacity: 0.3; box-shadow: 0 0 5px #ff3333; }
+            100% { opacity: 1; box-shadow: 0 0 15px #ff3333; }
+        }
+        
+        .status-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 25px;
+            color: #bbb;
+            font-size: 15px;
+            font-family: 'Consolas', monospace;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(57, 255, 20, 0.1);
+        }
+        
+        /* Loading dots animation */
+        .loading-dots::after {
+            content: '.';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80% { content: '....'; }
+            100% { content: '.....'; }
+        }
+        
+        /* Glow effect */
+        .glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(57, 255, 20, 0.1) 0%, rgba(57, 255, 20, 0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+            animation: pulse-glow 8s infinite ease-in-out;
+        }
+        
+        @keyframes pulse-glow {
+            0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.8); }
+            50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.2); }
+            100% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.8); }
+        }
+        
+        /* Network signal icon */
+        .signal-icon {
+            position: relative;
+            width: 35px;
+            height: 35px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        .signal-bar {
+            position: absolute;
+            bottom: 0;
+            width: 6px;
+            background-color: rgba(57, 255, 20, 0.3);
+            border-radius: 3px;
+        }
+        
+        .signal-bar-1 {
+            left: 0;
+            height: 6px;
+            animation: signal-animation 1.5s infinite ease-in-out;
+        }
+        
+        .signal-bar-2 {
+            left: 10px;
+            height: 12px;
+            animation: signal-animation 1.5s infinite ease-in-out 0.2s;
+        }
+        
+        .signal-bar-3 {
+            left: 20px;
+            height: 18px;
+            animation: signal-animation 1.5s infinite ease-in-out 0.4s;
+        }
+        
+        .signal-bar-4 {
+            left: 30px;
+            height: 24px;
+            animation: signal-animation 1.5s infinite ease-in-out 0.6s;
+        }
+        
+        @keyframes signal-animation {
+            0%, 100% { background-color: rgba(57, 255, 20, 0.3); }
+            50% { background-color: rgba(57, 255, 20, 0.8); }
+        }
+        
+        /* Circuit board background */
+        .circuit-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+            background: 
+                linear-gradient(90deg, #000 21px, transparent 1%) center,
+                linear-gradient(#000 21px, transparent 1%) center,
+                rgba(57, 255, 20, 0.2);
+            background-size: 22px 22px;
+        }
+        
+        .circuit-line {
+            position: absolute;
+            background: rgba(57, 255, 20, 0.4);
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+                max-width: 90%;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            p {
+                font-size: 16px;
+            }
+            
+            .retry-btn {
+                padding: 14px 28px;
+                font-size: 16px;
+            }
+            
+            .offline-icon {
+                width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="circuit-container" id="circuit-container"></div>
+    <div class="glow"></div>
+    <div class="particles-container" id="particles-container"></div>
+    
+    <div class="container">
+        <div class="signal-icon">
+            <div class="signal-bar signal-bar-1"></div>
+            <div class="signal-bar signal-bar-2"></div>
+            <div class="signal-bar signal-bar-3"></div>
+            <div class="signal-bar signal-bar-4"></div>
+        </div>
+        <img src="Circles__1_-removebg-preview.png" alt="Offline Icon" class="offline-icon">
+        <h1>Connection Lost</h1>
+        <p>It looks like you're disconnected from the internet.<br>Please check your network connection and try again.</p>
+        <button class="retry-btn" onclick="location.reload()">Reconnect</button>
+        <div class="status-text">
+            <span class="status-indicator"></span>
+            <span>Waiting for network <span class="loading-dots"></span></span>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            createCircuitLines();
+            
+            // Add hover effect to container
+            const container = document.querySelector('.container');
+            container.addEventListener('mousemove', (e) => {
+                const rect = container.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const xPercent = Math.round((x / rect.width) * 100);
+                const yPercent = Math.round((y / rect.height) * 100);
+                
+                const gradientValue = `radial-gradient(circle at ${xPercent}% ${yPercent}%, rgba(57, 255, 20, 0.03), transparent 50%)`;
+                container.style.background = `${gradientValue}, rgba(18, 18, 22, 0.85)`;
+            });
+            
+            container.addEventListener('mouseleave', () => {
+                container.style.background = 'rgba(18, 18, 22, 0.85)';
+            });
+        });
+        
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            
+            // Clear any existing particles
+            container.innerHTML = '';
+            
+            for (let i = 0; i < 120; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random position
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                
+                // Random size
+                const size = Math.random() * 8 + 1;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Random opacity based on size
+                const opacity = Math.min(0.8, size / 8);
+                
+                // Create a more interesting particle color variation
+                const hue = Math.random() * 20 + 100; // green to light green
+                const saturation = Math.random() * 20 + 80; // high saturation
+                const lightness = Math.random() * 20 + 40; // medium lightness
+                
+                particle.style.backgroundColor = `hsla(${hue}, ${saturation}%, ${lightness}%, ${opacity})`;
+                particle.style.boxShadow = `0 0 ${size * 2}px hsla(${hue}, ${saturation}%, ${lightness}%, ${opacity})`;
+                
+                // Create unique animation for each particle
+                const duration = Math.random() * 40 + 20;
+                const xMove = (Math.random() * 300) - 150;
+                const yMove = (Math.random() * 300) - 150;
+                
+                // Create a unique keyframe animation for this particle
+                const keyframesName = `float-${i}`;
+                
+                // Add keyframes to the document
+                const keyframes = `
+                    @keyframes ${keyframesName} {
+                        0% {
+                            transform: translate(0, 0) scale(1);
+                            opacity: 0;
+                        }
+                        10% {
+                            opacity: ${opacity};
+                            transform: scale(${Math.random() * 0.5 + 0.8});
+                        }
+                        90% {
+                            opacity: ${opacity};
+                        }
+                        100% {
+                            transform: translate(${xMove}px, ${yMove}px) scale(${Math.random() * 0.5 + 0.8});
+                            opacity: 0;
+                        }
+                    }
+                `;
+                
+                const styleSheet = document.createElement('style');
+                styleSheet.textContent = keyframes;
+                document.head.appendChild(styleSheet);
+                
+                // Apply the animation
+                particle.style.animation = `${keyframesName} ${duration}s linear infinite`;
+                
+                // Random starting position in animation
+                particle.style.animationDelay = -Math.random() * duration + 's';
+                
+                container.appendChild(particle);
+            }
+        }
+        
+        function createCircuitLines() {
+            const container = document.getElementById('circuit-container');
+            
+            // Create circuit lines
+            for (let i = 0; i < 15; i++) {
+                const line = document.createElement('div');
+                line.className = 'circuit-line';
+                
+                const isHorizontal = Math.random() > 0.5;
+                const thickness = Math.random() * 1 + 1;
+                
+                if (isHorizontal) {
+                    line.style.height = `${thickness}px`;
+                    line.style.width = `${Math.random() * 30 + 5}%`;
+                    line.style.top = `${Math.random() * 100}%`;
+                    line.style.left = `${Math.random() * 70}%`;
+                } else {
+                    line.style.width = `${thickness}px`;
+                    line.style.height = `${Math.random() * 30 + 5}%`;
+                    line.style.left = `${Math.random() * 100}%`;
+                    line.style.top = `${Math.random() * 70}%`;
+                }
+                
+                // Add pulsing animation
+                const duration = Math.random() * 4 + 2;
+                line.style.animation = `pulse ${duration}s infinite alternate`;
+                
+                container.appendChild(line);
+            }
+        }
+        
+        // Periodically regenerate particles for visual effect
+        setInterval(function() {
+            // Gradually replace particles
+            const container = document.getElementById('particles-container');
+            const particles = container.getElementsByClassName('particle');
+            
+            // Replace a few particles at random
+            for (let i = 0; i < 10; i++) {
+                if (particles.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * particles.length);
+                    if (particles[randomIndex]) {
+                        particles[randomIndex].remove();
+                    }
+                }
+            }
+            
+            // Add a few new particles
+            for (let i = 0; i < 10; i++) {
+                createOneParticle();
+            }
+        }, 3000);
+        
+        function createOneParticle() {
+            const container = document.getElementById('particles-container');
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            // Random position
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            
+            // Random size
+            const size = Math.random() * 8 + 1;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            
+            // Random color variation
+            const hue = Math.random() * 20 + 100; // green to light green
+            const saturation = Math.random() * 20 + 80; // high saturation
+            const lightness = Math.random() * 20 + 40; // medium lightness
+            
+            // Random opacity based on size
+            const opacity = Math.min(0.8, size / 8);
+            
+            particle.style.backgroundColor = `hsla(${hue}, ${saturation}%, ${lightness}%, ${opacity})`;
+            particle.style.boxShadow = `0 0 ${size * 2}px hsla(${hue}, ${saturation}%, ${lightness}%, ${opacity})`;
+            
+            // Create unique animation
+            const duration = Math.random() * 40 + 20;
+            const xMove = (Math.random() * 300) - 150;
+            const yMove = (Math.random() * 300) - 150;
+            
+            // Generate a more unique name by including timestamp
+            const keyframesName = `float-${new Date().getTime()}-${Math.floor(Math.random() * 1000)}`;
+            
+            // Add keyframes to the document
+            const keyframes = `
+                @keyframes ${keyframesName} {
+                    0% {
+                        transform: translate(0, 0) scale(1);
+                        opacity: 0;
+                    }
+                    10% {
+                        opacity: ${opacity};
+                        transform: scale(${Math.random() * 0.5 + 0.8});
+                    }
+                    90% {
+                        opacity: ${opacity};
+                    }
+                    100% {
+                        transform: translate(${xMove}px, ${yMove}px) scale(${Math.random() * 0.5 + 0.8});
+                        opacity: 0;
+                    }
+                }
+            `;
+            
+            const styleSheet = document.createElement('style');
+            styleSheet.textContent = keyframes;
+            document.head.appendChild(styleSheet);
+            
+            // Apply the animation
+            particle.style.animation = `${keyframesName} ${duration}s linear infinite`;
+            
+            // Random starting position in animation
+            particle.style.animationDelay = '0s';
+            
+            container.appendChild(particle);
+        }
+        
+        // Add a subtle mouse follow effect
+        document.addEventListener('mousemove', function(e) {
+            const mouseX = e.clientX;
+            const mouseY = e.clientY;
+            
+            const glowEffect = document.querySelector('.glow');
+            glowEffect.style.left = mouseX + 'px';
+            glowEffect.style.top = mouseY + 'px';
+            glowEffect.style.transform = 'translate(-50%, -50%)';
+        });
+    </script>
+</body>
+</html>

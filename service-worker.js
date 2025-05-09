@@ -1,5 +1,5 @@
-const CACHE_NAME = "evelon-cache-v1";
-const OFFLINE_PAGE = "offline.html";
+const CACHE_NAME = "evelon-cache-v2";
+const OFFLINE_PAGE = "nointernet.html";
 
 self.addEventListener("install", (event) => {
     event.waitUntil(
