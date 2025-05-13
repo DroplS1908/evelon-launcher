@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EVELON - Next-Gen Gaming Platform</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-element: #1a1a1a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #a0a0a0;
+            --text-muted: #777;
+            --primary: #39ff14;
+            --neon-green: #39ff14;
+            --transition: 0.3s ease;
+            --transition-speed: 0.3s;
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-xl: 20px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Navbar styling (from provided CSS) */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(15px);
+            padding: 15px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(57, 255, 20, 0.2);
+        }
+
+        .logo img {
+            height: 50px;
+            filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: center center;
+        }
+
+        .logo img:hover {
+            transform: scale(1.08) rotate(5deg);
+            filter: drop-shadow(0 0 15px rgba(57, 255, 20, 0.7));
+        }
+
+        @keyframes logoPulse {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 15px rgba(57, 255, 20, 0.7));
+            }
+
+            100% {
+                filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            }
+        }
+
+        .logo a:hover img {
+            animation: logoPulse 2s infinite;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .navbar .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            position: relative;
+            padding: 8px 0;
+            transition: var(--transition);
+        }
+
+        .navbar .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .navbar .nav-links a:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .navbar .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .search-bar {
+            position: relative;
+            background: var(--bg-element);
+            padding: 10px 20px;
+            border-radius: var(--border-radius-xl);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 300px;
+            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+                border-color 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #333;
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 12px rgba(57, 255, 20, 0.4);
+            width: 400px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            font-family: "Poppins", sans-serif;
+            width: 100%;
+            font-size: 15px;
+        }
+
+        .search-bar i {
+            color: var(--text-muted);
+            transition: color var(--transition-speed);
+        }
+
+        .search-bar:focus-within i {
+            color: var(--neon-green);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-buttons button {
+            background: transparent;
+            border: 2px solid var(--neon-green);
+            padding: 8px 20px;
+            color: var(--neon-green);
+            border-radius: var(--border-radius-xl);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: "Poppins", sans-serif;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: color 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .auth-buttons button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--neon-green);
+            transition: all 0.4s cubic-bezier(0.5, 0, 0.5, 1);
+            z-index: -1;
+        }
+
+        .auth-buttons button:hover {
+            color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.5);
+            font-weight: 700;
+        }
+
+        .auth-buttons button:hover::before {
+            left: 0;
+        }
+
+        /* Dropdown Styling */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--bg-element);
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            border-radius: var(--border-radius-md);
+            padding: 10px 0;
+            margin-top: 10px;
+            border: 1px solid #333;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu a {
+            color: var(--text-secondary);
+            padding: 10px 20px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #2a2a2a;
+            color: var(--neon-green);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 100px 30px;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(26, 26, 26, 0.9) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            z-index: 10;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            color: var(--neon-green);
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 20px;
+        }
+
+        .hero-cta a {
+            text-decoration: none;
+        }
+
+        .hero-cta button {
+            background: var(--neon-green);
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: var(--border-radius-xl);
+            transition: all 0.4s ease;
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.5);
+        }
+
+        .hero-cta button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(57, 255, 20, 0.7);
+        }
+
+        .hero-image {
+            max-width: 500px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 0 20px rgba(57, 255, 20, 0.3));
+        }
+
+        /* Cyberpunk Background Effects */
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg,
+                    rgba(0, 0, 0, 0.15) 0px,
+                    rgba(0, 0, 0, 0.15) 1px,
+                    transparent 1px,
+                    transparent 2px);
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg,
+                    rgba(57, 255, 20, 0.1) 0%,
+                    rgba(57, 255, 20, 0.05) 100%);
+            mix-blend-mode: overlay;
+            pointer-events: none;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="EVELON.html">
+                <img src="Circles__1_-removebg-preview.png" alt="EVELON Logo" />
+            </a>
+        </div>
+
+        <div class="nav-links">
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle"><i class="fas fa-gamepad"></i> Games <i
+                        class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-menu">
+                    <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-bomb"></i>&nbsp;&nbsp;&nbsp;New Releases</a>
+                    <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-arrow-trend-up"></i>&nbsp;&nbsp;Top Rated</a>
+                    <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-list"></i>&nbsp;&nbsp;&nbsp;Categories</a>
+                    <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-question"></i>&nbsp;&nbsp;&nbsp;&nbsp;Coming
+                        Soon</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle"><i class="fas fa-trophy"></i> Esports <i
+                        class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-menu">
+                    <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-trophy"></i>&nbsp;&nbsp;Tournaments</a>
+                    <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-users"></i>&nbsp;&nbsp;Teams</a>
+                    <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-circle-play"></i>&nbsp;&nbsp;&nbsp;Live
+                        Events</a>
+                    <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-award"></i>&nbsp;&nbsp;&nbsp; Rankings</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle"><i class="fas fa-store"></i> Store <i
+                        class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-menu">
+                    <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-key"></i>&nbsp;&nbsp;Game Keys</a>
+                    <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-box"></i>&nbsp;&nbsp;In-game Items</a>
+                    <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-circle-exclamation"></i>&nbsp;&nbsp;Special
+                        Offers</a>
+                    <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-gift"></i>&nbsp;&nbsp;Gift Cards</a>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle"><i class="fas fa-users"></i> Community <i
+                        class="fas fa-chevron-down"></i></a>
+                <div class="dropdown-menu">
+                    <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-comments"></i>&nbsp;&nbsp;Forums</a>
+                    <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-play"></i>&nbsp;&nbsp;&nbsp;Streams</a>
+                    <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-otter"></i>&nbsp;&nbsp;Guilds</a>
+                    <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-calendar-days"></i>&nbsp;&nbsp;&nbsp;Events</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="search-bar">
+            <i class="fa fa-search"></i>
+            <input type="text" placeholder="Search games..." id="search-input" />
+            <button id="clear-search"><i class="fa fa-times"></i></button>
+        </div>
+
+        <div class="auth-buttons">
+        </div>
+    </nav>
+</body>
+
+</html>

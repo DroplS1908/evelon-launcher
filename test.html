@@ -1,0 +1,1042 @@
+only pick out the stuff that make the navbar function or has anything to do with it and make a new html file only
+containing it
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evelon Launcher</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="description" content="Evelon Launcher - Your gateway to the best games and gaming communities." />
+    <meta name="keywords" content="gaming, launcher, games, Evelon, community" />
+    <meta name="author" content="Your Name" />
+    <meta property="og:title" content="Evelon Launcher" />
+    <meta property="og:description" content="Your gateway to the best games and gaming communities." />
+    <meta property="og:image" content="https://yourwebsite.com/Circles__1_-removebg-preview.png" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap");
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-green: #39ff14;
+            --neon-green-glow: 0 0 10px rgba(57, 255, 20, 0.5);
+            --neon-green-hover: #2ecc71;
+            --primary: #39ff14;
+            --primary-hover: #2ecc71;
+            --dark: #0d0d0d;
+            --dark-light: #080808;
+            --panel-bg: #0a0a0ad9;
+            --card-bg: #222;
+            --card-hover: #2a2a2a;
+            --bg-element: #1a1a1a;
+            --bg-element-hover: #222;
+            --text: #fff;
+            --text-secondary: #bbb;
+            --purple-glow: rgba(157, 78, 221, 0.3);
+            --green-glow: rgba(57, 255, 20, 0.5);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --text-muted: #888;
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 16px;
+            --border-radius-xl: 25px;
+        }
+
+        body {
+            cursor: url("mouse.cur"), auto;
+            background-color: var(--dark);
+            font-family: "Poppins", sans-serif;
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: "Orbitron", sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-light);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-green-hover);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        /* Navbar styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(15px);
+            padding: 15px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(57, 255, 20, 0.2);
+        }
+
+        /* Replace your existing logo CSS with this: */
+        .logo img {
+            height: 50px;
+            filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: center center;
+        }
+
+        .logo img:hover {
+            transform: scale(1.08) rotate(5deg);
+            filter: drop-shadow(0 0 15px rgba(57, 255, 20, 0.7));
+        }
+
+        /* Add this animation for a pulsing effect */
+        @keyframes logoPulse {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 15px rgba(57, 255, 20, 0.7));
+            }
+
+            100% {
+                filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            }
+        }
+
+        /* Add this to your logo hover state if you want a continuous pulsing effect */
+        .logo a:hover img {
+            animation: logoPulse 2s infinite;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .navbar .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            position: relative;
+            padding: 8px 0;
+            transition: var(--transition);
+        }
+
+        .navbar .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .navbar .nav-links a:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .navbar .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            position: relative;
+            background: var(--bg-element);
+            padding: 10px 20px;
+            border-radius: var(--border-radius-xl);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 300px;
+            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+                border-color 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #333;
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 12px rgba(57, 255, 20, 0.4);
+            width: 400px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            font-family: "Poppins", sans-serif;
+            width: 100%;
+            font-size: 15px;
+        }
+
+        .search-bar i {
+            color: var(--text-muted);
+            transition: color var(--transition-speed);
+        }
+
+        .search-bar:focus-within i {
+            color: var(--neon-green);
+        }
+
+        .search-results {
+            position: absolute;
+            top: 55px;
+            left: 0;
+            width: 100%;
+            background: var(--bg-element);
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            padding: 15px;
+            z-index: 1000;
+            border: 1px solid #444;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .search-results a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+            padding: 12px;
+            border-radius: var(--border-radius-sm);
+            transition: all var(--transition-speed);
+            background: #2a2a2a;
+            border: 1px solid transparent;
+        }
+
+        .search-results a:hover {
+            background: #333;
+            transform: translateY(-2px);
+            border-color: rgba(57, 255, 20, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-results img {
+            width: 45px;
+            height: 45px;
+            border-radius: var(--border-radius-sm);
+            object-fit: cover;
+            border: 2px solid #444;
+        }
+
+        .search-results span {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .search-expand {
+            width: 400px !important;
+            border-color: var(--neon-green) !important;
+            box-shadow: 0 0 12px rgba(57, 255, 20, 0.4) !important;
+        }
+
+        /* Auth buttons */
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-buttons button {
+            background: transparent;
+            border: 2px solid var(--neon-green);
+            padding: 8px 20px;
+            color: var(--neon-green);
+            border-radius: var(--border-radius-xl);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: "Poppins", sans-serif;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: color 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .auth-buttons button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--neon-green);
+            transition: all 0.4s cubic-bezier(0.5, 0, 0.5, 1);
+            z-index: -1;
+        }
+
+        .auth-buttons button:hover {
+            color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.5);
+            font-weight: 700;
+        }
+
+        .auth-buttons button:hover::before {
+            left: 0;
+        }
+
+        /* Container layout */
+        .container {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(var(--rotation));
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(var(--rotation));
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+
+
+        .spec-value {
+            font-size: 14px;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .featured-game-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+
+        .btn-icon {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .btn-icon:hover {
+            background: rgba(57, 255, 20, 0.2);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .featured-game-media {
+            width: 45%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-game-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+            transform: scale(1.03);
+        }
+
+        .featured-game-main:hover .featured-game-image {
+            transform: scale(1.1);
+        }
+
+        .featured-game-trailer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .featured-game-media:hover .featured-game-trailer {
+            opacity: 1;
+        }
+
+        .trailer-button {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(57, 255, 20, 0.8);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.6);
+            transform: scale(0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .trailer-button i {
+            color: #000;
+            font-size: 24px;
+            margin-left: 5px;
+        }
+
+        .featured-game-media:hover .trailer-button {
+            transform: scale(1);
+        }
+
+        /* Featured Games Grid */
+        .featured-games-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .featured-game-card {
+            background: rgba(34, 34, 34, 0.8);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+
+
+
+
+        /* Loading screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: opacity;
+        }
+
+        .loading-logo {
+            width: 180px;
+            height: auto;
+            margin-bottom: 30px;
+            animation: logoEffect 4s infinite;
+            filter: drop-shadow(0 0 15px rgba(57, 255, 20, 0.5));
+            z-index: 10;
+            will-change: transform, opacity;
+        }
+
+        @keyframes logoEffect {
+            0% {
+                transform: scale(1) rotate(0deg);
+                filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            }
+
+            25% {
+                transform: scale(1.05) rotate(5deg);
+                filter: drop-shadow(0 0 20px rgba(57, 255, 20, 0.7));
+            }
+
+            50% {
+                transform: scale(1) rotate(0deg);
+                filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            }
+
+            75% {
+                transform: scale(1.05) rotate(-5deg);
+                filter: drop-shadow(0 0 20px rgba(57, 255, 20, 0.7));
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg);
+                filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            }
+        }
+
+        .loading-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(57, 255, 20, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(57, 255, 20, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(57, 255, 20, 0.03) 0%, transparent 30%);
+            animation: backgroundPulse 6s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes backgroundPulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        
+        
+
+        /* Clear search button */
+        #clear-search {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: none;
+            transition: var(--transition);
+        }
+
+        #clear-search:hover {
+            color: var(--primary);
+        }
+
+        /* News & Updates section */
+        .news-section {
+            margin: 50px 0;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .news-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .news-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .news-image {
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .news-card:hover .news-image img {
+            transform: scale(1.05);
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-date {
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .news-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .news-excerpt {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Dropdown styling */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-toggle .fa-chevron-down {
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 200px;
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-md);
+            padding: 12px 0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(57, 255, 20, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(5px);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dropdown-menu a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, rgba(57, 255, 20, 0.1), transparent);
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+
+        .dropdown-menu a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .dropdown-menu a:hover::before {
+            width: 100%;
+        }
+
+        /* Animation keyframes */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .news-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .featured-section {
+                flex-direction: column;
+                padding: 25px;
+            }
+
+            .featured-content {
+                padding-right: 0;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            .featured-section img {
+                width: 70%;
+            }
+        }
+
+
+        @media (max-width: 768px) {
+
+            
+
+            .navbar {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .search-bar {
+                order: 3;
+                width: 100%;
+            }
+
+            .auth-buttons {
+                order: 2;
+            }
+
+        }
+
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 15px;
+            }
+
+            .navbar .nav-links {
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 0;
+                visibility: hidden;
+                height: 0;
+                overflow: hidden;
+                transform: none;
+                box-shadow: none;
+                border: none;
+                background: rgba(18, 18, 18, 0.5);
+                border-left: 2px solid var(--primary);
+                border-radius: 0;
+                padding: 0;
+                margin-left: 20px;
+                transition: height 0.3s ease, opacity 0.3s ease;
+            }
+
+            .dropdown.active .dropdown-menu {
+                opacity: 1;
+                visibility: visible;
+                height: auto;
+                padding: 10px 0;
+            }
+
+            .dropdown-toggle {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+
+        @keyframes floatParticle {
+            0% {
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(calc(100px * random() - 50px), calc(100px * random() - 50px));
+                opacity: 0;
+            }
+        }
+
+        .transition-group {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity 0.3s ease;
+        }
+
+        .fade-enter-from,
+        .fade-leave-to {
+            opacity: 0;
+        }
+
+        .animated-element {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="loading-screen" id="loadingScreen">
+        <div class="particles-container"></div>
+        <div class="loading-icons">
+            <div class="icon-item"><i class="fas fa-gamepad"></i></div>
+            <div class="icon-item"><i class="fas fa-trophy"></i></div>
+            <div class="icon-item"><i class="fas fa-users"></i></div>
+            <div class="icon-item"><i class="fas fa-store"></i></div>
+        </div>
+        <img src="Circles__1_-removebg-preview.png" alt="Loading Logo" class="loading-logo" />
+        <div class="loading-text">Preparing your gaming experience...</div>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            <div class="progress-percentage">0%</div>
+        </div>
+        <div class="loading-tip">Did you know? You can customize your game profiles in the settings.</div>
+    </div>
+
+    <div class="container">
+        <div class="left-panel">
+
+            <ul>
+                <li class="active">
+                    <a href="eleven.html">
+                        <img src="Mumbai City FC.png" alt="ELEVEN 28" />
+                        <span class="game-title">ELEVEN 28</span>
+                        <div class="game-status"></div>
+                    </a>
+                    <div class="quick-actions">
+                        <button class="quick-action-btn" title="Play">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="quick-action-btn" title="Info">
+                            <i class="fas fa-info"></i>
+                        </button>
+                    </div>
+                </li>
+
+                <li>
+                    <a href="velocity.html">
+                        <img src="VELOCITY.png" alt="VELOCITY 28" />
+                        <span class="game-title">VELOCITY 28</span>
+                        <div class="game-status update"></div>
+                    </a>
+                    <div class="quick-actions">
+                        <button class="quick-action-btn" title="Play">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="quick-action-btn" title="Info">
+                            <i class="fas fa-info"></i>
+                        </button>
+                    </div>
+                </li>
+
+                <li>
+                    <a href="crickit.html">
+                        <img src="To Play.png" alt="CrickIT 28" />
+                        <span class="game-title">CrickIT 28</span>
+                        <div class="game-status downloading"></div>
+                    </a>
+                    <div class="quick-actions">
+                        <button class="quick-action-btn" title="Play">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="quick-action-btn" title="Info">
+                            <i class="fas fa-info"></i>
+                        </button>
+                    </div>
+                </li>
+
+                <li>
+                    <a
+                        href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
+                        <img src="Add a heading (2).png" alt="FIREBACK! Logo" />
+                        <span class="game-title">FIREBACK!</span>
+                    </a>
+                    <div class="quick-actions">
+                        <button class="quick-action-btn" title="Play">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="quick-action-btn" title="Info">
+                            <i class="fas fa-info"></i>
+                        </button>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="add-game">
+                <button title="Add Game">
+                    <i class="fas fa-comments"></i>
+                </button>
+            </div>
+        </div>
+
+
+        <div style="flex-grow: 1; display: flex; flex-direction: column">
+            <nav class="navbar">
+                <div class="logo">
+                    <a href="EVELON.html">
+                        <img src="Circles__1_-removebg-preview.png" alt="EVELON Logo" />
+                    </a>
+                </div>
+
+                <div class="nav-links">
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle"><i class="fas fa-gamepad"></i> Games <i
+                                class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-bomb"></i>&nbsp;&nbsp;&nbsp;New Releases</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-arrow-trend-up"></i>&nbsp;&nbsp;Top Rated</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-list"></i>&nbsp;&nbsp;&nbsp;Categories</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-question"></i>&nbsp;&nbsp;&nbsp;&nbsp;Coming
+                                Soon</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle"><i class="fas fa-trophy"></i> Esports <i
+                                class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-trophy"></i>&nbsp;&nbsp;Tournaments</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-users"></i>&nbsp;&nbsp;Teams</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-circle-play"></i>&nbsp;&nbsp;&nbsp;Live
+                                Events</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-award"></i>&nbsp;&nbsp;&nbsp; Rankings</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle"><i class="fas fa-store"></i> Store <i
+                                class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-key"></i>&nbsp;&nbsp;Game Keys</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-box"></i>&nbsp;&nbsp;In-game Items</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-circle-exclamation"></i>&nbsp;&nbsp;Special
+                                Offers</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-gift"></i>&nbsp;&nbsp;Gift Cards</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle"><i class="fas fa-users"></i> Community <i
+                                class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-comments"></i>&nbsp;&nbsp;Forums</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-play"></i>&nbsp;&nbsp;&nbsp;Streams</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-otter"></i>&nbsp;&nbsp;Guilds</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i
+                                    class="fas fa-calendar-days"></i>&nbsp;&nbsp;&nbsp;Events</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-bar">
+                    <i class="fa fa-search"></i>
+                    <input type="text" placeholder="Search games..." id="search-input" />
+                    <button id="clear-search"><i class="fa fa-times"></i></button>
+                    <div class="search-results" id="search-results"></div>
+                </div>
+
+                <div class="auth-buttons">
+                    <a href="auth.html"><button>Sign Up</button></a>
+                    <a href="auth.html"><button>Log In</button></a>
+                </div>
+            </nav>
