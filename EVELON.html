@@ -3321,7 +3321,112 @@
             margin: 8px 0;
         }
 
+        /* User Menu Styles */
+        .user-menu {
+            display: none;
+            position: relative;
+        }
+
+        .user-menu.active {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+
+        .user-avatar:hover {
+            border-color: var(--primary-hover);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-name {
+            color: var(--text);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .user-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 10px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            border-radius: var(--border-radius-md);
+            padding: 8px 0;
+            min-width: 200px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            z-index: 1000;
+        }
+
+        .user-menu:hover .user-dropdown {
+            display: block;
+        }
+
+        .user-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .user-dropdown-item:hover {
+            background: var(--bg-element);
+            color: var(--primary);
+        }
+
+        .user-dropdown-item i {
+            width: 20px;
+        }
+
+        .dropdown-divider {
+            height: 1px;
+            background: rgba(57, 255, 20, 0.1);
+            margin: 8px 0;
+        }
     </style>
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-analytics-compat.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDzYCwyxG3sFNwky3JCXYoyi7oiktc5obs",
+            authDomain: "evelon-4be7d.firebaseapp.com",
+            projectId: "evelon-4be7d",
+            storageBucket: "evelon-4be7d.firebasestorage.app",
+            messagingSenderId: "761008629192",
+            appId: "1:761008629192:web:fe562d826ebc4a2d2eccfd",
+            measurementId: "G-31FTK5C4SD"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        firebase.analytics();
+    </script>
 </head>
 
 <body>
@@ -3487,8 +3592,31 @@
                 </div>
 
                 <div class="auth-buttons">
-                    <a href="auth.html"><button>Sign Up</button></a>
-                    <a href="auth.html"><button>Log In</button></a>
+                    <div class="user-menu">
+                        <div class="user-avatar">
+                            <img src="" alt="User Avatar" id="userAvatar">
+                        </div>
+                        <span class="user-name" id="userName"></span>
+                        <div class="user-dropdown">
+                            <a href="#" class="user-dropdown-item">
+                                <i class="fas fa-user"></i>
+                                Profile
+                            </a>
+                            <a href="#" class="user-dropdown-item">
+                                <i class="fas fa-cog"></i>
+                                Settings
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="user-dropdown-item" id="logoutBtn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                    <div class="auth-links">
+                        <a href="auth.html"><button>Sign Up</button></a>
+                        <a href="auth.html"><button>Log In</button></a>
+                    </div>
                 </div>
             </nav>
 
@@ -5220,6 +5348,41 @@
 
         // Add cleanup on page unload
         window.addEventListener('unload', cleanup);
+    </script>
+
+    <script>
+        // Authentication state observer
+        firebase.auth().onAuthStateChanged(function(user) {
+            const userMenu = document.querySelector('.user-menu');
+            const authLinks = document.querySelector('.auth-links');
+            const userAvatar = document.getElementById('userAvatar');
+            const userName = document.getElementById('userName');
+
+            if (user) {
+                // User is signed in
+                userMenu.classList.add('active');
+                authLinks.style.display = 'none';
+                
+                // Set user info
+                userName.textContent = user.displayName || 'User';
+                userAvatar.src = user.photoURL || `https://api.dicebear.com/6.x/avataaars/svg?seed=${user.displayName || 'user'}`;
+                
+                // Handle logout
+                document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    try {
+                        await firebase.auth().signOut();
+                        window.location.href = 'auth.html';
+                    } catch (error) {
+                        console.error('Error signing out:', error);
+                    }
+                });
+            } else {
+                // User is signed out
+                userMenu.classList.remove('active');
+                authLinks.style.display = 'block';
+            }
+        });
     </script>
 </body>
 
