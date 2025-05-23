@@ -18,6 +18,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-firestore-compat.js"></script>
 
     <script>
         // Your web app's Firebase configuration
@@ -34,6 +35,9 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         firebase.analytics();
+        
+        // Initialize Firestore
+        const db = firebase.firestore();
     </script>
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap");
@@ -226,77 +230,6 @@
             margin-left: 15px;
         }
 
-        /* News Left Panel */
-        .news-left-panel {
-            width: 200px;
-            background: var(--panel-bg);
-            backdrop-filter: blur(15px);
-            padding: 20px;
-            border-right: 1px solid rgba(57, 255, 20, 0.1);
-            position: fixed;
-            height: calc(100vh - 80px);
-            top: 80px;
-            left: 80px;
-            overflow-y: auto;
-            z-index: 898;
-        }
-
-        .news-left-panel .category {
-            margin-bottom: 30px;
-        }
-
-        .news-left-panel .category h3 {
-            color: var(--neon-green);
-            margin-bottom: 15px;
-            font-size: 1.2em;
-            text-transform: uppercase;
-        }
-
-        .news-left-panel .category ul {
-            list-style: none;
-        }
-
-        .news-left-panel .category li {
-            margin-bottom: 10px;
-        }
-
-        .news-left-panel .category a {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            border-radius: var(--border-radius-md);
-            transition: var(--transition);
-            font-size: 0.9em;
-            color: var(--text-secondary);
-        }
-
-        .news-left-panel .category a i {
-            width: 20px;
-            text-align: center;
-            font-size: 1.1em;
-            color: var(--text-muted);
-            transition: var(--transition);
-        }
-
-        .news-left-panel .category a:hover {
-            background: var(--bg-element);
-            color: var(--neon-green);
-            transform: translateX(5px);
-        }
-
-        .news-left-panel .category a:hover i {
-            color: var(--neon-green);
-        }
-
-        /* Main Content */
-        .main-content {
-            flex: 1;
-            margin-left: 280px;
-            padding: 20px;
-            position: relative;
-            width: calc(100% - 280px);
-        }
 
         /* News Cards */
         .news-grid {
@@ -306,49 +239,313 @@
             padding: 20px;
         }
 
-        .news-card {
+        /* Profile Styles */
+        .profile-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            padding: 30px;
             background: var(--card-bg);
             border-radius: var(--border-radius-lg);
-            padding: 20px;
-            transition: var(--transition);
             border: 1px solid rgba(57, 255, 20, 0.1);
-            cursor: pointer;
         }
 
-        .news-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 20px rgba(57, 255, 20, 0.2);
-            background: var(--card-hover);
+        .profile-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid var(--primary);
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
         }
 
-        .news-card .date {
-            color: var(--neon-green);
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-info h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
             font-size: 0.9em;
+        }
+
+        .profile-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .profile-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius-lg);
+            padding: 25px;
+            border: 1px solid rgba(57, 255, 20, 0.1);
+        }
+
+        .profile-section h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .profile-section h2 i {
+            font-size: 0.9em;
+        }
+
+        .game-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .game-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--bg-element);
+            border-radius: var(--border-radius-md);
+            transition: var(--transition);
+        }
+
+        .game-item:hover {
+            transform: translateX(5px);
+            background: var(--bg-element-hover);
+        }
+
+        .game-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: var(--border-radius-sm);
+            overflow: hidden;
+        }
+
+        .game-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .game-details {
+            flex: 1;
+        }
+
+        .game-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .game-stats {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+        }
+
+        .achievement-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .achievement-item {
+            background: var(--bg-element);
+            border-radius: var(--border-radius-md);
+            padding: 15px;
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .achievement-item:hover {
+            transform: translateY(-5px);
+            background: var(--bg-element-hover);
+        }
+
+        .achievement-icon {
+            font-size: 2em;
+            color: var(--primary);
             margin-bottom: 10px;
         }
 
-        .news-card h3 {
-            margin-bottom: 15px;
-            font-size: 1.4em;
+        .achievement-name {
+            font-weight: 500;
+            margin-bottom: 5px;
         }
 
-        .news-card p {
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        .news-card .tags {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .news-card .tag {
-            background: var(--bg-element);
-            padding: 5px 10px;
-            border-radius: var(--border-radius-sm);
+        .achievement-desc {
             font-size: 0.8em;
             color: var(--text-secondary);
+        }
+
+        .friend-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .friend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: var(--bg-element);
+            border-radius: var(--border-radius-md);
+            transition: var(--transition);
+        }
+
+        .friend-item:hover {
+            transform: translateX(5px);
+            background: var(--bg-element-hover);
+        }
+
+        .friend-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .friend-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .friend-info {
+            flex: 1;
+        }
+
+        .friend-name {
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .friend-status {
+            font-size: 0.8em;
+            color: var(--text-secondary);
+        }
+
+        .friend-status.online {
+            color: var(--primary);
+        }
+
+        .settings-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .settings-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background: var(--bg-element);
+            border-radius: var(--border-radius-md);
+            transition: var(--transition);
+        }
+
+        .settings-item:hover {
+            background: var(--bg-element-hover);
+        }
+
+        .settings-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .settings-label i {
+            color: var(--primary);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--bg-element);
+            transition: .4s;
+            border-radius: 34px;
+            border: 2px solid var(--text-muted);
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 2px;
+            bottom: 2px;
+            background-color: var(--text-muted);
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .toggle-slider {
+            border-color: var(--primary);
+        }
+
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+            background-color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            position: relative;
+            margin-left: 80px;
+            width: calc(100% - 80px);
         }
 
         /* Section Title */
@@ -757,6 +954,179 @@
             background: rgba(57, 255, 20, 0.1);
             margin: 8px 0;
         }
+
+        /* Friend System Styles */
+        .add-friend-container {
+            margin-bottom: 30px;
+        }
+
+        .add-friend-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .add-friend-input input {
+            flex: 1;
+            padding: 12px 15px;
+            background: var(--bg-element);
+            border: 1px solid rgba(57, 255, 20, 0.1);
+            border-radius: var(--border-radius-md);
+            color: var(--text);
+            font-family: "Poppins", sans-serif;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .add-friend-input input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.2);
+        }
+
+        .add-friend-btn {
+            padding: 12px 20px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            font-family: "Poppins", sans-serif;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .add-friend-btn:hover {
+            background: var(--primary);
+            color: var(--dark);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.3);
+        }
+
+        .friend-requests {
+            margin-bottom: 30px;
+        }
+
+        .friend-requests h3,
+        .friends-container h3 {
+            font-size: 1.2em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+        }
+
+        .friend-requests-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .friend-request-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: var(--bg-element);
+            border-radius: var(--border-radius-md);
+            transition: var(--transition);
+        }
+
+        .friend-request-item:hover {
+            background: var(--bg-element-hover);
+        }
+
+        .friend-request-info {
+            flex: 1;
+        }
+
+        .friend-request-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .friend-request-btn {
+            padding: 8px 15px;
+            border-radius: var(--border-radius-sm);
+            cursor: pointer;
+            font-family: "Poppins", sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .accept-btn {
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+        }
+
+        .accept-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .reject-btn {
+            background: transparent;
+            border: 1px solid #ff3e3e;
+            color: #ff3e3e;
+        }
+
+        .reject-btn:hover {
+            background: rgba(255, 62, 62, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .friend-item {
+            position: relative;
+        }
+
+        .friend-actions {
+            position: absolute;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .friend-item:hover .friend-actions {
+            opacity: 1;
+        }
+
+        .friend-action-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            padding: 5px;
+        }
+
+        .friend-action-btn:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .friend-action-btn.remove-friend:hover {
+            color: #ff3e3e;
+        }
+
+        .no-friends-message,
+        .no-requests-message {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 20px;
+            background: var(--bg-element);
+            border-radius: var(--border-radius-md);
+            font-size: 14px;
+        }
     </style>
 </head>
 
@@ -882,94 +1252,164 @@
             </ul>
         </div>
 
-        <!-- News Left Panel -->
-        <div class="news-left-panel">
-            <div class="category">
-                <h3>Categories</h3>
-                <ul>
-                    <li><a href="#patch-notes"><i class="fas fa-clipboard-list"></i> Patch Notes</a></li>
-                    <li><a href="#dev-updates"><i class="fas fa-code"></i> Dev Updates</a></li>
-                    <li><a href="#releases"><i class="fas fa-rocket"></i> Release Notes</a></li>
-                    <li><a href="#community"><i class="fas fa-users"></i> Community News</a></li>
-                </ul>
-            </div>
-            <div class="category">
-                <h3>Archives</h3>
-                <ul>
-                    <li><a href="#"><i class="fas fa-calendar"></i> 2024</a></li>
-                    <li><a href="#"><i class="fas fa-calendar"></i> 2023</a></li>
-                </ul>
-            </div>
-        </div>
+       
 
         <!-- Main Content -->
         <div class="main-content">
-            <h1 class="section-title">Latest News</h1>
-            
-            <div class="news-grid">
-                <!-- Patch Notes -->
-                <div class="news-card" data-category="patch-notes">
-                    <div class="date">March 15, 2024</div>
-                    <h3>ELEVEN 28 Patch 2.1.0</h3>
-                    <p>Latest patch brings improved ball physics, new player animations, and critical bug fixes for multiplayer matches.</p>
-                    <div class="tags">
-                        <span class="tag">Patch Notes</span>
-                        <span class="tag">ELEVEN 28</span>
+            <div class="profile-container">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img src="" alt="Profile Avatar" id="profileAvatar">
+                    </div>
+                    <div class="profile-info">
+                        <h1 id="profileName">Loading...</h1>
+                        <p class="profile-email" id="profileEmail">Loading...</p>
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <div class="stat-value">24</div>
+                                <div class="stat-label">Games</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">142</div>
+                                <div class="stat-label">Achievements</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value">38</div>
+                                <div class="stat-label">Friends</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Dev Update -->
-                <div class="news-card" data-category="dev-updates">
-                    <div class="date">March 12, 2024</div>
-                    <h3>Developer Update: VELOCITY 28</h3>
-                    <p>Our team shares insights about upcoming track designs and new vehicle customization features coming in the next update.</p>
-                    <div class="tags">
-                        <span class="tag">Dev Update</span>
-                        <span class="tag">VELOCITY 28</span>
+                <div class="profile-sections">
+                    <!-- Recent Games Section -->
+                    <div class="profile-section">
+                        <h2><i class="fas fa-gamepad"></i> Recent Games</h2>
+                        <div class="game-list">
+                            <div class="game-item">
+                                <div class="game-icon">
+                                    <img src="Mumbai City FC.png" alt="ELEVEN 28">
+                                </div>
+                                <div class="game-details">
+                                    <div class="game-name">ELEVEN 28</div>
+                                    <div class="game-stats">Last played: 2 hours ago</div>
+                                </div>
+                            </div>
+                            <div class="game-item">
+                                <div class="game-icon">
+                                    <img src="VELOCITY.png" alt="VELOCITY 28">
+                                </div>
+                                <div class="game-details">
+                                    <div class="game-name">VELOCITY 28</div>
+                                    <div class="game-stats">Last played: Yesterday</div>
+                                </div>
+                            </div>
+                            <div class="game-item">
+                                <div class="game-icon">
+                                    <img src="To Play.png" alt="CrickIT 28">
+                                </div>
+                                <div class="game-details">
+                                    <div class="game-name">CrickIT 28</div>
+                                    <div class="game-stats">Last played: 3 days ago</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Release Notes -->
-                <div class="news-card" data-category="releases">
-                    <div class="date">March 10, 2024</div>
-                    <h3>CrickIT 28 Season Update Released</h3>
-                    <p>The new season brings 4 new stadiums, updated team rosters, and enhanced batting mechanics.</p>
-                    <div class="tags">
-                        <span class="tag">Release Notes</span>
-                        <span class="tag">CrickIT 28</span>
+                    <!-- Recent Achievements Section -->
+                    <div class="profile-section">
+                        <h2><i class="fas fa-trophy"></i> Recent Achievements</h2>
+                        <div class="achievement-list">
+                            <div class="achievement-item">
+                                <div class="achievement-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="achievement-name">Goal Master</div>
+                                <div class="achievement-desc">Score 100 goals in ELEVEN 28</div>
+                            </div>
+                            <div class="achievement-item">
+                                <div class="achievement-icon">
+                                    <i class="fas fa-medal"></i>
+                                </div>
+                                <div class="achievement-name">Speed Demon</div>
+                                <div class="achievement-desc">Win 10 races in VELOCITY 28</div>
+                            </div>
+                            <div class="achievement-item">
+                                <div class="achievement-icon">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                                <div class="achievement-name">Cricket Legend</div>
+                                <div class="achievement-desc">Score a century in CrickIT 28</div>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Community News -->
-                <div class="news-card" data-category="community">
-                    <div class="date">March 8, 2024</div>
-                    <h3>Community Tournament Results</h3>
-                    <p>Congratulations to Team Phoenix for winning the first ELEVEN 28 Community Championship!</p>
-                    <div class="tags">
-                        <span class="tag">Community</span>
-                        <span class="tag">ELEVEN 28</span>
+                    <!-- Friends Section -->
+                    <div class="profile-section">
+                        <h2><i class="fas fa-users"></i> Friends</h2>
+                        
+                        <!-- Add Friend -->
+                        <div class="add-friend-container">
+                            <div class="add-friend-input">
+                                <input type="text" id="friendEmail" placeholder="Enter friend's email">
+                                <button id="sendFriendRequest" class="add-friend-btn">
+                                    <i class="fas fa-user-plus"></i> Add Friend
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Friend Requests -->
+                        <div class="friend-requests">
+                            <h3><i class="fas fa-user-clock"></i> Friend Requests</h3>
+                            <div id="friendRequestsList" class="friend-requests-list">
+                                <!-- Friend requests will be populated here -->
+                            </div>
+                        </div>
+
+                        <!-- Friends List -->
+                        <div class="friends-container">
+                            <h3><i class="fas fa-user-friends"></i> My Friends</h3>
+                            <div id="friendsList" class="friend-list">
+                                <!-- Friends will be populated here -->
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <!-- Patch Notes -->
-                <div class="news-card" data-category="patch-notes">
-                    <div class="date">March 5, 2024</div>
-                    <h3>VELOCITY 28 Hotfix 1.2.3</h3>
-                    <p>Emergency fixes for track collision issues and performance optimization for high-speed races.</p>
-                    <div class="tags">
-                        <span class="tag">Patch Notes</span>
-                        <span class="tag">VELOCITY 28</span>
-                    </div>
-                </div>
-
-                <!-- Release Notes -->
-                <div class="news-card" data-category="releases">
-                    <div class="date">March 1, 2024</div>
-                    <h3>FIREBACK! Beta Launch</h3>
-                    <p>Join the beta testing phase of our newest tactical shooter. Limited slots available!</p>
-                    <div class="tags">
-                        <span class="tag">Release Notes</span>
-                        <span class="tag">FIREBACK!</span>
+                    <!-- Settings Section -->
+                    <div class="profile-section">
+                        <h2><i class="fas fa-cog"></i> Settings</h2>
+                        <div class="settings-list">
+                            <div class="settings-item">
+                                <div class="settings-label">
+                                    <i class="fas fa-bell"></i>
+                                    <span>Notifications</span>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="settings-item">
+                                <div class="settings-label">
+                                    <i class="fas fa-user-friends"></i>
+                                    <span>Show Online Status</span>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                            <div class="settings-item">
+                                <div class="settings-label">
+                                    <i class="fas fa-gamepad"></i>
+                                    <span>Game Activity</span>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1008,93 +1448,276 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Get all category links
-            const categoryLinks = document.querySelectorAll('.news-left-panel .category a');
-            const newsCards = document.querySelectorAll('.news-card');
-            let currentFilter = 'all';
+            let currentUser = null;
 
-            // Add click event listeners to category links
-            categoryLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
+            // Authentication state observer
+            firebase.auth().onAuthStateChanged(function(user) {
+                const userMenu = document.querySelector('.user-menu');
+                const authLinks = document.querySelector('.auth-links');
+                const userAvatar = document.getElementById('userAvatar');
+                const userName = document.getElementById('userName');
+
+                // Profile elements
+                const profileAvatar = document.getElementById('profileAvatar');
+                const profileName = document.getElementById('profileName');
+                const profileEmail = document.getElementById('profileEmail');
+
+                if (user) {
+                    currentUser = user;
+                    // User is signed in
+                    userMenu.classList.add('active');
+                    authLinks.style.display = 'none';
                     
-                    // Remove active class from all links
-                    categoryLinks.forEach(l => l.classList.remove('active'));
+                    // Set user info in navbar
+                    userName.textContent = user.displayName || 'User';
+                    userAvatar.src = user.photoURL || `https://api.dicebear.com/6.x/avataaars/svg?seed=${user.displayName || 'user'}`;
                     
-                    // Add active class to clicked link
-                    this.classList.add('active');
+                    // Set profile info
+                    profileName.textContent = user.displayName || 'User';
+                    profileEmail.textContent = user.email;
+                    profileAvatar.src = user.photoURL || `https://api.dicebear.com/6.x/avataaars/svg?seed=${user.displayName || 'user'}`;
                     
-                    // Get category from href
-                    const category = this.getAttribute('href').replace('#', '');
-                    currentFilter = category;
+                    // Initialize friend system
+                    initializeFriendSystem(user);
                     
-                    // Filter news cards
-                    filterNews(category);
-                });
+                    // Handle logout
+                    document.getElementById('logoutBtn').addEventListener('click', async (e) => {
+                        e.preventDefault();
+                        try {
+                            await firebase.auth().signOut();
+                            window.location.href = 'auth.html';
+                        } catch (error) {
+                            console.error('Error signing out:', error);
+                        }
+                    });
+                } else {
+                    // User is signed out, redirect to auth page
+                    window.location.href = 'auth.html';
+                }
             });
 
-            // Filter news function
-            function filterNews(category) {
-                newsCards.forEach(card => {
-                    if (category === 'all') {
-                        card.style.display = 'block';
+            // Friend System Functions
+            function initializeFriendSystem(user) {
+                // Listen for friend requests
+                db.collection('friendRequests')
+                    .where('to', '==', user.email)
+                    .onSnapshot(snapshot => {
+                        const requestsList = document.getElementById('friendRequestsList');
+                        requestsList.innerHTML = '';
+
+                        if (snapshot.empty) {
+                            requestsList.innerHTML = '<div class="no-requests-message">No pending friend requests</div>';
+                            return;
+                        }
+
+                        snapshot.forEach(doc => {
+                            const request = doc.data();
+                            const requestElement = createFriendRequestElement(doc.id, request);
+                            requestsList.appendChild(requestElement);
+                        });
+                    });
+
+                // Listen for friends list
+                db.collection('friends')
+                    .where('users', 'array-contains', user.email)
+                    .onSnapshot(snapshot => {
+                        const friendsList = document.getElementById('friendsList');
+                        friendsList.innerHTML = '';
+
+                        if (snapshot.empty) {
+                            friendsList.innerHTML = '<div class="no-friends-message">No friends added yet</div>';
+                            return;
+                        }
+
+                        snapshot.forEach(doc => {
+                            const friendship = doc.data();
+                            const friendEmail = friendship.users.find(email => email !== user.email);
+                            createFriendElement(friendEmail, doc.id).then(element => {
+                                friendsList.appendChild(element);
+                            });
+                        });
+                    });
+
+                // Handle send friend request
+                document.getElementById('sendFriendRequest').addEventListener('click', async () => {
+                    const friendEmail = document.getElementById('friendEmail').value.trim();
+                    if (!friendEmail) return;
+
+                    if (friendEmail === user.email) {
+                        alert("You can't send a friend request to yourself!");
                         return;
                     }
-                    
-                    const cardCategory = card.getAttribute('data-category');
-                    if (cardCategory === category) {
-                        card.style.display = 'block';
-                        card.style.animation = 'fadeIn 0.5s ease forwards';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            }
 
-            // Add animation keyframes
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes fadeIn {
-                    from { opacity: 0; transform: translateY(20px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-            `;
-            document.head.appendChild(style);
-        });
-    </script>
-
-    <script>
-        // Authentication state observer
-        firebase.auth().onAuthStateChanged(function(user) {
-            const userMenu = document.querySelector('.user-menu');
-            const authLinks = document.querySelector('.auth-links');
-            const userAvatar = document.getElementById('userAvatar');
-            const userName = document.getElementById('userName');
-
-            if (user) {
-                // User is signed in
-                userMenu.classList.add('active');
-                authLinks.style.display = 'none';
-                
-                // Set user info
-                userName.textContent = user.displayName || 'User';
-                userAvatar.src = user.photoURL || `https://api.dicebear.com/6.x/avataaars/svg?seed=${user.displayName || 'user'}`;
-                
-                // Handle logout
-                document.getElementById('logoutBtn').addEventListener('click', async (e) => {
-                    e.preventDefault();
                     try {
-                        await firebase.auth().signOut();
-                        window.location.href = 'auth.html';
+                        // Check if user exists
+                        const userQuery = await db.collection('users')
+                            .where('email', '==', friendEmail)
+                            .get();
+
+                        if (userQuery.empty) {
+                            alert('User not found!');
+                            return;
+                        }
+
+                        // Check if friend request already exists
+                        const requestQuery = await db.collection('friendRequests')
+                            .where('from', '==', user.email)
+                            .where('to', '==', friendEmail)
+                            .get();
+
+                        if (!requestQuery.empty) {
+                            alert('Friend request already sent!');
+                            return;
+                        }
+
+                        // Check if they're already friends
+                        const friendshipQuery = await db.collection('friends')
+                            .where('users', 'array-contains', user.email)
+                            .get();
+
+                        let alreadyFriends = false;
+                        friendshipQuery.forEach(doc => {
+                            if (doc.data().users.includes(friendEmail)) {
+                                alreadyFriends = true;
+                            }
+                        });
+
+                        if (alreadyFriends) {
+                            alert('You are already friends with this user!');
+                            return;
+                        }
+
+                        // Send friend request
+                        await db.collection('friendRequests').add({
+                            from: user.email,
+                            to: friendEmail,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+
+                        document.getElementById('friendEmail').value = '';
+                        alert('Friend request sent!');
                     } catch (error) {
-                        console.error('Error signing out:', error);
+                        console.error('Error sending friend request:', error);
+                        alert('Error sending friend request. Please try again.');
                     }
                 });
-            } else {
-                // User is signed out
-                userMenu.classList.remove('active');
-                authLinks.style.display = 'block';
             }
+
+            function createFriendRequestElement(requestId, request) {
+                const div = document.createElement('div');
+                div.className = 'friend-request-item';
+                div.innerHTML = `
+                    <div class="friend-avatar">
+                        <img src="https://api.dicebear.com/6.x/avataaars/svg?seed=${request.from}" alt="Friend Avatar">
+                    </div>
+                    <div class="friend-request-info">
+                        <div class="friend-name">${request.from}</div>
+                        <div class="friend-status">Wants to be your friend</div>
+                    </div>
+                    <div class="friend-request-actions">
+                        <button class="friend-request-btn accept-btn">
+                            <i class="fas fa-check"></i> Accept
+                        </button>
+                        <button class="friend-request-btn reject-btn">
+                            <i class="fas fa-times"></i> Reject
+                        </button>
+                    </div>
+                `;
+
+                // Handle accept request
+                div.querySelector('.accept-btn').addEventListener('click', async () => {
+                    try {
+                        // Create friendship
+                        await db.collection('friends').add({
+                            users: [currentUser.email, request.from],
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+
+                        // Delete request
+                        await db.collection('friendRequests').doc(requestId).delete();
+                    } catch (error) {
+                        console.error('Error accepting friend request:', error);
+                        alert('Error accepting friend request. Please try again.');
+                    }
+                });
+
+                // Handle reject request
+                div.querySelector('.reject-btn').addEventListener('click', async () => {
+                    try {
+                        await db.collection('friendRequests').doc(requestId).delete();
+                    } catch (error) {
+                        console.error('Error rejecting friend request:', error);
+                        alert('Error rejecting friend request. Please try again.');
+                    }
+                });
+
+                return div;
+            }
+
+            async function createFriendElement(friendEmail, friendshipId) {
+                const div = document.createElement('div');
+                div.className = 'friend-item';
+
+                // Get friend's user data if available
+                let userData = null;
+                try {
+                    const userDoc = await db.collection('users')
+                        .where('email', '==', friendEmail)
+                        .get();
+                    
+                    if (!userDoc.empty) {
+                        userData = userDoc.docs[0].data();
+                    }
+                } catch (error) {
+                    console.error('Error fetching friend data:', error);
+                }
+
+                div.innerHTML = `
+                    <div class="friend-avatar">
+                        <img src="${userData?.photoURL || `https://api.dicebear.com/6.x/avataaars/svg?seed=${friendEmail}`}" alt="Friend Avatar">
+                    </div>
+                    <div class="friend-info">
+                        <div class="friend-name">${userData?.displayName || friendEmail}</div>
+                        <div class="friend-status">Friend</div>
+                    </div>
+                    <div class="friend-actions">
+                        <button class="friend-action-btn message-friend" title="Message">
+                            <i class="fas fa-comment"></i>
+                        </button>
+                        <button class="friend-action-btn remove-friend" title="Remove Friend">
+                            <i class="fas fa-user-minus"></i>
+                        </button>
+                    </div>
+                `;
+
+                // Handle remove friend
+                div.querySelector('.remove-friend').addEventListener('click', async () => {
+                    if (confirm('Are you sure you want to remove this friend?')) {
+                        try {
+                            await db.collection('friends').doc(friendshipId).delete();
+                        } catch (error) {
+                            console.error('Error removing friend:', error);
+                            alert('Error removing friend. Please try again.');
+                        }
+                    }
+                });
+
+                // Handle message friend (you can implement this later)
+                div.querySelector('.message-friend').addEventListener('click', () => {
+                    alert('Messaging feature coming soon!');
+                });
+
+                return div;
+            }
+
+            // Handle settings toggles
+            document.querySelectorAll('.toggle-switch input').forEach(toggle => {
+                toggle.addEventListener('change', function() {
+                    const settingName = this.closest('.settings-item').querySelector('.settings-label span').textContent;
+                    console.log(`${settingName} setting changed to: ${this.checked}`);
+                    // Here you can add code to save settings to user's profile
+                });
+            });
         });
     </script>
 </body>
