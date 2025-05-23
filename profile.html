@@ -1479,6 +1479,7 @@
 
                     // Create or update user document in Firestore
                     try {
+                        console.log('Creating/updating user document for:', user.email);
                         const userRef = db.collection('users').doc(user.uid);
                         await userRef.set({
                             email: user.email,
@@ -1486,6 +1487,7 @@
                             photoURL: user.photoURL || `https://api.dicebear.com/6.x/avataaars/svg?seed=${user.displayName || 'user'}`,
                             lastLogin: firebase.firestore.FieldValue.serverTimestamp()
                         }, { merge: true }); // merge: true will only update specified fields
+                        console.log('User document created/updated successfully');
                     } catch (error) {
                         console.error('Error updating user document:', error);
                     }
@@ -1523,16 +1525,19 @@
 
                     try {
                         // Find user by email
+                        console.log('Searching for user with email:', friendEmail);
                         const userQuery = await db.collection('users')
                             .where('email', '==', friendEmail)
                             .get();
 
+                        console.log('Query result empty?', userQuery.empty);
                         if (userQuery.empty) {
                             alert('User not found! Make sure the email is correct.');
                             return;
                         }
 
                         const friendDoc = userQuery.docs[0];
+                        console.log('Found user document:', friendDoc.data());
                         const friendId = friendDoc.id;
                         const friendData = friendDoc.data();
 
