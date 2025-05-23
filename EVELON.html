@@ -1,0 +1,5226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evelon Launcher</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="manifest" href="manifest.json" />
+    <meta name="description" content="Evelon Launcher - Your gateway to the best games and gaming communities." />
+    <meta name="keywords" content="gaming, launcher, games, Evelon, community" />
+    <meta name="author" content="Your Name" />
+    <meta property="og:title" content="Evelon Launcher" />
+    <meta property="og:description" content="Your gateway to the best games and gaming communities." />
+    <meta property="og:image" content="https://yourwebsite.com/Circles__1_-removebg-preview.png" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap");
+
+        html {
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-green: #39ff14;
+            --neon-green-glow: 0 0 10px rgba(57, 255, 20, 0.5);
+            --neon-green-hover: #2ecc71;
+            --primary: #39ff14;
+            --primary-hover: #2ecc71;
+            --dark: #0d0d0d;
+            --dark-light: #080808;
+            --panel-bg: #0a0a0ad9;
+            --card-bg: #222;
+            --card-hover: #2a2a2a;
+            --bg-element: #1a1a1a;
+            --bg-element-hover: #222;
+            --text: #fff;
+            --text-secondary: #bbb;
+            --purple-glow: rgba(157, 78, 221, 0.3);
+            --green-glow: rgba(57, 255, 20, 0.5);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --text-muted: #888;
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 16px;
+            --border-radius-xl: 25px;
+        }
+
+        body {
+            cursor: url("mouse.cur"), auto;
+            background-color: var(--dark);
+            font-family: "Poppins", sans-serif;
+            color: var(--text);
+            display: flex;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: "Orbitron", sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-light);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--neon-green-hover);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition);
+        }
+
+        /* Navbar styling */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(15px);
+            padding: 15px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(57, 255, 20, 0.2);
+        }
+
+        /* Replace your existing logo CSS with this: */
+        .logo img {
+            height: 50px;
+            filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: center center;
+        }
+
+        .logo img:hover {
+            transform: scale(1.08) rotate(5deg);
+            filter: drop-shadow(0 0 15px rgba(57, 255, 20, 0.7));
+        }
+
+        /* Add this animation for a pulsing effect */
+        @keyframes logoPulse {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 15px rgba(57, 255, 20, 0.7));
+            }
+
+            100% {
+                filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            }
+        }
+
+        /* Add this to your logo hover state if you want a continuous pulsing effect */
+        .logo a:hover img {
+            animation: logoPulse 2s infinite;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .navbar .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            position: relative;
+            padding: 8px 0;
+            transition: var(--transition);
+        }
+
+        .navbar .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .navbar .nav-links a:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .navbar .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            position: relative;
+            background: var(--bg-element);
+            padding: 12px 20px;
+            border-radius: var(--border-radius-xl);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 300px;
+            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+                border-color 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #333;
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 12px rgba(57, 255, 20, 0.4);
+            width: 400px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text);
+            font-family: "Poppins", sans-serif;
+            width: 100%;
+            font-size: 15px;
+        }
+
+        .search-bar i {
+            color: var(--text-muted);
+            transition: color var(--transition);
+        }
+
+        .search-bar:focus-within i {
+            color: var(--neon-green);
+        }
+
+        .search-results {
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            width: 100%;
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            display: none;
+            flex-direction: column;
+            gap: 2px;
+            padding: 8px;
+            z-index: 1000;
+            border: 1px solid rgba(57, 255, 20, 0.1);
+            max-height: 400px;
+            overflow-y: auto;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .search-results a {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--text);
+            padding: 12px;
+            border-radius: var(--border-radius-sm);
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .search-results a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--primary);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+
+        .search-results a:hover {
+            background: rgba(57, 255, 20, 0.05);
+            border-color: rgba(57, 255, 20, 0.2);
+            transform: translateX(5px);
+        }
+
+        .search-results a:hover::before {
+            transform: scaleY(1);
+        }
+
+        .search-results img {
+            width: 45px;
+            height: 45px;
+            border-radius: var(--border-radius-sm);
+            object-fit: cover;
+            border: 2px solid rgba(57, 255, 20, 0.2);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-results a:hover img {
+            border-color: var(--primary);
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(57, 255, 20, 0.3);
+        }
+
+        .search-results span {
+            font-size: 14px;
+            font-weight: 500;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .search-results .game-meta {
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: flex;
+            gap: 12px;
+        }
+
+        .search-results .no-results {
+            padding: 20px;
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .search-results .no-results i {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .search-expand {
+            width: 400px !important;
+            border-color: var(--neon-green) !important;
+            box-shadow: 0 0 12px rgba(57, 255, 20, 0.4) !important;
+        }
+
+        /* Auth buttons */
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-buttons button {
+            background: transparent;
+            border: 2px solid var(--neon-green);
+            padding: 8px 20px;
+            color: var(--neon-green);
+            border-radius: var(--border-radius-xl);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: "Poppins", sans-serif;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: color 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .auth-buttons button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--neon-green);
+            transition: all 0.4s cubic-bezier(0.5, 0, 0.5, 1);
+            z-index: -1;
+        }
+
+        .auth-buttons button:hover {
+            color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.5);
+            font-weight: 700;
+        }
+
+        .auth-buttons button:hover::before {
+            left: 0;
+        }
+
+        /* Container layout */
+        .container {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        /* Left panel styling */
+        .left-panel {
+            width: 200px;
+            background: var(--panel-bg);
+            padding: 25px 10px;
+            box-shadow: 4px 0 20px rgba(10, 10, 10, 0.85);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 900;
+            border-right: 1px solid rgba(10, 10, 10, 0.85);
+            transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-right: 1px solid rgba(57, 255, 20, 0.2);
+        }
+
+        .left-panel.expanded {
+            width: 220px;
+        }
+
+        .left-panel:hover {
+            width: 250px;
+        }
+
+        .left-panel ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 100%;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .left-panel ul li {
+            position: relative;
+            display: flex;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .left-panel ul li a {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .left-panel ul li img {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            object-fit: cover;
+            transition: var(--transition);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 2px solid transparent;
+        }
+
+        .left-panel ul li:hover img {
+            transform: scale(1.1);
+            box-shadow: 0 8px 15px rgba(57, 255, 20, 0.3);
+            border-color: var(--primary);
+        }
+
+        .left-panel ul li:hover .game-name {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Main content area */
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            background: var(--dark);
+            overflow-y: auto;
+        }
+
+        /* Center content styling */
+        .center-content {
+            flex-grow: 1;
+            padding: 20px;
+            animation: fadeIn 1s ease-in-out;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Enhanced Banner Styling */
+        .enhanced-banner {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            margin-bottom: 50px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            display: flex;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            border: 1px solid rgba(57, 255, 20, 0.2);
+        }
+
+        .banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, rgba(13, 13, 13, 0.4) 0%, rgba(10, 10, 10, 0.9) 100%);
+            z-index: 1;
+        }
+
+        .banner-content {
+            position: relative;
+            z-index: 2;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 55%;
+            animation: fadeInLeft 1s ease-out;
+        }
+
+        .banner-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            text-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+            letter-spacing: 1px;
+        }
+
+        .text-accent {
+            color: var(--primary);
+            text-shadow: 0 0 15px rgba(57, 255, 20, 0.7);
+        }
+
+        .banner-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 600px;
+            line-height: 1.6;
+        }
+
+        .banner-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .banner-btn {
+            padding: 14px 30px;
+            font-size: 1rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .banner-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+        }
+
+        .banner-stats {
+            display: flex;
+            gap: 40px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
+            font-family: "Orbitron", sans-serif;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .banner-image-container {
+            position: relative;
+            width: 45%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .banner-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.1);
+            filter: brightness(0.8) contrast(1.1);
+            transition: all 8s ease;
+        }
+
+        .enhanced-banner:hover .banner-image {
+            transform: scale(1.2);
+        }
+
+        .floating-game-covers {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 3;
+        }
+
+        .floating-cover {
+            width: 100px;
+            height: 100px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(57, 255, 20, 0.3);
+            transform: rotate(var(--rotation));
+            animation: float 6s infinite ease-in-out;
+            animation-delay: var(--delay);
+        }
+
+        .floating-cover:nth-child(1) {
+            --rotation: -8deg;
+            --delay: 0s;
+        }
+
+        .floating-cover:nth-child(2) {
+            --rotation: 8deg;
+            --delay: 1s;
+        }
+
+        .floating-cover:nth-child(3) {
+            --rotation: -5deg;
+            --delay: 2s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(var(--rotation));
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(var(--rotation));
+            }
+        }
+
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .enhanced-banner {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .banner-content,
+            .banner-image-container {
+                width: 100%;
+            }
+
+            .banner-content {
+                padding: 40px;
+                text-align: center;
+                align-items: center;
+            }
+
+            .banner-image-container {
+                height: 300px;
+            }
+
+            .banner-stats {
+                justify-content: center;
+            }
+        }
+
+        /* Enhanced Featured Games Section */
+        .featured-games-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .featured-game-main {
+            display: flex;
+            background: linear-gradient(135deg, rgba(22, 22, 22, 0.9) 0%, rgba(10, 10, 10, 0.95) 100%);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(57, 255, 20, 0.15);
+            position: relative;
+            min-height: 400px;
+        }
+
+        /* Glowing border effect */
+        .featured-game-main::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary), #9d4edd, var(--primary));
+            z-index: -1;
+            border-radius: 27px;
+            opacity: 0.5;
+            filter: blur(8px);
+            transition: all 0.6s ease;
+        }
+
+        .featured-game-main:hover::before {
+            opacity: 0.7;
+            filter: blur(12px);
+        }
+
+        .featured-game-content {
+            padding: 40px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .featured-game-badge {
+            background: linear-gradient(90deg, var(--primary), #2ecc71);
+            color: #000;
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.3);
+        }
+
+        .featured-game-title {
+            font-size: 36px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #fff, var(--primary));
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(57, 255, 20, 0.3);
+        }
+
+        .featured-game-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .game-category,
+        .game-rating,
+        .game-players {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .featured-game-desc {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .featured-game-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px 40px;
+            margin-bottom: 30px;
+            padding: 15px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .spec-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .spec-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .spec-value {
+            font-size: 14px;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .featured-game-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+
+        .btn-icon {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--text);
+            transition: all 0.3s ease;
+        }
+
+        .btn-icon:hover {
+            background: rgba(57, 255, 20, 0.2);
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .featured-game-media {
+            width: 45%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .featured-game-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+            transform: scale(1.03);
+        }
+
+        .featured-game-main:hover .featured-game-image {
+            transform: scale(1.1);
+        }
+
+        .featured-game-trailer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .featured-game-media:hover .featured-game-trailer {
+            opacity: 1;
+        }
+
+        .trailer-button {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(57, 255, 20, 0.8);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.6);
+            transform: scale(0.8);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .trailer-button i {
+            color: #000;
+            font-size: 24px;
+            margin-left: 5px;
+        }
+
+        .featured-game-media:hover .trailer-button {
+            transform: scale(1);
+        }
+
+        /* Featured Games Grid */
+        .featured-games-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .featured-game-card {
+            background: rgba(34, 34, 34, 0.8);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .featured-game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(57, 255, 20, 0.3);
+            border-color: rgba(57, 255, 20, 0.2);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--text);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .card-badge.new {
+            background: linear-gradient(90deg, #9d4edd, #6a11cb);
+            color: #fff;
+        }
+
+        .card-badge.update {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            color: #fff;
+        }
+
+        .card-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .featured-game-card:hover .card-image {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+            font-size: 13px;
+        }
+
+        .btn-card {
+            width: 100%;
+            padding: 10px;
+            background: rgba(57, 255, 20, 0.15);
+            border: 1px solid rgba(57, 255, 20, 0.3);
+            color: var(--primary);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-card:hover {
+            background: rgba(57, 255, 20, 0.25);
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 992px) {
+            .featured-game-main {
+                flex-direction: column;
+            }
+
+            .featured-game-content,
+            .featured-game-media {
+                width: 100%;
+            }
+
+            .featured-game-media {
+                height: 300px;
+                order: -1;
+            }
+
+            .featured-games-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .featured-games-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Button styling */
+        .btn-primary,
+        .btn-secondary {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary), #2ecc71);
+            color: #111;
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(57, 255, 20, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(51, 51, 51, 0.8);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(68, 68, 68, 0.9);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Games section styling */
+        .games-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+            padding: 20px 0;
+        }
+
+        .left-panel ul li {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            transition: var(--transition);
+            margin-bottom: 15px;
+        }
+
+        .game-status {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid var(--dark);
+            box-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
+        }
+
+        .game-status.downloading {
+            background: #f39c12;
+            animation: pulse 1.5s infinite;
+        }
+
+        .game-status.update {
+            background: #3498db;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .game-name {
+            position: absolute;
+            left: 120%;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(10, 10, 10, 0.9);
+            color: var(--text);
+            padding: 6px 12px;
+            border-radius: 5px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            border-left: 3px solid var(--primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+
+        .left-panel ul li.active img {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.6);
+        }
+
+        .left-panel ul li.active::after {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 70%;
+            background: var(--primary);
+            border-radius: 0 2px 2px 0;
+            box-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
+        }
+
+        .game-card {
+            background: var(--card-bg);
+            width: 100%;
+            padding: 0;
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            height: 230px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px var(--green-glow);
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .game-card:hover img {
+            transform: scale(1.05);
+            filter: brightness(0.7);
+        }
+
+        .game-card::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(0deg,
+                    rgba(0, 0, 0, 0.8) 0%,
+                    rgba(0, 0, 0, 0) 100%);
+            z-index: 1;
+        }
+
+        .game-card h3 {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            z-index: 2;
+            color: var(--text);
+            font-size: 18px;
+            padding: 0 20px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .game-card .game-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            opacity: 0;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 3;
+        }
+
+        .game-card:hover .game-overlay {
+            opacity: 1;
+        }
+
+        .game-card .game-overlay button {
+            transform: translateY(20px);
+            opacity: 0;
+            transition: var(--transition);
+            transition-delay: 0.1s;
+        }
+
+        .game-card:hover .game-overlay button {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Section headers */
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+        }
+
+        .section-header h2 {
+            font-size: 24px;
+            color: var(--text);
+            margin-right: auto;
+        }
+
+        .section-header .view-all {
+            color: var(--primary);
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Loading screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999;
+            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            will-change: opacity;
+        }
+
+        .loading-logo {
+            width: 180px;
+            height: auto;
+            margin-bottom: 30px;
+            animation: logoEffect 4s infinite;
+            filter: drop-shadow(0 0 15px rgba(57, 255, 20, 0.5));
+            z-index: 10;
+            will-change: transform, opacity;
+        }
+
+        @keyframes logoEffect {
+            0% {
+                transform: scale(1) rotate(0deg);
+                filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            }
+
+            25% {
+                transform: scale(1.05) rotate(5deg);
+                filter: drop-shadow(0 0 20px rgba(57, 255, 20, 0.7));
+            }
+
+            50% {
+                transform: scale(1) rotate(0deg);
+                filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            }
+
+            75% {
+                transform: scale(1.05) rotate(-5deg);
+                filter: drop-shadow(0 0 20px rgba(57, 255, 20, 0.7));
+            }
+
+            100% {
+                transform: scale(1) rotate(0deg);
+                filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            }
+        }
+
+        .loading-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(57, 255, 20, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(57, 255, 20, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 50% 50%, rgba(57, 255, 20, 0.03) 0%, transparent 30%);
+            animation: backgroundPulse 6s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes backgroundPulse {
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .loading-text {
+            font-family: "Orbitron", sans-serif;
+            color: var(--text);
+            font-size: 18px;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+            text-align: center;
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out forwards 0.5s;
+        }
+
+        .loading-tip {
+            font-family: "Poppins", sans-serif;
+            color: var(--text-secondary);
+            font-size: 14px;
+            max-width: 350px;
+            text-align: center;
+            margin-top: 25px;
+            opacity: 0;
+            animation: fadeIn 1s ease-in-out forwards 1s;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .loading-icons {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            animation: rotate 20s linear infinite;
+            pointer-events: none;
+        }
+
+        .icon-item {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(20, 20, 20, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            animation: pulse 2s infinite alternate;
+        }
+
+        .icon-item:nth-child(1) {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation-delay: 0s;
+        }
+
+        .icon-item:nth-child(2) {
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            animation-delay: 0.5s;
+        }
+
+        .icon-item:nth-child(3) {
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation-delay: 1s;
+        }
+
+        .icon-item:nth-child(4) {
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+            animation-delay: 1.5s;
+        }
+
+        .icon-item i {
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .progress {
+            transition: width 0.3s ease-out;
+            will-change: width;
+            transform: translateZ(0);
+        }
+
+        .progress-container {
+            width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 30px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(57, 255, 20, 0.1);
+        }
+
+        .progress {
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), #2ecc71);
+            border-radius: 30px;
+            transition: width 0.5s ease;
+            position: relative;
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.5);
+        }
+
+        .progress-percentage {
+            color: var(--text);
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 10px;
+            font-family: "Orbitron", sans-serif;
+            transition: color 0.3s ease;
+        }
+
+        .progress::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.3),
+                    transparent);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--panel-bg);
+            backdrop-filter: blur(15px);
+            padding: 40px 20px;
+            border-top: 1px solid rgba(57, 255, 20, 0.1);
+            width: 100%;
+            margin-top: auto;
+            position: relative;
+            z-index: 997;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .footer-section h3 {
+            color: var(--neon-green);
+            margin-bottom: 20px;
+        }
+
+        .footer-section p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--neon-green);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            font-size: 22px;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 50%;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.3);
+        }
+
+        /* Clear search button */
+        #clear-search {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: none;
+            transition: var(--transition);
+        }
+
+        #clear-search:hover {
+            color: var(--primary);
+        }
+
+        /* News & Updates section */
+        .news-section {
+            margin: 50px 0;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .news-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .news-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .news-image {
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .news-card:hover .news-image img {
+            transform: scale(1.05);
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-date {
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .news-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text);
+        }
+
+        .news-excerpt {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Dropdown styling */
+        .dropdown {
+            position: relative;
+        }
+
+        .dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .dropdown-toggle .fa-chevron-down {
+            font-size: 12px;
+            transition: transform 0.3s ease;
+        }
+
+        .dropdown:hover .fa-chevron-down {
+            transform: rotate(180deg);
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 200px;
+            background: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-md);
+            padding: 12px 0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(57, 255, 20, 0.15);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(15px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(5px);
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 10px 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .dropdown-menu a::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, rgba(57, 255, 20, 0.1), transparent);
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+
+        .dropdown-menu a:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .dropdown-menu a:hover::before {
+            width: 100%;
+        }
+
+        /* Animation keyframes */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 1200px) {
+            .news-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .featured-section {
+                flex-direction: column;
+                padding: 25px;
+            }
+
+            .featured-content {
+                padding-right: 0;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+
+            .featured-section img {
+                width: 70%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .left-panel {
+                width: 100%;
+                height: auto;
+                flex-direction: row;
+                padding: 15px;
+                position: relative;
+            }
+
+            .left-panel ul {
+                flex-direction: row;
+                justify-content: center;
+                margin: 0;
+            }
+
+            .navbar {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+
+            .search-bar {
+                order: 3;
+                width: 100%;
+            }
+
+            .auth-buttons {
+                order: 2;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .games-section {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 15px;
+            }
+
+            .navbar .nav-links {
+                gap: 15px;
+            }
+
+            .banner {
+                height: 250px;
+            }
+
+            .featured-section {
+                padding: 20px;
+            }
+
+            .featured-content h2 {
+                font-size: 24px;
+            }
+
+            .featured-section img {
+                width: 90%;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .nav-links {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .dropdown-menu {
+                position: static;
+                opacity: 0;
+                visibility: hidden;
+                height: 0;
+                overflow: hidden;
+                transform: none;
+                box-shadow: none;
+                border: none;
+                background: rgba(18, 18, 18, 0.5);
+                border-left: 2px solid var(--primary);
+                border-radius: 0;
+                padding: 0;
+                margin-left: 20px;
+                transition: height 0.3s ease, opacity 0.3s ease;
+            }
+
+            .dropdown.active .dropdown-menu {
+                opacity: 1;
+                visibility: visible;
+                height: auto;
+                padding: 10px 0;
+            }
+
+            .dropdown-toggle {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        .particles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: rgba(57, 255, 20, 0.5);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+            will-change: transform;
+            transform: translateZ(0);
+        }
+
+
+        @keyframes floatParticle {
+            0% {
+                transform: translate(0, 0);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(calc(100px * random() - 50px), calc(100px * random() - 50px));
+                opacity: 0;
+            }
+        }
+
+        .panel-controls {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+            padding: 5px;
+            margin-bottom: 20px;
+        }
+
+        .panel-toggle {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .panel-toggle:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--primary);
+        }
+
+        .add-game {
+            margin-top: auto;
+            padding: 20px 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .add-game button {
+            background: rgba(57, 255, 20, 0.1);
+            border: 1px dashed var(--primary);
+            color: var(--primary);
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-game button:hover {
+            background: rgba(57, 255, 20, 0.2);
+            transform: scale(1.1);
+        }
+
+        .quick-actions {
+            position: absolute;
+            right: -40px;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .left-panel ul li:hover .quick-actions {
+            opacity: 1;
+            right: -45px;
+        }
+
+        .quick-action-btn {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            color: var(--text-secondary);
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .quick-action-btn:hover {
+            background: rgba(57, 255, 20, 0.1);
+            color: var(--primary);
+        }
+
+        .panel-section {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            margin-bottom: 15px;
+        }
+
+        .panel-heading {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .game-count {
+            background: rgba(57, 255, 20, 0.2);
+            color: var(--primary);
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .left-panel ul li img {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            object-fit: cover;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 2px solid transparent;
+            position: relative;
+            z-index: 1;
+        }
+
+        .left-panel ul li a::before {
+            content: "";
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, rgba(57, 255, 20, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 0;
+            opacity: 0;
+            transform: scale(0.5);
+            transition: all 0.4s ease;
+        }
+
+        .left-panel ul li:hover a::before {
+            opacity: 1;
+            transform: scale(2);
+        }
+
+        .game-title {
+            color: var(--text-secondary);
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            margin-left: 0;
+            font-weight: 500;
+        }
+
+        .left-panel.expanded .game-title {
+            opacity: 1;
+            width: auto;
+            margin-left: 15px;
+        }
+
+        .left-panel ul li:hover .game-title {
+            color: var(--primary);
+        }
+
+        .transition-group {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity 0.3s ease;
+        }
+
+        .fade-enter-from,
+        .fade-leave-to {
+            opacity: 0;
+        }
+
+        .animated-element {
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000px;
+        }
+
+        /* Enhanced Section Styling */
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(18, 18, 18, 0.7);
+            border-radius: var(--border-radius-lg);
+            border: 1px solid rgba(57, 255, 20, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                rgba(57, 255, 20, 0.05) 0%,
+                rgba(157, 78, 221, 0.05) 50%,
+                rgba(57, 255, 20, 0.05) 100%);
+            animation: gradientMove 8s linear infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+
+        .section-header h2 {
+            font-size: 28px;
+            color: var(--text);
+            margin-right: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header h2 i {
+            color: var(--primary);
+            font-size: 24px;
+            filter: drop-shadow(0 0 8px rgba(57, 255, 20, 0.4));
+        }
+
+        .section-header .view-all {
+            color: var(--primary);
+            font-size: 15px;
+            font-weight: 600;
+            padding: 8px 20px;
+            border-radius: var(--border-radius-xl);
+            background: rgba(57, 255, 20, 0.1);
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-header .view-all:hover {
+            background: rgba(57, 255, 20, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.2);
+        }
+
+        /* Enhanced Games Section */
+        .games-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            padding: 20px;
+            position: relative;
+            perspective: 1000px;
+        }
+
+        .game-card {
+            background: rgba(34, 34, 34, 0.8);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            height: 320px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(57, 255, 20, 0.3);
+            box-shadow: 
+                0 15px 30px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(57, 255, 20, 0.2);
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                rgba(57, 255, 20, 0.1),
+                rgba(157, 78, 221, 0.1)
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .game-card:hover::before {
+            opacity: 1;
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        .game-card:hover img {
+            transform: scale(1.1);
+            filter: brightness(0.7);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 15px;
+            border-radius: var(--border-radius-xl);
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 2;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .card-badge.new {
+            background: linear-gradient(135deg, #9d4edd, #6a11cb);
+            color: #fff;
+        }
+
+        .card-badge.sale {
+            background: linear-gradient(135deg, #39ff14, #2ecc71);
+            color: #000;
+        }
+
+        .card-badge.exclusive {
+            background: linear-gradient(135deg, #ffd700, #ff8c00);
+            color: #000;
+        }
+
+        .game-card h3 {
+            position: absolute;
+            bottom: 70px;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            color: var(--text);
+            font-size: 20px;
+            font-weight: 600;
+            z-index: 2;
+        }
+
+        .game-meta {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .meta-item i {
+            color: var(--primary);
+        }
+
+        .game-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 3;
+        }
+
+        .game-card:hover .game-overlay {
+            opacity: 1;
+        }
+
+        .game-overlay button {
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            transition-delay: 0.1s;
+        }
+
+        .game-card:hover .game-overlay button {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .btn-primary {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, var(--primary), #2ecc71);
+            color: #000;
+            border: none;
+            border-radius: var(--border-radius-xl);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(57, 255, 20, 0.5);
+        }
+
+        .btn-secondary {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--border-radius-xl);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1200px) {
+            .games-section {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .section-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .section-header h2 {
+                font-size: 24px;
+            }
+
+            .games-section {
+                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                gap: 20px;
+                padding: 15px;
+            }
+
+            .game-card {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .games-section {
+                grid-template-columns: 1fr;
+            }
+
+            .game-card {
+                height: 280px;
+            }
+        }
+
+        /* Section Transitions */
+        .section-header, .game-card {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Game Card Hover State */
+        .game-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                transparent 50%,
+                rgba(0, 0, 0, 0.8) 100%
+            );
+            z-index: 1;
+        }
+
+        /* Category-specific styling */
+        .card-badge[data-category="Action"] { background: linear-gradient(135deg, #ff4e50, #f9d423); }
+        .card-badge[data-category="RPG"] { background: linear-gradient(135deg, #9d4edd, #6a11cb); }
+        .card-badge[data-category="Strategy"] { background: linear-gradient(135deg, #00b4db, #0083b0); }
+        .card-badge[data-category="Racing"] { background: linear-gradient(135deg, #f12711, #f5af19); }
+        .card-badge[data-category="Horror"] { background: linear-gradient(135deg, #200122, #6f0000); }
+        .card-badge[data-category="Fighting"] { background: linear-gradient(135deg, #ff0844, #ffb199); }
+
+        /* Loading effect for images */
+        .game-card img {
+            opacity: 0;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Improved game meta information */
+        .game-meta {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 15px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Enhanced button states */
+        .btn-primary:active {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 10px rgba(57, 255, 20, 0.3);
+        }
+
+        .btn-secondary:active {
+            transform: translateY(-1px);
+        }
+
+        /* Section spacing */
+        .games-section + .section-header {
+            margin-top: 60px;
+        }
+
+        /* Advanced Section Styling */
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 25px 30px;
+            background: linear-gradient(135deg, rgba(18, 18, 18, 0.95), rgba(28, 28, 28, 0.95));
+            border-radius: var(--border-radius-lg);
+            border: 1px solid rgba(57, 255, 20, 0.15);
+            box-shadow: 
+                0 4px 15px rgba(0, 0, 0, 0.2),
+                inset 0 0 30px rgba(57, 255, 20, 0.05);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .section-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(
+                circle at center,
+                rgba(57, 255, 20, 0.1) 0%,
+                rgba(157, 78, 221, 0.1) 30%,
+                transparent 70%
+            );
+            animation: rotateGradient 15s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rotateGradient {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(57, 255, 20, 0.1),
+                transparent
+            );
+            animation: shimmer 3s infinite;
+            transform: skewX(-45deg);
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-150%) skewX(-45deg); }
+            50% { transform: translateX(150%) skewX(-45deg); }
+            100% { transform: translateX(150%) skewX(-45deg); }
+        }
+
+        .section-header h2 {
+            font-size: 32px;
+            background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(57, 255, 20, 0.3);
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-header h2 i {
+            font-size: 28px;
+            margin-right: 15px;
+            background: linear-gradient(135deg, var(--primary), #2ecc71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 8px rgba(57, 255, 20, 0.5));
+            animation: pulseIcon 2s infinite;
+        }
+
+        @keyframes pulseIcon {
+            0% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(57, 255, 20, 0.5)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 12px rgba(57, 255, 20, 0.7)); }
+            100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(57, 255, 20, 0.5)); }
+        }
+
+        .section-header .view-all {
+            background: linear-gradient(135deg, rgba(57, 255, 20, 0.15), rgba(157, 78, 221, 0.15));
+            padding: 12px 25px;
+            border-radius: var(--border-radius-xl);
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(57, 255, 20, 0.3);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-header .view-all::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary), #9d4edd, var(--primary));
+            z-index: -1;
+            border-radius: var(--border-radius-xl);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .section-header .view-all:hover {
+            transform: translateY(-3px) scale(1.02);
+            color: #fff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .section-header .view-all:hover::before {
+            opacity: 0.3;
+        }
+
+        /* Enhanced Games Section */
+        .games-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            padding: 30px;
+            position: relative;
+            perspective: 2000px;
+        }
+
+        .games-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(57, 255, 20, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(157, 78, 221, 0.03) 0%, transparent 20%);
+            pointer-events: none;
+        }
+
+        .game-card {
+            background: rgba(28, 28, 28, 0.95);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            height: 380px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(57, 255, 20, 0.1);
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                45deg,
+                rgba(57, 255, 20, 0.1),
+                rgba(157, 78, 221, 0.1)
+            );
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+        }
+
+        .game-card:hover {
+            transform: translateY(-15px) scale(1.02) rotateX(5deg);
+            border-color: rgba(57, 255, 20, 0.3);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(57, 255, 20, 0.2),
+                0 0 0 1px rgba(57, 255, 20, 0.3);
+        }
+
+        .game-card:hover::before {
+            opacity: 1;
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: all 0.7s ease;
+            transform-origin: center;
+        }
+
+        .game-card:hover img {
+            transform: scale(1.1);
+            filter: brightness(0.7) contrast(1.2);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border-radius: var(--border-radius-xl);
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 3;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .card-badge i {
+            font-size: 16px;
+        }
+
+        .card-badge.new {
+            background: linear-gradient(135deg, #9d4edd 0%, #6a11cb 100%);
+            animation: glowBadge 2s infinite;
+        }
+
+        .card-badge.sale {
+            background: linear-gradient(135deg, #39ff14 0%, #2ecc71 100%);
+            animation: glowBadge 2s infinite;
+        }
+
+        .card-badge.exclusive {
+            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%);
+            animation: glowBadge 2s infinite;
+        }
+
+        @keyframes glowBadge {
+            0% { box-shadow: 0 0 10px rgba(57, 255, 20, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(57, 255, 20, 0.5); }
+            100% { box-shadow: 0 0 10px rgba(57, 255, 20, 0.3); }
+        }
+
+        .game-card h3 {
+            position: absolute;
+            bottom: 80px;
+            left: 0;
+            width: 100%;
+            padding: 25px;
+            color: var(--text);
+            font-size: 22px;
+            font-weight: 700;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .game-card:hover h3 {
+            transform: translateY(-5px);
+            color: var(--primary);
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+        }
+
+        .game-meta {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(
+                to top,
+                rgba(0, 0, 0, 0.9),
+                rgba(0, 0, 0, 0.7)
+            );
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .meta-item i {
+            color: var(--primary);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .game-card:hover .meta-item {
+            color: var(--text);
+        }
+
+        .game-card:hover .meta-item i {
+            transform: scale(1.2);
+            color: var(--primary);
+            filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.5));
+        }
+
+        .game-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.3),
+                rgba(0, 0, 0, 0.8)
+            );
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            opacity: 0;
+            transition: all 0.5s ease;
+            z-index: 3;
+            backdrop-filter: blur(5px);
+        }
+
+        .game-card:hover .game-overlay {
+            opacity: 1;
+        }
+
+        .game-overlay button {
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .game-card:hover .game-overlay button {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .btn-primary {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, var(--primary) 0%, #2ecc71 100%);
+            color: #000;
+            border: none;
+            border-radius: var(--border-radius-xl);
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 
+                0 5px 15px rgba(57, 255, 20, 0.3),
+                0 0 0 1px rgba(57, 255, 20, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 
+                0 8px 25px rgba(57, 255, 20, 0.5),
+                0 0 0 2px rgba(57, 255, 20, 0.5);
+        }
+
+        .btn-primary:active {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 
+                0 5px 15px rgba(57, 255, 20, 0.3),
+                0 0 0 1px rgba(57, 255, 20, 0.3);
+        }
+
+        .btn-secondary {
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--border-radius-xl);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Category-specific styling with enhanced gradients */
+        .card-badge[data-category="Action"] { 
+            background: linear-gradient(135deg, #ff4e50, #f9d423);
+            box-shadow: 0 0 20px rgba(249, 212, 35, 0.3);
+        }
+
+        .card-badge[data-category="RPG"] { 
+            background: linear-gradient(135deg, #9d4edd, #6a11cb);
+            box-shadow: 0 0 20px rgba(157, 78, 221, 0.3);
+        }
+
+        /* Enhanced Game Card Styling */
+        .game-card {
+            background: rgba(28, 28, 28, 0.95);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            height: 400px;
+            border: 1px solid rgba(57, 255, 20, 0.1);
+            transform-style: preserve-3d;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(57, 255, 20, 0.1);
+            cursor: pointer;
+        }
+
+        .game-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                45deg,
+                rgba(57, 255, 20, 0.15),
+                rgba(157, 78, 221, 0.15)
+            );
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+        }
+
+        .game-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                rgba(0, 0, 0, 0.8)
+            );
+            z-index: 1;
+            opacity: 0.7;
+            transition: opacity 0.5s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-20px) scale(1.03) rotateX(5deg);
+            border-color: rgba(57, 255, 20, 0.4);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.5),
+                0 0 40px rgba(57, 255, 20, 0.3),
+                0 0 0 1px rgba(57, 255, 20, 0.4);
+        }
+
+        .game-card:hover::before {
+            opacity: 1;
+        }
+
+        .game-card:hover::after {
+            opacity: 0.4;
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: all 0.8s ease;
+            transform-origin: center;
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        .game-card:hover img {
+            transform: scale(1.15);
+            filter: brightness(0.8) contrast(1.2) saturate(1.2);
+        }
+
+        .game-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px;
+            z-index: 2;
+            transform: translateY(0);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .game-card:hover .game-info {
+            transform: translateY(-10px);
+        }
+
+        .game-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s ease;
+            transform: translateY(0);
+            opacity: 0.9;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .game-card:hover h3 {
+            transform: translateY(-5px);
+            color: var(--primary);
+            text-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+            opacity: 1;
+        }
+
+        .game-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            opacity: 0.7;
+            transition: all 0.4s ease;
+        }
+
+        .game-card:hover .game-stats {
+            opacity: 1;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .stat-item i {
+            color: var(--primary);
+            font-size: 16px;
+            filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            transition: all 0.4s ease;
+        }
+
+        .game-card:hover .stat-item i {
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 8px rgba(57, 255, 20, 0.5));
+        }
+
+        .game-tags {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .game-tag {
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-lg);
+            font-size: 12px;
+            color: #fff;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .game-card:hover .game-tag {
+            background: rgba(57, 255, 20, 0.15);
+            border-color: rgba(57, 255, 20, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-actions {
+            display: flex;
+            gap: 15px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .game-card:hover .game-actions {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .action-btn {
+            padding: 12px 25px;
+            border-radius: var(--border-radius-xl);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .action-btn.primary {
+            background: linear-gradient(135deg, var(--primary) 0%, #2ecc71 100%);
+            color: #000;
+            border: none;
+            box-shadow: 
+                0 5px 15px rgba(57, 255, 20, 0.3),
+                0 0 0 1px rgba(57, 255, 20, 0.3);
+        }
+
+        .action-btn.primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 
+                0 8px 25px rgba(57, 255, 20, 0.5),
+                0 0 0 2px rgba(57, 255, 20, 0.5);
+        }
+
+        .action-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .action-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            border-radius: var(--border-radius-xl);
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 3;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .game-card:hover .card-badge {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Game Card Loading Animation */
+        @keyframes cardShimmer {
+            0% {
+                background-position: -468px 0;
+            }
+            100% {
+                background-position: 468px 0;
+            }
+        }
+
+        .game-card.loading {
+            pointer-events: none;
+        }
+
+        .game-card.loading::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            background-size: 1000px 100%;
+            animation: cardShimmer 2s infinite linear;
+        }
+
+        /* Game Card States */
+        .game-card.new::before {
+            border-top: 3px solid var(--primary);
+        }
+
+        .game-card.featured::before {
+            border: 2px solid var(--primary);
+        }
+
+        .game-card.sale::after {
+            content: 'SALE';
+            position: absolute;
+            top: 20px;
+            left: -30px;
+            background: var(--primary);
+            color: #000;
+            padding: 5px 30px;
+            transform: rotate(-45deg);
+            font-size: 12px;
+            font-weight: 700;
+            z-index: 4;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Game Card Responsive */
+        @media (max-width: 768px) {
+            .game-card {
+                height: 380px;
+            }
+
+            .game-card img {
+                height: 220px;
+            }
+
+            .game-info {
+                padding: 20px;
+            }
+
+            .game-card h3 {
+                font-size: 20px;
+            }
+
+            .game-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* Account Menu Styles */
+        .account-menu {
+            position: relative;
+        }
+
+        .account-button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-element);
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .account-button:hover {
+            background: var(--bg-element-hover);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .account-button img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .account-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 8px;
+            background: var(--panel-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(57, 255, 20, 0.2);
+            border-radius: var(--border-radius-md);
+            padding: 8px 0;
+            min-width: 200px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: var(--transition);
+        }
+
+        .account-menu:hover .account-dropdown {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .account-dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .account-dropdown-item:hover {
+            background: var(--bg-element);
+            color: var(--primary);
+        }
+
+        .account-dropdown-item i {
+            width: 20px;
+        }
+
+        .divider {
+            height: 1px;
+            background: rgba(57, 255, 20, 0.1);
+            margin: 8px 0;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="loading-screen" id="loadingScreen">
+        <div class="particles-container"></div>
+        <div class="loading-icons">
+            <div class="icon-item"><i class="fas fa-gamepad"></i></div>
+            <div class="icon-item"><i class="fas fa-trophy"></i></div>
+            <div class="icon-item"><i class="fas fa-users"></i></div>
+            <div class="icon-item"><i class="fas fa-store"></i></div>
+        </div>
+        <img src="Circles__1_-removebg-preview.png" alt="Loading Logo" class="loading-logo" />
+        <div class="loading-text">Preparing your gaming experience...</div>
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress"></div>
+            </div>
+            <div class="progress-percentage">0%</div>
+        </div>
+        <div class="loading-tip">Did you know? You can customize your game profiles in the settings.</div>
+    </div>
+
+    <div class="container">
+        <div class="left-panel">
+
+            <ul>
+                <li class="active">
+                    <a href="eleven.html">
+                        <img src="Mumbai City FC.png" alt="ELEVEN 28" />
+                        <span class="game-title">ELEVEN 28</span>
+                        <div class="game-status"></div>
+                    </a>
+                    <div class="quick-actions">
+                        <button class="quick-action-btn" title="Play">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="quick-action-btn" title="Info">
+                            <i class="fas fa-info"></i>
+                        </button>
+                    </div>
+                </li>
+
+                <li>
+                    <a href="velocity.html">
+                        <img src="VELOCITY.png" alt="VELOCITY 28" />
+                        <span class="game-title">VELOCITY 28</span>
+                        <div class="game-status update"></div>
+                    </a>
+                    <div class="quick-actions">
+                        <button class="quick-action-btn" title="Play">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="quick-action-btn" title="Info">
+                            <i class="fas fa-info"></i>
+                        </button>
+                    </div>
+                </li>
+
+                <li>
+                    <a href="crickit.html">
+                        <img src="To Play.png" alt="CrickIT 28" />
+                        <span class="game-title">CrickIT 28</span>
+                        <div class="game-status downloading"></div>
+                    </a>
+                    <div class="quick-actions">
+                        <button class="quick-action-btn" title="Play">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="quick-action-btn" title="Info">
+                            <i class="fas fa-info"></i>
+                        </button>
+                    </div>
+                </li>
+
+                <li>
+                    <a
+                        href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
+                        <img src="Add a heading (2).png" alt="FIREBACK! Logo" />
+                        <span class="game-title">FIREBACK!</span>
+                    </a>
+                    <div class="quick-actions">
+                        <button class="quick-action-btn" title="Play">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="quick-action-btn" title="Info">
+                            <i class="fas fa-info"></i>
+                        </button>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="add-game">
+                <button title="Add Game">
+                    <i class="fas fa-comments"></i>
+                </button>
+            </div>
+        </div>
+
+
+        <div style="flex-grow: 1; display: flex; flex-direction: column">
+            <nav class="navbar">
+                <div class="logo">
+                    <a href="EVELON.html">
+                        <img src="Circles__1_-removebg-preview.png" alt="EVELON Logo" />
+                    </a>
+                </div>
+
+                <div class="nav-links">
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle"><i class="fas fa-gamepad"></i> Games <i
+                                class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-bomb"></i>&nbsp;&nbsp;&nbsp;New Releases</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-arrow-trend-up"></i>&nbsp;&nbsp;Top Rated</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-list"></i>&nbsp;&nbsp;&nbsp;Categories</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-question"></i>&nbsp;&nbsp;&nbsp;&nbsp;Coming
+                                Soon</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle"><i class="fas fa-trophy"></i> Esports <i
+                                class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-trophy"></i>&nbsp;&nbsp;Tournaments</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-users"></i>&nbsp;&nbsp;Teams</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-circle-play"></i>&nbsp;&nbsp;&nbsp;Live
+                                Events</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-award"></i>&nbsp;&nbsp;&nbsp; Rankings</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle"><i class="fas fa-store"></i> Store <i
+                                class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-key"></i>&nbsp;&nbsp;Game Keys</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-box"></i>&nbsp;&nbsp;In-game Items</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-circle-exclamation"></i>&nbsp;&nbsp;Special
+                                Offers</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-gift"></i>&nbsp;&nbsp;Gift Cards</a>
+                        </div>
+                    </div>
+
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle"><i class="fas fa-users"></i> Community <i
+                                class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-comments"></i>&nbsp;&nbsp;Forums</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-play"></i>&nbsp;&nbsp;&nbsp;Streams</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-otter"></i>&nbsp;&nbsp;Guilds</a>
+                            <a href="#">&nbsp;&nbsp;&nbsp;<i class="fas fa-calendar-days"></i>&nbsp;&nbsp;&nbsp;News</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-bar">
+                    <i class="fa fa-search"></i>
+                    <input type="text" placeholder="Search games..." id="search-input" />
+                    <button id="clear-search"><i class="fa fa-times"></i></button>
+                    <div class="search-results" id="search-results"></div>
+                </div>
+
+                <div class="auth-buttons">
+                    <a href="auth.html"><button>Sign Up</button></a>
+                    <a href="auth.html"><button>Log In</button></a>
+                </div>
+            </nav>
+
+            <div class="enhanced-banner">
+                <div class="banner-overlay"></div>
+                <div class="banner-content">
+                    <h1 class="banner-title">Your Gaming Universe <span class="text-accent">Awaits</span></h1>
+                    <p class="banner-subtitle">Discover, download, and conquer the best gaming experiences all in one
+                        place</p>
+                    <div class="banner-buttons">
+                        <button class="btn-primary banner-btn"><i class="fas fa-rocket"></i> Explore Games</button>
+                        <button class="btn-secondary banner-btn"><i class="fas fa-fire"></i> What's Hot</button>
+                    </div>
+                    <div class="banner-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">300+</span>
+                            <span class="stat-label">Games</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">5M+</span>
+                            <span class="stat-label">Players</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">24/7</span>
+                            <span class="stat-label">Support</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="banner-image-container">
+                    <img src="Untitled design (18).png" alt="Welcome to EVELON!" class="banner-image" />
+                    <div class="floating-game-covers">
+                        <img src="Mumbai City FC.png" alt="ELEVEN 28" class="floating-cover" />
+                        <img src="VELOCITY.png" alt="VELOCITY 28" class="floating-cover" />
+                        <img src="Add a heading (2).png" alt="FIREBACK!" class="floating-cover" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-fire"></i> Featured Games</h2>
+                <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+
+            <div class="featured-games-container">
+                <!-- Main Featured Game -->
+                <div class="featured-game-main">
+                    <div class="featured-game-content">
+                        <div class="featured-game-badge">Featured</div>
+                        <h2>ELEVEN 28</h2> <br>
+                        <div class="featured-game-meta">
+                            <span class="game-category"><i class="fas fa-futbol"></i> Sports</span>
+                            <span class="game-rating"><i class="fas fa-star"></i> 4.9</span>
+                            <span class="game-players"><i class="fas fa-users"></i> 2M+ Players</span>
+                        </div>
+                        <p class="featured-game-desc">
+                            Experience the thrill of the ultimate football simulation with realistic gameplay mechanics,
+                            advanced AI, and stunning graphics. Build your dream team and compete against players
+                            worldwide.
+                        </p>
+                        <div class="featured-game-specs">
+                            <div class="spec-item">
+                                <span class="spec-label">Developer</span>
+                                <span class="spec-value">Evelon Sports</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">Release Date</span>
+                                <span class="spec-value">Oct 15, 2024</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="spec-label">File Size</span>
+                                <span class="spec-value">42 GB</span>
+                            </div>
+                        </div>
+                        <div class="featured-game-actions">
+                            <button class="btn-primary"><i class="fas fa-play"></i> Play Now</button>
+                            <button class="btn-secondary"><i class="fas fa-plus"></i> Add to Library</button>
+                            <button class="btn-icon"><i class="fas fa-share-alt"></i></button>
+                        </div>
+                    </div>
+                    <div class="featured-game-media">
+                        <img src="Mumbai City FC.png" alt="ELEVEN 28" class="featured-game-image">
+                        <div class="featured-game-trailer">
+                            <button class="trailer-button" title="Watch Trailer">
+                                <i class="fas fa-play"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Games Grid -->
+                <div class="featured-games-grid">
+                    <div class="featured-game-card">
+                        <div class="card-badge new">New</div>
+                        <img src="VELOCITY.png" alt="VELOCITY 28" class="card-image">
+                        <div class="card-content">
+                            <h3 class="card-title">VELOCITY 28</h3>
+                            <div class="card-meta">
+                                <span class="meta-item"><i class="fas fa-car"></i> Racing</span>
+                                <span class="meta-item"><i class="fas fa-star"></i> 4.7</span>
+                            </div>
+                            <button class="btn-card"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                    <div class="featured-game-card">
+                        <div class="card-badge update">Updated</div>
+                        <img src="Add a heading (2).png" alt="FIREBACK!" class="card-image">
+                        <div class="card-content">
+                            <h3 class="card-title">FIREBACK!</h3>
+                            <div class="card-meta">
+                                <span class="meta-item"><i class="fas fa-crosshairs"></i> FPS</span>
+                                <span class="meta-item"><i class="fas fa-star"></i> 4.8</span>
+                            </div>
+                            <button class="btn-card"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                    <div class="featured-game-card">
+                        <div class="card-badge">Popular</div>
+                        <img src="To Play.png" alt="CrickIT 28" class="card-image">
+                        <div class="card-content">
+                            <h3 class="card-title">CrickIT 28</h3>
+                            <div class="card-meta">
+                                <span class="meta-item"><i class="fas fa-baseball"></i> Sports</span>
+                                <span class="meta-item"><i class="fas fa-star"></i> 4.5</span>
+                            </div>
+                            <button class="btn-card"><i class="fas fa-download"></i> Download</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-gamepad"></i> Our Games</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="games-section">
+                <div class="game-card">
+                    <a href="eleven.html">
+                        <img src="Mumbai City FC.png" alt="ELEVEN 28" />
+                        <h3>ELEVEN 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="velocity.html">
+                        <img src="VELOCITY.png" alt="VELOCITY 28" />
+                        <h3>VELOCITY 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="crickit.html">
+                        <img src="To Play.png" alt="CrickIT 28" />
+                        <h3>CrickIT 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a
+                        href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
+                        <img src="Add a heading (2).png" alt="FIREBACK!" />
+                        <h3>FIREBACK!</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-fire"></i> Most Popular Games</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="games-section">
+                <div class="game-card">
+                    <a href="eleven.html">
+                        <img src="Mumbai City FC.png" alt="ELEVEN 28" />
+                        <h3>ELEVEN 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="velocity.html">
+                        <img src="VELOCITY.png" alt="VELOCITY 28" />
+                        <h3>VELOCITY 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="crickit.html">
+                        <img src="To Play.png" alt="CrickIT 28" />
+                        <h3>CrickIT 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a
+                        href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
+                        <img src="Add a heading (2).png" alt="FIREBACK!" />
+                        <h3>FIREBACK!</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-star"></i> New Releases</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="games-section">
+                <div class="game-card">
+                    <a href="eleven.html">
+                        <img src="Mumbai City FC.png" alt="ELEVEN 28" />
+                        <h3>ELEVEN 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="velocity.html">
+                        <img src="VELOCITY.png" alt="VELOCITY 28" />
+                        <h3>VELOCITY 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="crickit.html">
+                        <img src="To Play.png" alt="CrickIT 28" />
+                        <h3>CrickIT 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a
+                        href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
+                        <img src="Add a heading (2).png" alt="FIREBACK!" />
+                        <h3>FIREBACK!</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-tags"></i> Games on Sale</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="games-section">
+                <div class="game-card">
+                    <a href="eleven.html">
+                        <img src="Mumbai City FC.png" alt="ELEVEN 28" />
+                        <h3>ELEVEN 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="velocity.html">
+                        <img src="VELOCITY.png" alt="VELOCITY 28" />
+                        <h3>VELOCITY 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="crickit.html">
+                        <img src="To Play.png" alt="CrickIT 28" />
+                        <h3>CrickIT 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a
+                        href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
+                        <img src="Add a heading (2).png" alt="FIREBACK!" />
+                        <h3>FIREBACK!</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-clock"></i> Coming Soon</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="games-section">
+                <div class="game-card">
+                    <a href="eleven.html">
+                        <img src="Mumbai City FC.png" alt="ELEVEN 28" />
+                        <h3>ELEVEN 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="velocity.html">
+                        <img src="VELOCITY.png" alt="VELOCITY 28" />
+                        <h3>VELOCITY 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="crickit.html">
+                        <img src="To Play.png" alt="CrickIT 28" />
+                        <h3>CrickIT 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a
+                        href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
+                        <img src="Add a heading (2).png" alt="FIREBACK!" />
+                        <h3>FIREBACK!</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-trophy"></i> Top Rated</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="games-section">
+                <div class="game-card">
+                    <a href="eleven.html">
+                        <img src="Mumbai City FC.png" alt="ELEVEN 28" />
+                        <h3>ELEVEN 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="velocity.html">
+                        <img src="VELOCITY.png" alt="VELOCITY 28" />
+                        <h3>VELOCITY 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="crickit.html">
+                        <img src="To Play.png" alt="CrickIT 28" />
+                        <h3>CrickIT 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a
+                        href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
+                        <img src="Add a heading (2).png" alt="FIREBACK!" />
+                        <h3>FIREBACK!</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-gun"></i> Action Games</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="games-section">
+                <div class="game-card">
+                    <a href="eleven.html">
+                        <img src="Mumbai City FC.png" alt="ELEVEN 28" />
+                        <h3>ELEVEN 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="velocity.html">
+                        <img src="VELOCITY.png" alt="VELOCITY 28" />
+                        <h3>VELOCITY 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="crickit.html">
+                        <img src="To Play.png" alt="CrickIT 28" />
+                        <h3>CrickIT 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a
+                        href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
+                        <img src="Add a heading (2).png" alt="FIREBACK!" />
+                        <h3>FIREBACK!</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-hat-wizard"></i> RPG Adventures</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="games-section">
+                <div class="game-card">
+                    <a href="eleven.html">
+                        <img src="Mumbai City FC.png" alt="ELEVEN 28" />
+                        <h3>ELEVEN 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="velocity.html">
+                        <img src="VELOCITY.png" alt="VELOCITY 28" />
+                        <h3>VELOCITY 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="crickit.html">
+                        <img src="To Play.png" alt="CrickIT 28" />
+                        <h3>CrickIT 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a
+                        href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
+                        <img src="Add a heading (2).png" alt="FIREBACK!" />
+                        <h3>FIREBACK!</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-flag-checkered"></i> Racing Games</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="games-section">
+                <div class="game-card">
+                    <a href="eleven.html">
+                        <img src="Mumbai City FC.png" alt="ELEVEN 28" />
+                        <h3>ELEVEN 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="velocity.html">
+                        <img src="VELOCITY.png" alt="VELOCITY 28" />
+                        <h3>VELOCITY 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="crickit.html">
+                        <img src="To Play.png" alt="CrickIT 28" />
+                        <h3>CrickIT 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a
+                        href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
+                        <img src="Add a heading (2).png" alt="FIREBACK!" />
+                        <h3>FIREBACK!</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-crown"></i> Exclusive Games</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="games-section">
+                <div class="game-card">
+                    <a href="eleven.html">
+                        <img src="Mumbai City FC.png" alt="ELEVEN 28" />
+                        <h3>ELEVEN 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="velocity.html">
+                        <img src="VELOCITY.png" alt="VELOCITY 28" />
+                        <h3>VELOCITY 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a href="crickit.html">
+                        <img src="To Play.png" alt="CrickIT 28" />
+                        <h3>CrickIT 28</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <a
+                        href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
+                        <img src="Add a heading (2).png" alt="FIREBACK!" />
+                        <h3>FIREBACK!</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-gift"></i> Free to Play</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="games-section">
+                <div class="game-card">
+                    <div class="card-badge">Free</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Battle Arena" />
+                        <h3>Battle Arena</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">Free</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Cosmic Wars" />
+                        <h3>Cosmic Wars</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">Free</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Magic Duel" />
+                        <h3>Magic Duel</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">Free</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Team Tactics" />
+                        <h3>Team Tactics</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-ranking-star"></i> Competitive Games</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="games-section">
+                <div class="game-card">
+                    <div class="card-badge">Ranked</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Arena Masters" />
+                        <h3>Arena Masters</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">Ranked</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Tactical Force" />
+                        <h3>Tactical Force</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">Ranked</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="League Champions" />
+                        <h3>League Champions</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">Ranked</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Battle Royale" />
+                        <h3>Battle Royale</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-lightbulb"></i> Indie Spotlight</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="games-section">
+                <div class="game-card">
+                    <div class="card-badge">Indie</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Pixel Dreams" />
+                        <h3>Pixel Dreams</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">Indie</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Retro Quest" />
+                        <h3>Retro Quest</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">Indie</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Tiny Tales" />
+                        <h3>Tiny Tales</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">Indie</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Puzzle World" />
+                        <h3>Puzzle World</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-flask"></i> Early Access</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="games-section">
+                <div class="game-card">
+                    <div class="card-badge">Early Access</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Project X" />
+                        <h3>Project X</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Play Beta
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">Early Access</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Space Colony" />
+                        <h3>Space Colony</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Play Beta
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">Early Access</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Monster Tamer" />
+                        <h3>Monster Tamer</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Play Beta
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">Early Access</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Dungeon Maker" />
+                        <h3>Dungeon Maker</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Play Beta
+                            </button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-arrow-rotate-right"></i> Recently Updated</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="games-section">
+                <div class="game-card">
+                    <div class="card-badge">New Update</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Cyber Legends" />
+                        <h3>Cyber Legends</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Update
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">New Update</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Fantasy Wars" />
+                        <h3>Fantasy Wars</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Update
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">New Update</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Space Explorers" />
+                        <h3>Space Explorers</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Update
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">New Update</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Racing Glory" />
+                        <h3>Racing Glory</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Update
+                            </button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-heart"></i> Community Favorites</h2>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="games-section">
+                <div class="game-card">
+                    <div class="card-badge">Top Rated</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Epic Warriors" />
+                        <h3>Epic Warriors</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">Top Rated</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Magic Masters" />
+                        <h3>Magic Masters</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">Top Rated</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Dragon Saga" />
+                        <h3>Dragon Saga</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+                <div class="game-card">
+                    <div class="card-badge">Top Rated</div>
+                    <a href="#">
+                        <img src="Circles__1_-removebg-preview.png" alt="Battle League" />
+                        <h3>Battle League</h3>
+                        <div class="game-overlay">
+                            <button class="btn-primary">
+                                <i class="fas fa-download"></i> Download
+                            </button>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="section-header">
+                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-newspaper"></i> News & Updates</h2>
+                <a href="newsmain.html" class="view-all">View All</a>
+            </div>
+
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="Mumbai City FC.png" alt="News Image" />
+                    </div>
+                    <div class="news-content">
+                        <span class="news-date">May 05, 2025</span>
+                        <h3 class="news-title">ELEVEN 28 Season Update Coming Soon</h3>
+                        <p class="news-excerpt">
+                            Get ready for new teams, improved gameplay mechanics, and
+                            exciting new features!
+                        </p>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="VELOCITY.png" alt="News Image" />
+                    </div>
+                    <div class="news-content">
+                        <span class="news-date">April 28, 2025</span>
+                        <h3 class="news-title">VELOCITY 28 Tournament Finals</h3>
+                        <p class="news-excerpt">
+                            Watch the best players compete for the championship and
+                            amazing prizes.
+                        </p>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-image">
+                        <img src="To Play.png" alt="News Image" />
+                    </div>
+                    <div class="news-content">
+                        <span class="news-date">April 20, 2025</span>
+                        <h3 class="news-title">CrickIT 28 World Cup Mode Released</h3>
+                        <p class="news-excerpt">
+                            Experience the thrill of international cricket with the new
+                            World Cup mode!
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Evelon</h3>
+                <p>Your gateway to the best games and gaming communities. Join us in shaping the future of gaming.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">News Archive</a></li>
+                    <li><a href="#">Support Center</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <ul>
+                    <li><a href="#"><i class="fab fa-discord"></i> Discord</a></li>
+                    <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                    <li><a href="#"><i class="fab fa-reddit"></i> Reddit</a></li>
+                    <li><a href="#"><i class="fab fa-github"></i> GitHub</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Evelon Launcher. All rights reserved.</p>
+        </div>
+    </footer>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        // Main application initialization
+        document.addEventListener('DOMContentLoaded', initializeApp);
+
+        function initializeApp() {
+            createParticles();
+            initializeDropdowns();
+            initializeLogo();
+            initializeSearchBar();
+            initializeGameCards();
+            initializeMobileNav();
+            initializeImageFallbacks();
+            initializeServiceWorker();
+            initializeNotifications();
+            initializeAccordions();
+            setupEventListeners();
+        }
+
+        // Loading screen management
+        const LoadingManager = {
+            progressValue: 0,
+            tipInterval: null,
+            loadingInterval: null,
+
+            initialize() {
+                const loadingTips = [
+                    "Press 'F1' for game controls and shortcuts.",
+                    "Join our Discord community for exclusive events!",
+                    "You can customize your profile in the settings menu.",
+                    "Challenge your friends to multiplayer matches!",
+                    "Don't forget to check daily rewards."
+                ];
+
+                this.updateLoadingTips(loadingTips);
+                this.startLoadingSimulation();
+            },
+
+            updateLoadingTips(tips) {
+                let currentTip = 0;
+                const tipElement = document.querySelector(".loading-tip");
+
+                this.tipInterval = setInterval(() => {
+                    tipElement.style.opacity = "0";
+                    setTimeout(() => {
+                        currentTip = (currentTip + 1) % tips.length;
+                        tipElement.textContent = tips[currentTip];
+                        tipElement.style.opacity = "1";
+                    }, 500);
+                }, 3000);
+            },
+
+            startLoadingSimulation() {
+                const progress = document.querySelector(".progress");
+                const progressText = document.querySelector(".progress-percentage");
+                const loadingScreen = document.getElementById("loadingScreen");
+
+                const updateProgress = () => {
+                    if (this.progressValue < 100) {
+                        if (this.progressValue < 70) {
+                            this.progressValue += 0.5;
+                        } else if (this.progressValue < 90) {
+                            this.progressValue += 0.2;
+                        } else {
+                            this.progressValue += 0.1;
+                        }
+
+                        progress.style.width = `${this.progressValue}%`;
+                        progressText.textContent = `${Math.round(this.progressValue)}%`;
+                        requestAnimationFrame(updateProgress);
+                    } else {
+                        this.completeLoading(progressText, loadingScreen);
+                    }
+                };
+
+                requestAnimationFrame(updateProgress);
+            },
+
+            completeLoading(progressText, loadingScreen) {
+                clearInterval(this.tipInterval);
+                progressText.textContent = "Ready!";
+                progressText.style.color = "#39ff14";
+
+                setTimeout(() => {
+                    loadingScreen.style.opacity = "0";
+                    setTimeout(() => {
+                        loadingScreen.style.display = "none";
+                        animateContent();
+                    }, 800);
+                }, 500);
+            }
+        };
+
+        // Particle system
+        function createParticles() {
+            const fragment = document.createDocumentFragment();
+            const container = document.createElement('div');
+            container.className = 'particles-container';
+
+            const particleCount = window.innerWidth < 768 ? 25 : 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+
+                particle.style.cssText = `
+            left: ${Math.random() * 100}%;
+            top: ${Math.random() * 100}%;
+            width: ${Math.random() * 5 + 2}px;
+            height: ${Math.random() * 5 + 2}px;
+            animation: floatParticle ${Math.random() * 20 + 10}s linear infinite;
+            animation-delay: ${-Math.random() * 20}s;
+        `;
+
+                fragment.appendChild(particle);
+            }
+
+            container.appendChild(fragment);
+            document.getElementById('loadingScreen').appendChild(container);
+        }
+
+        // Search functionality with debounce
+        const SearchManager = {
+            timeout: null,
+            games: [
+                { 
+                    name: "ELEVEN 28", 
+                    image: "Mumbai City FC.png",
+                    category: "Sports",
+                    rating: "4.9",
+                    players: "2M+"
+                },
+                { 
+                    name: "VELOCITY 28", 
+                    image: "VELOCITY.png",
+                    category: "Racing",
+                    rating: "4.7",
+                    players: "1.5M+"
+                },
+                { 
+                    name: "CrickIT 28", 
+                    image: "To Play.png",
+                    category: "Sports",
+                    rating: "4.5",
+                    players: "800K+"
+                },
+                { 
+                    name: "FIREBACK!", 
+                    image: "Add a heading (2).png",
+                    category: "FPS",
+                    rating: "4.8",
+                    players: "1.8M+"
+                },
+                { 
+                    name: "Fantasy Quest", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "RPG",
+                    rating: "4.9",
+                    players: "2.3M+"
+                },
+                { 
+                    name: "Dragon Slayer", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "RPG",
+                    rating: "4.9",
+                    players: "2M+"
+                },
+                { 
+                    name: "Magic Academy", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "RPG",
+                    rating: "4.9",
+                    players: "2.1M+"
+                },
+                { 
+                    name: "Cyber Warriors", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Action",
+                    rating: "4.8",
+                    players: "1.2M+"
+                },
+                { 
+                    name: "Robot Wars", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Action",
+                    rating: "4.5",
+                    players: "800K+"
+                },
+                { 
+                    name: "Ninja Way", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Action",
+                    rating: "4.7",
+                    players: "1.1M+"
+                },
+                { 
+                    name: "Fantasy World", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "RPG",
+                    rating: "4.8",
+                    players: "1.5M+"
+                },
+                { 
+                    name: "Monster Tamer", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "RPG",
+                    rating: "4.8",
+                    players: "1.3M+"
+                },
+                { 
+                    name: "Dungeon Master", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "RPG",
+                    rating: "4.8",
+                    players: "1.4M+"
+                },
+                { 
+                    name: "Racing GT", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Racing",
+                    rating: "4.7",
+                    players: "1.6M+"
+                },
+                { 
+                    name: "Street Kings", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Racing",
+                    rating: "4.8",
+                    players: "1.7M+"
+                },
+                { 
+                    name: "Neon Drift", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Racing",
+                    rating: "4.8",
+                    players: "1.8M+"
+                },
+                { 
+                    name: "Battle Arena", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Action",
+                    rating: "4.6",
+                    players: "1.2M+"
+                },
+                { 
+                    name: "Cosmic Wars", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Strategy",
+                    rating: "4.7",
+                    players: "1.5M+"
+                },
+                { 
+                    name: "Magic Duel", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Card Game",
+                    rating: "4.8",
+                    players: "2M+"
+                },
+                { 
+                    name: "Team Tactics", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Strategy",
+                    rating: "4.7",
+                    players: "1.3M+"
+                },
+                { 
+                    name: "Arena Masters", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Action",
+                    rating: "4.9",
+                    players: "2.5M+"
+                },
+                { 
+                    name: "Tactical Force", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Strategy",
+                    rating: "4.8",
+                    players: "1.8M+"
+                },
+                { 
+                    name: "League Champions", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Sports",
+                    rating: "4.9",
+                    players: "2.2M+"
+                },
+                { 
+                    name: "Battle Royale", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Action",
+                    rating: "4.7",
+                    players: "1.6M+"
+                },
+                { 
+                    name: "Exclusive Title 1", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Adventure",
+                    rating: "4.9",
+                    players: "3M+"
+                },
+                { 
+                    name: "Exclusive Title 2", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Simulation",
+                    rating: "4.8",
+                    players: "2.8M+"
+                },
+                { 
+                    name: "Exclusive Title 3", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Puzzle",
+                    rating: "4.7",
+                    players: "1.9M+"
+                },
+                { 
+                    name: "Exclusive Title 4", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Horror",
+                    rating: "4.6",
+                    players: "1.4M+"
+                },
+                { 
+                    name: "Exclusive Title 5", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Platformer",
+                    rating: "4.9",
+                    players: "2.7M+"
+                },
+                { 
+                    name: "Exclusive Title 6", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Fighting",
+                    rating: "4.8",
+                    players: "2.1M+"
+                },
+                { 
+                    name: "Exclusive Title 7", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Stealth",
+                    rating: "4.7",
+                    players: "1.6M+"
+                },
+                { 
+                    name: "Exclusive Title 8", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Survival",
+                    rating: "4.6",
+                    players: "1.2M+"
+                },
+                { 
+                    name: "Exclusive Title 9", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Roguelike",
+                    rating: "4.9",
+                    players: "2.9M+"
+                },
+                { 
+                    name: "Exclusive Title 10", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "MOBA",
+                    rating: "4.8",
+                    players: "2.3M+"
+                },
+                { 
+                    name: "Exclusive Title 11", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "RTS",
+                    rating: "4.7",
+                    players: "1.8M+"
+                },
+                { 
+                    name: "Exclusive Title 12", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Tactical RPG",
+                    rating: "4.6",
+                    players: "1.5M+"
+                },
+                { 
+                    name: "Exclusive Title 13", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Visual Novel",
+                    rating: "4.9",
+                    players: "3.1M+"
+                },
+                { 
+                    name: "Exclusive Title 14", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Rhythm",
+                    rating: "4.8",
+                    players: "2.6M+"
+                },
+                { 
+                    name: "Exclusive Title 15", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Music",
+                    rating: "4.7",
+                    players: "2.2M+"
+                },
+                { 
+                    name: "NightRunner", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Action",
+                    rating: "4.8",
+                    players: "2.1M+"
+                },
+                { 
+                    name: "Mystic Realms", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "RPG",
+                    rating: "4.9",
+                    players: "2.4M+"
+                },
+                { 
+                    name: "Space Pioneers", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Strategy",
+                    rating: "4.7",
+                    players: "1.9M+"
+                },
+                { 
+                    name: "Dragon's Legacy", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "RPG",
+                    rating: "4.8",
+                    players: "2.2M+"
+                },
+                { 
+                    name: "Cyber Siege", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "FPS",
+                    rating: "4.7",
+                    players: "1.8M+"
+                },
+                { 
+                    name: "Urban Legends", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Horror",
+                    rating: "4.6",
+                    players: "1.5M+"
+                },
+                { 
+                    name: "Cyber Hunters", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Battle Royale",
+                    rating: "4.8",
+                    players: "2.3M+"
+                },
+                { 
+                    name: "Monster Hunter", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Action",
+                    rating: "4.9",
+                    players: "2.5M+"
+                },
+                { 
+                    name: "Quantum Break", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Action",
+                    rating: "4.7",
+                    players: "1.7M+"
+                },
+                { 
+                    name: "Pixel Warriors", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Fighting",
+                    rating: "4.6",
+                    players: "1.4M+"
+                },
+                { 
+                    name: "Medieval Glory", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Strategy",
+                    rating: "4.8",
+                    players: "2.0M+"
+                },
+                { 
+                    name: "Stealth Master", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Stealth",
+                    rating: "4.7",
+                    players: "1.6M+"
+                },
+                { 
+                    name: "Zombie Survival", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Survival",
+                    rating: "4.6",
+                    players: "1.8M+"
+                },
+                { 
+                    name: "Racing Masters", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Racing",
+                    rating: "4.8",
+                    players: "2.1M+"
+                },
+                { 
+                    name: "Space Warriors", 
+                    image: "Circles__1_-removebg-preview.png",
+                    category: "Sci-Fi",
+                    rating: "4.7",
+                    players: "1.9M+"
+                }
+            ],
+
+            initialize() {
+                const searchInput = document.getElementById("search-input");
+                const searchResults = document.getElementById("search-results");
+                const clearSearch = document.getElementById("clear-search");
+
+                searchInput.addEventListener("input", this.debounceSearch.bind(this, searchResults, clearSearch));
+                clearSearch.addEventListener("click", () => this.clearSearchResults(searchInput, searchResults, clearSearch));
+                
+                // Close search results when clicking outside
+                document.addEventListener('click', (e) => {
+                    if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                        searchResults.style.display = 'none';
+                    }
+                });
+            },
+
+            debounceSearch(searchResults, clearSearch, event) {
+                clearTimeout(this.timeout);
+                this.timeout = setTimeout(() => {
+                    this.performSearch(event.target.value, searchResults, clearSearch);
+                }, 250);
+            },
+
+            performSearch(query, searchResults, clearSearch) {
+                query = query.toLowerCase().trim();
+                searchResults.innerHTML = "";
+
+                if (!query) {
+                    clearSearch.style.display = "none";
+                    searchResults.style.display = "none";
+                    return;
+                }
+
+                const filteredGames = this.games.filter(game =>
+                    game.name.toLowerCase().includes(query) ||
+                    game.category.toLowerCase().includes(query)
+                );
+
+                this.displayResults(filteredGames, query, searchResults, clearSearch);
+            },
+
+            displayResults(filteredGames, query, searchResults, clearSearch) {
+                clearSearch.style.display = "block";
+                searchResults.style.display = "flex";
+
+                if (filteredGames.length === 0) {
+                    searchResults.innerHTML = `
+                <div class="no-results">
+                    <i class="fas fa-search"></i>
+                    <p>No results found for "${query}"</p>
+                    <small>Try searching for something else</small>
+                </div>`;
+                    return;
+                }
+
+                filteredGames.forEach(game => {
+                    const gameLink = document.createElement("a");
+                    gameLink.href = "#";
+                    gameLink.innerHTML = `
+                <img src="${game.image}" alt="${game.name}">
+                <span>
+                    ${game.name}
+                    <div class="game-meta">
+                        <span><i class="fas fa-gamepad"></i> ${game.category}</span>
+                        <span><i class="fas fa-star"></i> ${game.rating}</span>
+                        <span><i class="fas fa-users"></i> ${game.players}</span>
+                    </div>
+                </span>
+            `;
+                    searchResults.appendChild(gameLink);
+                });
+            },
+
+            clearSearchResults(searchInput, searchResults, clearSearch) {
+                searchInput.value = "";
+                searchResults.style.display = "none";
+                clearSearch.style.display = "none";
+                searchInput.focus();
+            }
+        };
+
+        // Animation Manager
+        const AnimationManager = {
+            initialize() {
+                this.setupLogoAnimation();
+                this.setupNavigationAnimation();
+                this.setupParallaxEffect();
+            },
+
+            setupLogoAnimation() {
+                const logo = document.querySelector('.logo img');
+
+                logo.addEventListener('mouseenter', () => {
+                    logo.style.transition = 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                    logo.style.transform = 'scale(1.08) rotate(5deg)';
+                    logo.style.filter = 'drop-shadow(0 0 20px rgba(57, 255, 20, 0.8))';
+                });
+
+                logo.addEventListener('mouseleave', () => {
+                    logo.style.transition = 'all 0.5s cubic-bezier(0.34, 0.56, 0.64, 1)';
+                    logo.style.transform = 'scale(1) rotate(0deg)';
+                    logo.style.filter = 'drop-shadow(0 0 5px rgba(57, 255, 20, 0.3))';
+                });
+            },
+
+            setupNavigationAnimation() {
+                document.querySelectorAll(".nav-links a").forEach(link => {
+                    link.addEventListener('mouseenter', () => {
+                        link.style.transform = 'translateY(-3px)';
+                        link.style.color = '#39FF14';
+                    });
+
+                    link.addEventListener('mouseleave', () => {
+                        link.style.transform = 'translateY(0)';
+                        link.style.color = '';
+                    });
+                });
+            },
+
+            setupParallaxEffect() {
+                const banner = document.querySelector(".banner img");
+                if (banner) {
+                    window.addEventListener('scroll', () => {
+                        const scrollPosition = window.scrollY;
+                        if (scrollPosition < 500) {
+                            requestAnimationFrame(() => {
+                                banner.style.transform = `translateY(${scrollPosition * 0.2}px)`;
+                            });
+                        }
+                    }, { passive: true });
+                }
+            }
+        };
+
+        // Initialize everything when the window loads
+        window.onload = function () {
+            LoadingManager.initialize();
+            SearchManager.initialize();
+            AnimationManager.initialize();
+        };
+
+        // Cleanup function for memory management
+        function cleanup() {
+            window.removeEventListener('scroll', AnimationManager.setupParallaxEffect);
+            clearInterval(LoadingManager.tipInterval);
+            clearTimeout(SearchManager.timeout);
+        }
+
+        // Add cleanup on page unload
+        window.addEventListener('unload', cleanup);
+    </script>
+</body>
+
+</html>

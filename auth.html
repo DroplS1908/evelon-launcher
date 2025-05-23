@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Evelon - Login/Sign Up</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+    <link rel="manifest" href="manifest.json" />
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap");
+
+        :root {
+            --neon-green: #39ff14;
+            --neon-green-glow: 0 0 10px rgba(57, 255, 20, 0.5);
+            --neon-green-hover: #2ecc71;
+            --primary: #39ff14;
+            --primary-hover: #2ecc71;
+            --dark: #0d0d0d;
+            --dark-light: #080808;
+            --panel-bg: #0a0a0ad9;
+            --card-bg: #222;
+            --card-hover: #2a2a2a;
+            --bg-element: #1a1a1a;
+            --bg-element-hover: #222;
+            --text: #fff;
+            --text-secondary: #bbb;
+            --purple-glow: rgba(157, 78, 221, 0.3);
+            --green-glow: rgba(57, 255, 20, 0.5);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --text-muted: #888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            cursor: url("mouse.cur"), auto;
+            background-color: var(--dark);
+            font-family: "Poppins", sans-serif;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .auth-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: 100vh;
+            padding: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .auth-box {
+            background: var(--panel-bg);
+            backdrop-filter: blur(15px);
+            padding: 40px;
+            width: 450px;
+            min-width: 450px;
+            height: 100vh;
+            border-right: 1px solid rgba(57, 255, 20, 0.1);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .auth-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            animation: scan-line 3s linear infinite;
+            box-shadow: 0 0 8px var(--primary);
+        }
+
+        @keyframes scan-line {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .auth-content {
+            max-height: 100%;
+            overflow-y: auto;
+            padding-right: 10px;
+            margin-right: -10px; /* Compensate for the scrollbar space */
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .auth-content::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .auth-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .auth-content::-webkit-scrollbar-thumb {
+            background: rgba(57, 255, 20, 0.2);
+            border-radius: 10px;
+        }
+
+        .auth-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(57, 255, 20, 0.4);
+        }
+
+        /* Adjust form spacing */
+        #signup-form .form-group {
+            margin-bottom: 15px; /* Reduced from 25px */
+        }
+
+        #signup-form .form-group input {
+            padding: 12px 15px 12px 40px; /* Reduced padding */
+        }
+
+        #signup-form .social-login {
+            margin-bottom: 10px;
+        }
+
+        #signup-form .divider {
+            margin: 20px 0; /* Reduced from 30px */
+        }
+
+        .logo {
+            margin-bottom: 20px; /* Reduced from 30px */
+        }
+
+        .logo img {
+            height: 60px; /* Reduced from 80px */
+        }
+
+        .tabs {
+            margin-bottom: 20px; /* Reduced from 30px */
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            position: relative;
+        }
+
+        .tab.active {
+            color: var(--primary);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 15px 15px 45px;
+            background: var(--bg-element);
+            border: 1px solid rgba(57, 255, 20, 0.1);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: "Poppins", sans-serif;
+            font-size: 15px;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.2);
+        }
+
+        .form-group input:focus + i {
+            color: var(--primary);
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 15px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 10px;
+            font-family: "Poppins", sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .auth-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            transition: var(--transition);
+            z-index: -1;
+        }
+
+        .auth-btn:hover {
+            color: var(--dark);
+        }
+
+        .auth-btn:hover::before {
+            left: 0;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 30px 0;
+            color: var(--text-muted);
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(57, 255, 20, 0.1);
+        }
+
+        .divider span {
+            padding: 0 10px;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-element);
+            border: 1px solid rgba(57, 255, 20, 0.1);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .social-btn i {
+            font-size: 20px;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .social-btn:hover {
+            transform: translateY(-5px);
+            background: var(--bg-element-hover);
+            border-color: var(--primary);
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.2);
+        }
+
+        .social-btn:hover i {
+            color: var(--primary);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 30px;
+            color: var(--text-secondary);
+        }
+
+        .form-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        #signup-form {
+            display: none;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .remember-me input[type="checkbox"] {
+            accent-color: var(--primary);
+        }
+
+        .forgot-password {
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        /* Cyberpunk Background */
+        .cyber-background {
+            position: fixed;
+            top: 0;
+            left: 450px;
+            right: 0;
+            height: 100vh;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--primary);
+            filter: blur(5px);
+            opacity: 0.5;
+            animation: float 10s infinite;
+        }
+
+        .dot {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: blink 2s infinite;
+        }
+
+        .line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            height: 1px;
+            width: 100px;
+            filter: blur(1px);
+            animation: scan 8s linear infinite;
+        }
+
+        .hexagon {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            animation: rotate 10s linear infinite;
+            filter: blur(1px);
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            50% {
+                transform: translateY(0) translateX(20px);
+            }
+            75% {
+                transform: translateY(20px) translateX(10px);
+            }
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scan {
+            0% {
+                transform: translateY(-100vh) rotate(45deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(45deg);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Grid Pattern */
+        .grid-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(57, 255, 20, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(57, 255, 20, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.2;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="auth-content">
+                <div class="logo">
+                    <a href="EVELON.html">
+                        <img src="Circles__1_-removebg-preview.png" alt="Evelon Logo">
+                    </a>
+                </div>
+
+                <div class="tabs">
+                    <div class="tab active" data-tab="login">Login</div>
+                    <div class="tab" data-tab="signup">Sign Up</div>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-form">
+                    <div class="form-group">
+                        <input type="email" placeholder="Email" required>
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Password" required>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="remember-forgot">
+                        <label class="remember-me">
+                            <input type="checkbox">
+                            Remember me
+                        </label>
+                        <a href="#" class="forgot-password">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="auth-btn">Login</button>
+
+                    <div class="divider">
+                        <span>Or continue with</span>
+                    </div>
+
+                    <div class="social-login">
+                        <div class="social-btn">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div class="social-btn">
+                            <i class="fab fa-facebook-f"></i>
+                        </div>
+                        <div class="social-btn">
+                            <i class="fab fa-discord"></i>
+                        </div>
+                        <div class="social-btn">
+                            <i class="fab fa-github"></i>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Sign Up Form -->
+                <form id="signup-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Username" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email" required>
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Password" required>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Confirm Password" required>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <button type="submit" class="auth-btn">Create Account</button>
+
+                    <div class="divider">
+                        <span>Or sign up with</span>
+                    </div>
+
+                    <div class="social-login">
+                        <div class="social-btn">
+                            <i class="fab fa-google"></i>
+                        </div>
+                        <div class="social-btn">
+                            <i class="fab fa-facebook-f"></i>
+                        </div>
+                        <div class="social-btn">
+                            <i class="fab fa-discord"></i>
+                        </div>
+                        <div class="social-btn">
+                            <i class="fab fa-github"></i>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Cyberpunk Background -->
+        <div class="cyber-background">
+            <div class="grid-pattern"></div>
+            <script>
+                function createElements() {
+                    const background = document.querySelector('.cyber-background');
+                    
+                    // Create shapes
+                    for (let i = 0; i < 15; i++) {
+                        const shape = document.createElement('div');
+                        shape.className = 'shape';
+                        shape.style.width = Math.random() * 50 + 20 + 'px';
+                        shape.style.height = shape.style.width;
+                        shape.style.left = Math.random() * 100 + '%';
+                        shape.style.top = Math.random() * 100 + '%';
+                        shape.style.animationDelay = Math.random() * 5 + 's';
+                        shape.style.opacity = Math.random() * 0.3;
+                        background.appendChild(shape);
+                    }
+
+                    // Create dots
+                    for (let i = 0; i < 50; i++) {
+                        const dot = document.createElement('div');
+                        dot.className = 'dot';
+                        dot.style.left = Math.random() * 100 + '%';
+                        dot.style.top = Math.random() * 100 + '%';
+                        dot.style.animationDelay = Math.random() * 2 + 's';
+                        background.appendChild(dot);
+                    }
+
+                    // Create scanning lines
+                    for (let i = 0; i < 5; i++) {
+                        const line = document.createElement('div');
+                        line.className = 'line';
+                        line.style.left = Math.random() * 100 + '%';
+                        line.style.animationDelay = Math.random() * 8 + 's';
+                        background.appendChild(line);
+                    }
+
+                    // Create hexagons
+                    for (let i = 0; i < 10; i++) {
+                        const hexagon = document.createElement('div');
+                        hexagon.className = 'hexagon';
+                        hexagon.style.left = Math.random() * 100 + '%';
+                        hexagon.style.top = Math.random() * 100 + '%';
+                        hexagon.style.animationDelay = Math.random() * 5 + 's';
+                        background.appendChild(hexagon);
+                    }
+                }
+
+                // Initialize background elements
+                document.addEventListener('DOMContentLoaded', createElements);
+            </script>
+        </div>
+    </div>
+
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-analytics-compat.js"></script>
+
+    <script>
+        // Your web app's Firebase configuration
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+            apiKey: "AIzaSyDzYCwyxG3sFNwky3JCXYoyi7oiktc5obs",
+            authDomain: "evelon-4be7d.firebaseapp.com",
+            projectId: "evelon-4be7d",
+            storageBucket: "evelon-4be7d.firebasestorage.app",
+            messagingSenderId: "761008629192",
+            appId: "1:761008629192:web:fe562d826ebc4a2d2eccfd",
+            measurementId: "G-31FTK5C4SD"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        // Initialize Analytics
+        firebase.analytics();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const loginForm = document.getElementById('login-form');
+            const signupForm = document.getElementById('signup-form');
+
+            // Handle Login
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = loginForm.querySelector('input[type="email"]').value;
+                const password = loginForm.querySelector('input[type="password"]').value;
+
+                try {
+                    const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+                    // Successful login
+                    window.location.href = 'EVELON.html';
+                } catch (error) {
+                    alert(error.message);
+                }
+            });
+
+            // Handle Sign Up
+            signupForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const username = signupForm.querySelector('input[type="text"]').value;
+                const email = signupForm.querySelector('input[type="email"]').value;
+                const password = signupForm.querySelector('input[type="password"]').value;
+                const confirmPassword = signupForm.querySelectorAll('input[type="password"]')[1].value;
+
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match');
+                    return;
+                }
+
+                try {
+                    // Create user account
+                    const userCredential = await firebase.auth().createUserWithEmailAndPassword(email, password);
+                    
+                    // Update profile with username and default avatar
+                    await userCredential.user.updateProfile({
+                        displayName: username,
+                        photoURL: `https://api.dicebear.com/6.x/avataaars/svg?seed=${username}`
+                    });
+
+                    // Redirect to main page
+                    window.location.href = 'EVELON.html';
+                } catch (error) {
+                    alert(error.message);
+                }
+            });
+
+            // Social Login Handlers
+            document.querySelectorAll('.social-btn').forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    let provider;
+                    const icon = btn.querySelector('i');
+                    
+                    if (icon.classList.contains('fa-google')) {
+                        provider = new firebase.auth.GoogleAuthProvider();
+                    } else if (icon.classList.contains('fa-facebook-f')) {
+                        provider = new firebase.auth.FacebookAuthProvider();
+                    } else if (icon.classList.contains('fa-github')) {
+                        provider = new firebase.auth.GithubAuthProvider();
+                    } else if (icon.classList.contains('fa-discord')) {
+                        // Discord login would require additional setup
+                        alert('Discord login coming soon!');
+                        return;
+                    }
+
+                    if (provider) {
+                        try {
+                            await firebase.auth().signInWithPopup(provider);
+                            window.location.href = 'EVELON.html';
+                        } catch (error) {
+                            alert(error.message);
+                        }
+                    }
+                });
+            });
+
+            // Tab switching logic
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    if (tab.dataset.tab === 'login') {
+                        loginForm.style.display = 'block';
+                        signupForm.style.display = 'none';
+                    } else {
+                        loginForm.style.display = 'none';
+                        signupForm.style.display = 'block';
+                    }
+                });
+            });
+
+            // Check if user is already logged in
+            firebase.auth().onAuthStateChanged(function(user) {
+                if (user) {
+                    window.location.href = 'EVELON.html';
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELEVEN 28 - Game Details | EVELON</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --neon-green: #39FF14;
+            --neon-green-glow: 0 0 10px rgba(57, 255, 20, 0.5);
+            --neon-green-hover: #2ECC71;
+            --bg-dark: #0D0D0D;
+            --bg-darker: #080808;
+            --bg-panel: #121212;
+            --bg-element: #1A1A1A;
+            --bg-element-hover: #222;
+            --text-primary: #fff;
+            --text-secondary: #bbb;
+            --text-muted: #888;
+            --border-radius-sm: 8px;
+            --border-radius-md: 12px;
+            --border-radius-lg: 16px;
+            --border-radius-xl: 25px;
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            cursor: url('mouse.cur'), auto;
+            background-color: var(--bg-dark);
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-primary);
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-element);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #666;
+            border-radius: 10px;
+            transition: background var(--transition-speed);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #888;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 10, 0.85);
+            padding: 15px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(57, 255, 20, 0.2);
+        }
+
+        .logo img {
+            height: 50px;
+            filter: drop-shadow(0 0 8px rgba(57, 255, 20, 0.5));
+            transition: transform var(--transition-speed);
+        }
+
+        .logo img:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 12px rgba(57, 255, 20, 0.7));
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .navbar .nav-links a {
+            color: var(--text-secondary);
+            font-size: 16px;
+            font-weight: 500;
+            transition: color var(--transition-speed), transform var(--transition-speed);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        .navbar .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--neon-green);
+            transition: width var(--transition-speed);
+            box-shadow: var(--neon-green-glow);
+        }
+
+        .navbar .nav-links a:hover {
+            color: var(--neon-green);
+            transform: translateY(-2px);
+        }
+
+        .navbar .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Search Bar */
+        .search-bar {
+            position: relative;
+            background: var(--bg-element);
+            padding: 10px 20px;
+            border-radius: var(--border-radius-xl);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 300px;
+            transition: width 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55), border-color 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #333;
+        }
+
+        .search-bar:focus-within {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 12px rgba(57, 255, 20, 0.4);
+            width: 400px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            font-family: 'Poppins', sans-serif;
+            width: 100%;
+            font-size: 15px;
+        }
+
+        .search-bar i {
+            color: var(--text-muted);
+            transition: color var(--transition-speed);
+        }
+
+        .search-bar:focus-within i {
+            color: var(--neon-green);
+        }
+
+        .search-results {
+            position: absolute;
+            top: 55px;
+            left: 0;
+            width: 100%;
+            background: var(--bg-element);
+            border-radius: var(--border-radius-md);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+            padding: 15px;
+            z-index: 1000;
+            border: 1px solid #444;
+            max-height: 350px;
+            overflow-y: auto;
+        }
+
+        .search-results a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+            padding: 12px;
+            border-radius: var(--border-radius-sm);
+            transition: all var(--transition-speed);
+            background: #2a2a2a;
+            border: 1px solid transparent;
+        }
+
+        .search-results a:hover {
+            background: #333;
+            transform: translateY(-2px);
+            border-color: rgba(57, 255, 20, 0.3);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .search-results img {
+            width: 45px;
+            height: 45px;
+            border-radius: var(--border-radius-sm);
+            object-fit: cover;
+            border: 2px solid #444;
+        }
+
+        .search-results span {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* Main Layout */
+        .container {
+            display: flex;
+            flex-grow: 1;
+        }
+
+        /* Left panel styling */
+        .left-panel {
+            width: 100px;
+            background: var(--panel-bg);
+            padding: 25px 10px;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 900;
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+        }
+
+        .left-panel:hover {
+            width: 120px;
+        }
+
+        .left-panel ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 100%;
+            padding: 0;
+            margin-top: 20px;
+        }
+
+        .left-panel ul li {
+            display: flex;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .left-panel ul li a {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .left-panel ul li img {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            object-fit: cover;
+            transition: var(--transition);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border: 2px solid transparent;
+        }
+
+        .left-panel ul li:hover img {
+            transform: scale(1.1);
+            box-shadow: 0 8px 15px rgba(57, 255, 20, 0.3);
+            border-color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-wrapper {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 0;
+            background: var(--bg-dark);
+            overflow-y: auto;
+            position: relative;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            overflow: hidden;
+            background-image: image('Mumbai City FC.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .hero-content {
+            padding: 40px;
+            width: 100%;
+            background: linear-gradient(to top, rgba(13, 13, 13, 1), rgba(13, 13, 13, 0.8), rgba(13, 13, 13, 0));
+            display: flex;
+            align-items: flex-end;
+            gap: 30px;
+        }
+
+        .game-logo {
+            width: 100px;
+            height: 100px;
+            border-radius: var(--border-radius-md);
+            border: 3px solid var(--neon-green);
+            box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+        }
+
+        .game-title-section {
+            flex-grow: 1;
+        }
+
+        .game-title-section h1 {
+            font-size: 3rem;
+            color: var(--neon-green);
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.4);
+            margin-bottom: 10px;
+        }
+
+        .game-meta {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .game-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .game-meta i {
+            color: var(--neon-green);
+            font-size: 16px;
+        }
+
+        .game-actions {
+            display: flex;
+            gap: 15px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 40px;
+        }
+
+        .media-section {
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .trailer-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            background: #000;
+        }
+
+        .trailer-container::before {
+            content: "";
+            display: block;
+            padding-top: 56.25%;
+            /* 16:9 Aspect Ratio */
+        }
+
+        .trailer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: var(--border-radius-lg);
+        }
+
+        .game-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 20px;
+            background: var(--bg-element);
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid #333;
+        }
+
+        .game-description {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .game-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .feature-tag {
+            background: rgba(57, 255, 20, 0.15);
+            color: var(--neon-green);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+
+        .btn {
+            background: transparent;
+            border: 2px solid var(--neon-green);
+            padding: 12px 25px;
+            color: var(--neon-green);
+            border-radius: var(--border-radius-xl);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(57, 255, 20, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.3);
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--neon-green);
+            color: #000;
+            font-weight: 700;
+        }
+
+        .btn-primary:hover {
+            background: var(--neon-green-hover);
+        }
+
+        .btn i {
+            font-size: 18px;
+        }
+
+        /* Game Details Accordion */
+        .details-section {
+            margin: 30px 0;
+        }
+
+        .accordion-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .accordion {
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border: 1px solid #333;
+            background: var(--bg-element);
+        }
+
+        .accordion-header {
+            background: var(--bg-element);
+            color: var(--text-primary);
+            padding: 18px 25px;
+            font-size: 18px;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            transition: all var(--transition-speed);
+            border-left: 3px solid transparent;
+        }
+
+        .accordion-header:hover {
+            background: #222;
+            border-left-color: var(--neon-green);
+        }
+
+        .accordion-header.active {
+            border-left-color: var(--neon-green);
+            color: var(--neon-green);
+        }
+
+        .accordion-header i {
+            transition: transform var(--transition-speed);
+        }
+
+        .accordion-header.active i {
+            transform: rotate(180deg);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: var(--bg-darker);
+            border-top: 1px solid #333;
+        }
+
+        .accordion-content-inner {
+            padding: 25px;
+            color: var(--text-secondary);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        /* System Requirements */
+        .system-req {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .req-column {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius-md);
+            padding: 20px;
+            border: 1px solid #333;
+        }
+
+        .req-column h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--neon-green);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+        }
+
+        .req-column ul {
+            list-style: none;
+        }
+
+        .req-column ul li {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .req-column ul li strong {
+            color: var(--text-primary);
+            min-width: 100px;
+            display: inline-block;
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            margin-top: 30px;
+            padding: 30px;
+            background: var(--bg-element);
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 15px;
+        }
+
+        .section-header h3 {
+            font-size: 24px;
+            color: var(--neon-green);
+        }
+
+        .reviews-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .review-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius-md);
+            padding: 20px;
+            border: 1px solid #333;
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .reviewer-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #333;
+            overflow: hidden;
+        }
+
+        .reviewer-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .reviewer-info {
+            flex: 1;
+        }
+
+        .reviewer-name {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .review-date {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .review-rating {
+            display: flex;
+            gap: 2px;
+            color: var(--neon-green);
+            font-size: 14px;
+        }
+
+        .review-text {
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .write-review {
+            margin-top: 30px;
+        }
+
+        .write-review h4 {
+            margin-bottom: 15px;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+        }
+
+        .review-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .review-form textarea {
+            width: 100%;
+            padding: 15px;
+            border-radius: var(--border-radius-md);
+            border: 1px solid #444;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            resize: vertical;
+            min-height: 120px;
+            transition: all var(--transition-speed);
+        }
+
+        .review-form textarea:focus {
+            border-color: var(--neon-green);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(57, 255, 20, 0.2);
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .rating-select {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .rating-select i {
+            color: #666;
+            font-size: 20px;
+            cursor: pointer;
+            transition: color var(--transition-speed);
+        }
+
+        .rating-select i:hover {
+            color: var(--neon-green);
+        }
+
+        /* Authentication Buttons */
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .auth-buttons button {
+            background: transparent;
+            border: 2px solid var(--neon-green);
+            padding: 8px 20px;
+            color: var(--neon-green);
+            border-radius: var(--border-radius-xl);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            font-family: "Poppins", sans-serif;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            transition: color 0.4s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .auth-buttons button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--neon-green);
+            transition: all 0.4s cubic-bezier(0.5, 0, 0.5, 1);
+            z-index: -1;
+        }
+
+        .auth-buttons button:hover {
+            color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(57, 255, 20, 0.5);
+            font-weight: 700;
+        }
+
+        .auth-buttons button:hover::before {
+            left: 0;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-panel);
+            padding: 30px;
+            text-align: center;
+            margin-top: 50px;
+            border-top: 1px solid #333;
+        }
+
+        .footer p {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-element);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            transition: all var(--transition-speed);
+            border: 1px solid #333;
+        }
+
+        .social-links a:hover {
+            background: var(--neon-green);
+            color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Loading screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-darker);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 9999;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .loading-logo {
+            width: 150px;
+            height: auto;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            }
+
+            50% {
+                filter: drop-shadow(0 0 20px rgba(57, 255, 20, 0.7));
+            }
+
+            100% {
+                filter: drop-shadow(0 0 5px rgba(57, 255, 20, 0.3));
+            }
+        }
+
+        .progress-bar {
+            width: 250px;
+            height: 6px;
+            background: #333;
+            border-radius: 3px;
+            margin-top: 30px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress {
+            width: 0;
+            height: 100%;
+            background: var(--neon-green);
+            border-radius: 3px;
+            transition: width 2s cubic-bezier(0.165, 0.84, 0.44, 1);
+            box-shadow: 0 0 8px rgba(57, 255, 20, 0.5);
+        }
+
+        .loading-text {
+            margin-top: 20px;
+            color: var(--text-secondary);
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            font-size: 14px;
+        }
+
+        .search-expand {
+            width: 400px !important;
+            border-color: var(--neon-green) !important;
+            box-shadow: 0 0 12px rgba(57, 255, 20, 0.4) !important;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .media-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .navbar {
+                padding: 15px 20px;
+            }
+
+            .search-bar {
+                width: 200px;
+            }
+
+            .search-bar:focus-within {
+                width: 250px;
+            }
+
+            .main-content {
+                padding: 0;
+            }
+
+            .content-section {
+                padding: 20px;
+            }
+
+            .hero-content {
+                padding: 30px 20px;
+            }
+
+            .game-title-section h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar .nav-links {
+                display: none;
+            }
+
+            .hero-section {
+                height: 400px;
+            }
+
+            .game-logo {
+                width: 80px;
+                height: 80px;
+            }
+
+            .game-title-section h1 {
+                font-size: 2rem;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .system-req {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .search-bar {
+                display: none;
+            }
+
+            .hero-content {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .game-logo {
+                width: 70px;
+                height: 70px;
+            }
+
+            .game-title-section h1 {
+                font-size: 1.8rem;
+            }
+
+            .game-meta {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loadingScreen">
+        <img src="Circles__1_-removebg-preview.png" alt="EVELON" class="loading-logo">
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+        <div class="loading-text">LOADING GAME DATA...</div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <div class="container">
+            <div class="left-panel">
+                <ul>
+                    <li>
+                        <a href="eleven.html" title="ELEVEN 28">
+                            <img src="Mumbai City FC.png" alt="ELEVEN 28">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="velocity.html" title="VELOCITY 28">
+                            <img src="VELOCITY.png" alt="VELOCITY 28">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="crickit.html" title="CrickIT 28">
+                            <img src="To Play.png" alt="CrickIT 28">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game"
+                            title="FIREBACK!">
+                            <img src="Add a heading (2).png" alt="FIREBACK! Logo">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" title="Coming Soon">
+                            <img src="Add a heading (2).png" alt="Coming Soon">
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Main Content Area -->
+            <div class="main-wrapper">
+                <!-- Navigation Bar -->
+                <nav class="navbar">
+                    <div class="logo">
+                        <a href="EVELON.html">
+                            <img src="Circles__1_-removebg-preview.png" alt="EVELON Logo">
+                        </a>
+                    </div>
+                    <div class="nav-links">
+                        <a href="#">Browse</a>
+                        <a href="#">Shop</a>
+                        <a href="#">News</a>
+                        <a href="#">FAQ</a>
+                    </div>
+                    <div class="search-bar">
+                        <i class="fa fa-search"></i>
+                        <input type="text" placeholder="Search games..." id="search-input">
+                        <button id="clear-search"><i class="fa fa-times"></i></button>
+                        <div class="search-results" id="search-results"></div>
+                    </div>
+                    <div class="auth-buttons">
+                        <a href="auth.html"><button>Sign Up</button></a>
+                        <a href="auth.html"><button>Log In</button></a>
+                    </div>
+                </nav>
+
+                <!-- Hero Section with Game Banner -->
+                <div class="hero-section">
+                    <div class="hero-content">
+                        <img src="Mumbai City FC.png" alt="ELEVEN 28" class="game-logo">
+                        <div class="game-title-section">
+                            <h1>ELEVEN 28</h1>
+                            <div class="game-meta">
+                                <span><i class="fas fa-gamepad"></i> Football Simulation</span>
+                                <span><i class="fas fa-code-branch"></i> Version 1.2.8</span>
+                                <span><i class="fas fa-calendar"></i> Released: April 2025</span>
+                                <span><i class="fas fa-star"></i> 4.8/5</span>
+                            </div>
+                        </div>
+                        <div class="game-actions">
+                            <button class="btn btn-primary"><i class="fas fa-download"></i> Download</button>
+                            <button class="btn"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Content Sections -->
+                <div class="main-content">
+                    <div class="content-section">
+                        <!-- Media Section with Trailer and Info -->
+                        <div class="media-section">
+                            <div class="trailer-container">
+                                <iframe class="trailer" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0"
+                                    allowfullscreen></iframe>
+                            </div>
+                            <div class="game-info">
+                                <h2>Game Overview</h2>
+                                <p class="game-description">
+                                    ELEVEN 28 is a next-generation football management simulation that prioritizes
+                                    realism, tactical depth, and AI-driven decision-making. Take control of your
+                                    favorite club and guide them to glory through strategic transfers, in-depth training
+                                    systems, and innovative match tactics.
+                                </p>
+                                <div class="game-features">
+                                    <span class="feature-tag"><i class="fas fa-users"></i> Multiplayer</span>
+                                    <span class="feature-tag"><i class="fas fa-cloud"></i> Cloud Saves</span>
+                                    <span class="feature-tag"><i class="fas fa-trophy"></i> Achievements</span>
+                                    <span class="feature-tag"><i class="fas fa-gamepad"></i> Controller Support</span>
+                                    <span class="feature-tag"><i class="fas fa-globe"></i> Online Leagues</span>
+                                </div>
+                                <div class="buttons">
+                                    <button class="btn btn-primary"><i class="fas fa-download"></i> Download
+                                        Now</button>
+                                    <button class="btn"><i class="fas fa-shopping-cart"></i> Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Game Details Accordion -->
+                        <div class="details-section">
+                            <div class="accordion-container">
+                                <!-- System Requirements -->
+                                <div class="accordion">
+                                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                                        <span><i class="fas fa-microchip"></i> System Requirements</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="accordion-content">
+                                        <div class="accordion-content-inner">
+                                            <div class="system-req">
+                                                <div class="req-column">
+                                                    <h4><i class="fas fa-laptop"></i> Minimum</h4>
+                                                    <ul>
+                                                        <li><strong>OS:</strong> Windows 10 (64-bit)</li>
+                                                        <li><strong>Processor:</strong> Intel Core i5-6600K / AMD Ryzen
+                                                            5 1600</li>
+                                                        <li><strong>Memory:</strong> 8GB RAM</li>
+                                                        <li><strong>Graphics:</strong> NVIDIA GTX 1050 Ti / AMD Radeon
+                                                            RX 570 (4GB VRAM)</li>
+                                                        <li><strong>DirectX:</strong> Version 11</li>
+                                                        <li><strong>Storage:</strong> 20GB available space</li>
+                                                        <li><strong>Internet:</strong> Broadband connection required for
+                                                            online features</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="req-column">
+                                                    <h4><i class="fas fa-desktop"></i> Recommended</h4>
+                                                    <ul>
+                                                        <li><strong>OS:</strong> Windows 11 (64-bit)</li>
+                                                        <li><strong>Processor:</strong> Intel Core i7-12700K / AMD Ryzen
+                                                            7 5800X</li>
+                                                        <li><strong>Memory:</strong> 16GB RAM</li>
+                                                        <li><strong>Graphics:</strong> NVIDIA RTX 3060 Ti / AMD Radeon
+                                                            RX 6700 XT (8GB VRAM)</li>
+                                                        <li><strong>DirectX:</strong> Version 12</li>
+                                                        <li><strong>Storage:</strong> 50GB available space (SSD
+                                                            recommended)</li>
+                                                        <li><strong>Internet:</strong> High-speed broadband for optimal
+                                                            experience</li>
+                                                    </ul>
+                                                </div>
+                                                <div class="req-column">
+                                                    <h4><i class="fas fa-server"></i> Ultra</h4>
+                                                    <ul>
+                                                        <li><strong>OS:</strong> Windows 11 Pro</li>
+                                                        <li><strong>Processor:</strong> Intel Core i9-14900K / AMD Ryzen
+                                                            9 7950X3D</li>
+                                                        <li><strong>Memory:</strong> 32GB RAM or higher</li>
+                                                        <li><strong>Graphics:</strong> NVIDIA RTX 4090 / AMD Radeon RX
+                                                            7900 XTX (24GB VRAM)</li>
+                                                        <li><strong>DirectX:</strong> Version 12</li>
+                                                        <li><strong>Storage:</strong> 100GB available space (NVMe SSD
+                                                            strongly recommended)</li>
+                                                        <li><strong>Internet:</strong> Fiber-optic connection for
+                                                            seamless online play</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Game Details -->
+                                <div class="accordion">
+                                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                                        <span><i class="fas fa-info-circle"></i> Game Details</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="accordion-content">
+                                        <div class="accordion-content-inner">
+                                            <h3>Performance Considerations</h3>
+                                            <p>ELEVEN 28 is optimized to run smoothly on a range of hardware:</p>
+                                            <ul>
+                                                <li><strong>Low-end systems:</strong> The game supports reduced
+                                                    graphical settings and simplified UI options for better performance.
+                                                </li>
+                                                <li><strong>Mid-range setups:</strong> Players can expect a stable 60
+                                                    FPS at 1080p with recommended settings.</li>
+                                                <li><strong>High-end systems:</strong> The game fully utilizes
+                                                    multi-core processors and high-performance GPUs for 4K visuals,
+                                                    ultra-smooth animations, and real-time physics.</li>
+                                            </ul>
+
+                                            <h3>Storage & Installation</h3>
+                                            <ul>
+                                                <li><strong>Initial Download Size:</strong> ~20GB</li>
+                                                <li><strong>Post-Updates & Expansions:</strong> May require up to 50GB
+                                                    of free space</li>
+                                                <li><strong>SSD Recommended:</strong> For faster loading times and
+                                                    smoother simulation transitions</li>
+                                            </ul>
+
+                                            <h3>Online & Multiplayer Requirements</h3>
+                                            <ul>
+                                                <li><strong>Single-player Mode:</strong> Can be played offline, but
+                                                    online updates are recommended for live database updates and patches
+                                                </li>
+                                                <li><strong>Multiplayer Features:</strong> Online leagues and
+                                                    competitive modes require a stable broadband connection (10 Mbps
+                                                    recommended)</li>
+                                            </ul>
+
+                                            <h3>Compatibility & Additional Software</h3>
+                                            <ul>
+                                                <li><strong>Supported Resolutions:</strong> 1080p, 1440p, 4K (Ultrawide
+                                                    monitor support included)</li>
+                                                <li><strong>Controller Support:</strong> Full compatibility with Xbox
+                                                    and PlayStation controllers</li>
+                                            </ul>
+
+                                            <h3>Required Software:</h3>
+                                            <ul>
+                                                <li>DirectX 12 (Windows)</li>
+                                                <li>Vulkan API (Linux)</li>
+                                                <li>.NET Framework 4.8</li>
+                                                <li>Anti-cheat system (for online play)</li>
+                                            </ul>
+
+                                            <h3>Accessibility Features</h3>
+                                            <p>ELEVEN 28 includes various accessibility options:</p>
+                                            <ul>
+                                                <li><strong>Colorblind Modes:</strong> Protanopia, Deuteranopia, and
+                                                    Tritanopia-friendly UI</li>
+                                                <li><strong>UI Scaling:</strong> Adjustable font sizes and HUD elements
+                                                </li>
+                                                <li><strong>Input Customization:</strong> Key remapping and full
+                                                    controller customization</li>
+                                                <li><strong>Subtitles & Audio Descriptions:</strong> Support for match
+                                                    commentary and in-game menus</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Developer Info -->
+                                <div class="accordion">
+                                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                                        <span><i class="fas fa-code"></i> Developer Details</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="accordion-content">
+                                        <div class="accordion-content-inner">
+                                            <div
+                                                style="display: flex; align-items: center; gap: 15px; margin-bottom: 20px;">
+                                                <img src="Circles__1_-removebg-preview.png" alt="EVELON Studios"
+                                                    style="width: 60px; height: 60px; border-radius: 8px;">
+                                                <h3>EVELON Studios</h3>
+                                            </div>
+
+                                            <p><strong>Publisher:</strong> Dropl Interactive</p>
+                                            <p><strong>Engine:</strong> Unity</p>
+                                            <p><strong>Development Status:</strong> In active development</p>
+                                            <p><strong>Official Website:</strong> <a
+                                                    href="https://www.evelon-launcher.vercel.app"
+                                                    target="_blank">www.evelon-launcher.vercel.app</a></p>
+                                            <p><strong>Contact Email:</strong> help.dropl-evelon@gmail.com</p>
+
+                                            <div style="margin-top: 20px;">
+                                                <h4>Social Media</h4>
+                                                <div style="display: flex; gap: 15px; margin-top: 10px;">
+                                                    <a href="#" class="social-link"><i class="fab fa-twitter"></i>
+                                                        @evelon</a>
+                                                    <a href="#" class="social-link"><i class="fab fa-discord"></i>
+                                                        /evelonstudios</a>
+                                                    <a href="#" class="social-link"><i class="fab fa-youtube"></i>
+                                                        @evelonstudios</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Reviews Section -->
+                        <div class="reviews-section">
+                            <div class="section-header">
+                                <h3><i class="fas fa-star"></i> User Reviews</h3>
+                                <div class="rating-overall">
+                                    <span class="rating-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </span>
+                                    <span class="rating-number">4.8/5</span>
+                                </div>
+                            </div>
+
+                            <div class="reviews-wrapper">
+                                <!-- Review 1 -->
+                                <div class="review-item">
+                                    <div class="review-header">
+                                        <div class="reviewer-avatar">
+                                            <img src="/api/placeholder/120/120" alt="User Avatar">
+                                        </div>
+                                        <div class="reviewer-info">
+                                            <div class="reviewer-name">Alex_Gamer</div>
+                                            <div class="review-date">May 2, 2025</div>
+                                        </div>
+                                        <div class="review-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <div class="review-text">
+                                        The most realistic football manager sim I've ever played! The AI opponents
+                                        actually adapt to your tactics over time, which makes every match feel unique.
+                                        The transfer system is incredibly detailed - negotiations feel genuine and
+                                        challenging. Highly recommended!
+                                    </div>
+                                </div>
+
+                                <!-- Review 2 -->
+                                <div class="review-item">
+                                    <div class="review-header">
+                                        <div class="reviewer-avatar">
+                                            <img src="/api/placeholder/120/120" alt="User Avatar">
+                                        </div>
+                                        <div class="reviewer-info">
+                                            <div class="reviewer-name">FootballFanatic28</div>
+                                            <div class="review-date">April 29, 2025</div>
+                                        </div>
+                                        <div class="review-rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                    </div>
+                                    <div class="review-text">
+                                        Great game overall, but there are some performance issues on my mid-range PC
+                                        during match simulations. The youth academy system is amazing though - I've
+                                        discovered some incredible talents that have grown into world-class players.
+                                        Would give 5 stars if the performance was better.
+                                    </div>
+                                </div>
+
+                                <!-- Write Review -->
+                                <div class="write-review">
+                                    <h4>Write Your Review</h4>
+                                    <div class="review-form">
+                                        <textarea placeholder="Share your experience with ELEVEN 28..."></textarea>
+                                        <div class="form-footer">
+                                            <div class="rating-select">
+                                                <i class="far fa-star" data-rating="1"></i>
+                                                <i class="far fa-star" data-rating="2"></i>
+                                                <i class="far fa-star" data-rating="3"></i>
+                                                <i class="far fa-star" data-rating="4"></i>
+                                                <i class="far fa-star" data-rating="5"></i>
+                                            </div>
+                                            <button class="btn btn-primary">Submit Review</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="footer">
+                        <div class="social-links">
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-discord"></i></a>
+                            <a href="#"><i class="fab fa-youtube"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                        </div>
+                        <p>&copy; 2025 EVELON Studios. All rights reserved.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scripts -->
+        <script>
+            // Loading Screen Animation
+            window.onload = function () {
+                let progress = document.querySelector(".progress");
+                progress.style.width = "100%";
+                setTimeout(() => {
+                    let loadingScreen = document.getElementById("loadingScreen");
+                    loadingScreen.style.opacity = "0";
+                    setTimeout(() => {
+                        loadingScreen.style.display = "none";
+                    }, 500);
+                }, 2000);
+            };
+
+            // Image Error Handling
+            document.querySelectorAll('img').forEach(img => {
+                img.onerror = () => {
+                    img.src = 'Circles__1_-removebg-preview.png'; // Fallback image
+                };
+            });
+            // Enhanced search bar click animation
+            const searchBar = document.querySelector('.search-bar');
+            searchBar.addEventListener('click', function () {
+                this.classList.add('search-expand');
+                this.querySelector('input').focus();
+            });
+
+            document.addEventListener('click', function (e) {
+                if (!searchBar.contains(e.target)) {
+                    searchBar.classList.remove('search-expand');
+                }
+            });
+            // Accordion Functionality
+            function toggleAccordion(element) {
+                element.classList.toggle('active');
+                const content = element.nextElementSibling;
+
+                if (element.classList.contains('active')) {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                } else {
+                    content.style.maxHeight = "0";
+                }
+            }
+
+            // Initialize first accordion as open
+            document.addEventListener('DOMContentLoaded', function () {
+                const firstAccordion = document.querySelector('.accordion-header');
+                if (firstAccordion) {
+                    toggleAccordion(firstAccordion);
+                }
+            });
+
+            // Search Functionality
+            const games = [
+                { name: "ELEVEN 28", image: "Mumbai City FC.png" },
+                { name: "VELOCITY 28", image: "VELOCITY.png" },
+                { name: "CrickIT 28", image: "To Play.png" },
+                { name: "Mr.Doctor", image: "Add a heading (2).png" },
+                { name: "FIREBACK!", image: "Add a heading (2).png" },
+                { name: "PIXELS", image: "Add a heading (2).png" },
+                { name: "TBT - Truth Be Told", image: "Add a heading (2).png" }
+            ];
+
+            const searchInput = document.getElementById("search-input");
+            const searchResults = document.getElementById("search-results");
+            const clearSearch = document.getElementById("clear-search");
+            let timeout;
+
+            searchInput.addEventListener("input", function () {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    const query = this.value.toLowerCase();
+                    searchResults.innerHTML = "";
+
+                    if (query) {
+                        clearSearch.style.display = "block";
+                        const filteredGames = games.filter(game => game.name.toLowerCase().includes(query));
+
+                        if (filteredGames.length) {
+                            searchResults.style.display = "flex";
+                            filteredGames.forEach(game => {
+                                const gameLink = document.createElement("a");
+                                gameLink.href = "#";
+                                gameLink.innerHTML = `
+                                <img src="${game.image}" alt="${game.name}">
+                                <span>${game.name}</span>
+                            `;
+                                searchResults.appendChild(gameLink);
+                            });
+                        } else {
+                            searchResults.innerHTML = `<span style="padding: 12px; color: var(--text-secondary);">No results found for "${query}"</span>`;
+                            searchResults.style.display = "flex";
+                        }
+                    } else {
+                        clearSearch.style.display = "none";
+                        searchResults.style.display = "none";
+                    }
+                }, 300);
+            });
+
+            clearSearch.addEventListener("click", () => {
+                searchInput.value = "";
+                searchResults.style.display = "none";
+                clearSearch.style.display = "none";
+            });
+
+            // Hide search results when clicking outside
+            document.addEventListener('click', function (event) {
+                if (!searchInput.contains(event.target) && !searchResults.contains(event.target)) {
+                    searchResults.style.display = "none";
+                }
+            });
+
+            // Rating System
+            const stars = document.querySelectorAll('.rating-select i');
+            let selectedRating = 0;
+
+            stars.forEach(star => {
+                star.addEventListener('mouseover', function () {
+                    const rating = this.getAttribute('data-rating');
+                    highlightStars(rating);
+                });
+
+                star.addEventListener('mouseout', function () {
+                    highlightStars(selectedRating);
+                });
+
+                star.addEventListener('click', function () {
+                    selectedRating = this.getAttribute('data-rating');
+                    highlightStars(selectedRating);
+                });
+            });
+
+            function highlightStars(rating) {
+                stars.forEach(star => {
+                    const starRating = star.getAttribute('data-rating');
+                    if (starRating <= rating) {
+                        star.classList.remove('far');
+                        star.classList.add('fas');
+                        star.style.color = 'var(--neon-green)';
+                    } else {
+                        star.classList.add('far');
+                        star.classList.remove('fas');
+                        star.style.color = '#666';
+                    }
+                });
+            }
+
+            // Progressive Web App Registration
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(() => console.log('Service Worker Registered!'))
+                    .catch((error) => console.error('Service Worker Failed:', error));
+            }
+        </script>
+</body>
+
+</html>
