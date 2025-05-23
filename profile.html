@@ -1479,21 +1479,44 @@
 
                     // Create or update user document in Firestore
                     try {
-                        console.log('Creating/updating user document for:', user.email);
+                        console.log('Starting user document creation for:', user.email);
+                        console.log('User ID:', user.uid);
+                        
                         const userRef = db.collection('users').doc(user.uid);
-                        await userRef.set({
+                        const userData = {
                             email: user.email,
                             displayName: user.displayName || 'User',
                             photoURL: user.photoURL || `https://api.dicebear.com/6.x/avataaars/svg?seed=${user.displayName || 'user'}`,
-                            lastLogin: firebase.firestore.FieldValue.serverTimestamp()
-                        }, { merge: true }); // merge: true will only update specified fields
+                            lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+                            userId: user.uid // Adding userId for easier querying
+                        };
+                        
+                        console.log('Attempting to save user data:', userData);
+                        await userRef.set(userData, { merge: true });
                         console.log('User document created/updated successfully');
+
+                        // Verify the document was created
+                        const docSnapshot = await userRef.get();
+                        if (docSnapshot.exists) {
+                            console.log('Verified user document exists:', docSnapshot.data());
+                        } else {
+                            console.error('Failed to create user document!');
+                        }
                     } catch (error) {
                         console.error('Error updating user document:', error);
+                        console.error('Error details:', {
+                            code: error.code,
+                            message: error.message,
+                            stack: error.stack
+                        });
                     }
                     
-                    // Initialize friend system
-                    initializeFriendSystem(user);
+                    // Initialize friend system with error handling
+                    try {
+                        await initializeFriendSystem(user);
+                    } catch (error) {
+                        console.error('Error initializing friend system:', error);
+                    }
                     
                     // Handle logout
                     document.getElementById('logoutBtn').addEventListener('click', async (e) => {
@@ -1516,7 +1539,10 @@
                 // Handle send friend request
                 document.getElementById('sendFriendRequest').addEventListener('click', async () => {
                     const friendEmail = document.getElementById('friendEmail').value.trim();
-                    if (!friendEmail) return;
+                    if (!friendEmail) {
+                        alert('Please enter an email address');
+                        return;
+                    }
 
                     if (friendEmail === user.email) {
                         alert("You can't send a friend request to yourself!");
@@ -1524,27 +1550,38 @@
                     }
 
                     try {
-                        // Find user by email
-                        console.log('Searching for user with email:', friendEmail);
+                        console.log('Starting friend search for email:', friendEmail);
+                        
+                        // Find user by email with detailed logging
                         const userQuery = await db.collection('users')
                             .where('email', '==', friendEmail)
                             .get();
 
-                        console.log('Query result empty?', userQuery.empty);
+                        console.log('Search complete. Results:', {
+                            empty: userQuery.empty,
+                            size: userQuery.size
+                        });
+
                         if (userQuery.empty) {
-                            alert('User not found! Make sure the email is correct.');
+                            console.log('No user found with email:', friendEmail);
+                            const message = `User with email ${friendEmail} hasn't registered in the application yet. Please make sure they create an account and log in at least once before sending a friend request.`;
+                            alert(message);
                             return;
                         }
 
                         const friendDoc = userQuery.docs[0];
-                        console.log('Found user document:', friendDoc.data());
-                        const friendId = friendDoc.id;
                         const friendData = friendDoc.data();
+                        console.log('Found user:', {
+                            id: friendDoc.id,
+                            email: friendData.email,
+                            displayName: friendData.displayName
+                        });
 
-                        // Check if friend request already exists
+                        // Check existing friend request
+                        console.log('Checking for existing friend request...');
                         const requestQuery = await db.collection('friendRequests')
                             .where('fromId', '==', user.uid)
-                            .where('toId', '==', friendId)
+                            .where('toId', '==', friendDoc.id)
                             .get();
 
                         if (!requestQuery.empty) {
@@ -1552,14 +1589,15 @@
                             return;
                         }
 
-                        // Check if they're already friends
+                        // Check if already friends
+                        console.log('Checking if already friends...');
                         const friendshipQuery = await db.collection('friends')
                             .where('userIds', 'array-contains', user.uid)
                             .get();
 
                         let alreadyFriends = false;
                         friendshipQuery.forEach(doc => {
-                            if (doc.data().userIds.includes(friendId)) {
+                            if (doc.data().userIds.includes(friendDoc.id)) {
                                 alreadyFriends = true;
                             }
                         });
@@ -1570,9 +1608,10 @@
                         }
 
                         // Send friend request
-                        await db.collection('friendRequests').add({
+                        console.log('Sending friend request...');
+                        const requestData = {
                             fromId: user.uid,
-                            toId: friendId,
+                            toId: friendDoc.id,
                             fromEmail: user.email,
                             toEmail: friendEmail,
                             fromName: user.displayName || 'User',
@@ -1580,12 +1619,20 @@
                             fromPhotoURL: user.photoURL || `https://api.dicebear.com/6.x/avataaars/svg?seed=${user.email}`,
                             toPhotoURL: friendData.photoURL || `https://api.dicebear.com/6.x/avataaars/svg?seed=${friendEmail}`,
                             timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                        });
+                        };
+
+                        await db.collection('friendRequests').add(requestData);
+                        console.log('Friend request sent successfully');
 
                         document.getElementById('friendEmail').value = '';
                         alert('Friend request sent!');
                     } catch (error) {
-                        console.error('Error sending friend request:', error);
+                        console.error('Error in friend request process:', error);
+                        console.error('Error details:', {
+                            code: error.code,
+                            message: error.message,
+                            stack: error.stack
+                        });
                         alert('Error sending friend request. Please try again.');
                     }
                 });
