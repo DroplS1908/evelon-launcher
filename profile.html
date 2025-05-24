@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Evelon News & Updates</title>
+    <title>Evelon Profile</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
     <link rel="manifest" href="manifest.json" />
     <meta name="description" content="Evelon Launcher News - Stay updated with the latest news, patch logs, and developer updates." />
@@ -1274,7 +1274,7 @@
                                 <div class="stat-label">Achievements</div>
                             </div>
                             <div class="stat-item">
-                                <div class="stat-value">38</div>
+                                <div class="stat-value" id="friendCount">0</div>
                                 <div class="stat-label">Friends</div>
                             </div>
                         </div>
@@ -1461,6 +1461,7 @@
                 const profileAvatar = document.getElementById('profileAvatar');
                 const profileName = document.getElementById('profileName');
                 const profileEmail = document.getElementById('profileEmail');
+                const friendCountElement = document.getElementById('friendCount');
 
                 if (user) {
                     currentUser = user;
@@ -1476,6 +1477,13 @@
                     profileName.textContent = user.displayName || 'User';
                     profileEmail.textContent = user.email;
                     profileAvatar.src = user.photoURL || `https://api.dicebear.com/6.x/avataaars/svg?seed=${user.displayName || 'user'}`;
+
+                    // Listen for changes in friend count
+                    db.collection('friends')
+                        .where('userIds', 'array-contains', user.uid)
+                        .onSnapshot(snapshot => {
+                            friendCountElement.textContent = snapshot.size;
+                        });
 
                     // Create or update user document in Firestore
                     try {
