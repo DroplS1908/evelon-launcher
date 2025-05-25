@@ -1653,6 +1653,437 @@
                 transform: translate(-50%, -50%) rotate(360deg);
             }
         }
+
+        /* Friends Management Section Styles */
+        .friends-management-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius-lg);
+            margin: 30px 0;
+            padding: 30px;
+            border: 1px solid rgba(57, 255, 20, 0.1);
+        }
+
+        .friends-header {
+            margin-bottom: 30px;
+        }
+
+        .friends-header h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .friends-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        .friend-requests-panel,
+        .friends-list-panel {
+            background: var(--bg-element);
+            border-radius: var(--border-radius-md);
+            padding: 20px;
+        }
+
+        .friend-requests-panel h3,
+        .friends-list-panel h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .friend-requests-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .friend-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .friend-request-item {
+            background: var(--card-bg);
+            border-radius: var(--border-radius-md);
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .friend-request-item:hover {
+            transform: translateX(5px);
+        }
+
+        .friend-request-info {
+            flex: 1;
+        }
+
+        .friend-request-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .friend-request-btn {
+            padding: 8px 15px;
+            border-radius: var(--border-radius-sm);
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .accept-btn {
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+        }
+
+        .accept-btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .reject-btn {
+            background: transparent;
+            border: 1px solid #ff3e3e;
+            color: #ff3e3e;
+        }
+
+        .reject-btn:hover {
+            background: rgba(255, 62, 62, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Scrollbar styles for friend lists */
+        .friend-requests-list::-webkit-scrollbar,
+        .friend-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .friend-requests-list::-webkit-scrollbar-track,
+        .friend-list::-webkit-scrollbar-track {
+            background: var(--dark-light);
+            border-radius: 10px;
+        }
+
+        .friend-requests-list::-webkit-scrollbar-thumb,
+        .friend-list::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        .friend-requests-list::-webkit-scrollbar-thumb:hover,
+        .friend-list::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-hover);
+        }
+
+        .no-requests-message,
+        .no-friends-message {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 20px;
+            background: var(--bg-element);
+            border-radius: var(--border-radius-md);
+            font-size: 14px;
+        }
+
+        /* Update existing friend item styles */
+        .friend-item {
+            background: var(--card-bg);
+            padding: 15px;
+            border-radius: var(--border-radius-md);
+            transition: transform 0.3s ease;
+        }
+
+        .friend-item:hover {
+            transform: translateX(5px);
+        }
+
+        /* Add this CSS and remove the settings-related CSS */
+        .achievements-section {
+            grid-column: 1 / -1;
+        }
+
+        .achievements-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--bg-element);
+            border-radius: var(--border-radius-md);
+        }
+
+        .achievement-stat {
+            text-align: center;
+            padding: 15px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius-sm);
+            transition: transform 0.3s ease;
+        }
+
+        .achievement-stat:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        .achievement-categories {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .achievement-category {
+            background: var(--bg-element);
+            border-radius: var(--border-radius-md);
+            padding: 20px;
+        }
+
+        .achievement-category h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .achievement-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .achievement-item {
+            background: var(--card-bg);
+            border-radius: var(--border-radius-md);
+            padding: 15px;
+            transition: transform 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .achievement-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .achievement-item.rare {
+            border: 1px solid var(--primary);
+            background: linear-gradient(145deg, var(--card-bg), var(--bg-element));
+        }
+
+        .achievement-item.rare::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+
+        .achievement-icon {
+            font-size: 1.5em;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .achievement-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text);
+        }
+
+        .achievement-desc {
+            font-size: 0.9em;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .achievement-date,
+        .achievement-rarity {
+            font-size: 0.8em;
+            color: var(--primary);
+            font-style: italic;
+        }
+
+        .achievement-rarity {
+            font-weight: 500;
+        }
+
+        /* Add this CSS */
+        .games-section {
+            grid-column: 1 / -1;
+        }
+
+        .games-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--bg-element);
+            border-radius: var(--border-radius-md);
+        }
+
+        .game-stat {
+            text-align: center;
+            padding: 15px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius-sm);
+            transition: transform 0.3s ease;
+        }
+
+        .game-stat:hover {
+            transform: translateY(-5px);
+        }
+
+        .games-categories {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .games-category {
+            background: var(--bg-element);
+            border-radius: var(--border-radius-md);
+            padding: 20px;
+        }
+
+        .games-category h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .game-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .game-item {
+            display: flex;
+            gap: 15px;
+            background: var(--card-bg);
+            border-radius: var(--border-radius-md);
+            padding: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .game-item:hover {
+            transform: translateX(5px);
+        }
+
+        .game-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--border-radius-sm);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .game-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .game-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .game-name {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .game-stats {
+            display: flex;
+            gap: 15px;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        .game-stats span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .game-progress {
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: var(--bg-element);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .progress {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            font-size: 0.8em;
+            color: var(--text-secondary);
+        }
+
+        .game-milestones {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .milestone {
+            font-size: 0.8em;
+            color: var(--primary);
+            background: rgba(57, 255, 20, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
     </style>
 </head>
 
@@ -1809,74 +2240,10 @@
                     </div>
                 </div>
 
-                <div class="profile-sections">
-                    <!-- Recent Games Section -->
-                    <div class="profile-section">
-                        <h2><i class="fas fa-gamepad"></i> Recent Games</h2>
-                        <div class="game-list">
-                            <div class="game-item">
-                                <div class="game-icon">
-                                    <img src="Mumbai City FC.png" alt="ELEVEN 28">
-                                </div>
-                                <div class="game-details">
-                                    <div class="game-name">ELEVEN 28</div>
-                                    <div class="game-stats">Last played: 2 hours ago</div>
-                                </div>
-                            </div>
-                            <div class="game-item">
-                                <div class="game-icon">
-                                    <img src="VELOCITY.png" alt="VELOCITY 28">
-                                </div>
-                                <div class="game-details">
-                                    <div class="game-name">VELOCITY 28</div>
-                                    <div class="game-stats">Last played: Yesterday</div>
-                                </div>
-                            </div>
-                            <div class="game-item">
-                                <div class="game-icon">
-                                    <img src="To Play.png" alt="CrickIT 28">
-                                </div>
-                                <div class="game-details">
-                                    <div class="game-name">CrickIT 28</div>
-                                    <div class="game-stats">Last played: 3 days ago</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Recent Achievements Section -->
-                    <div class="profile-section">
-                        <h2><i class="fas fa-trophy"></i> Recent Achievements</h2>
-                        <div class="achievement-list">
-                            <div class="achievement-item">
-                                <div class="achievement-icon">
-                                    <i class="fas fa-star"></i>
-                                </div>
-                                <div class="achievement-name">Goal Master</div>
-                                <div class="achievement-desc">Score 100 goals in ELEVEN 28</div>
-                            </div>
-                            <div class="achievement-item">
-                                <div class="achievement-icon">
-                                    <i class="fas fa-medal"></i>
-                                </div>
-                                <div class="achievement-name">Speed Demon</div>
-                                <div class="achievement-desc">Win 10 races in VELOCITY 28</div>
-                            </div>
-                            <div class="achievement-item">
-                                <div class="achievement-icon">
-                                    <i class="fas fa-crown"></i>
-                                </div>
-                                <div class="achievement-name">Cricket Legend</div>
-                                <div class="achievement-desc">Score a century in CrickIT 28</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Friends Section -->
-                    <div class="profile-section">
-                        <h2><i class="fas fa-users"></i> Friends</h2>
-                        
-                        <!-- Add Friend -->
+                <!-- Friends Management Section -->
+                <div class="friends-management-section">
+                    <div class="friends-header">
+                        <h2><i class="fas fa-users"></i> Friends Management</h2>
                         <div class="add-friend-container">
                             <div class="add-friend-input">
                                 <input type="text" id="friendEmail" placeholder="Enter friend's email">
@@ -1885,57 +2252,211 @@
                                 </button>
                             </div>
                         </div>
+                    </div>
 
-                        <!-- Friend Requests -->
-                        <div class="friend-requests">
+                    <div class="friends-content">
+                        <!-- Friend Requests Panel -->
+                        <div class="friend-requests-panel">
                             <h3><i class="fas fa-user-clock"></i> Friend Requests</h3>
                             <div id="friendRequestsList" class="friend-requests-list">
                                 <!-- Friend requests will be populated here -->
                             </div>
                         </div>
 
-                        <!-- Friends List -->
-                        <div class="friends-container">
+                        <!-- Friends List Panel -->
+                        <div class="friends-list-panel">
                             <h3><i class="fas fa-user-friends"></i> My Friends</h3>
                             <div id="friendsList" class="friend-list">
                                 <!-- Friends will be populated here -->
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Settings Section -->
-                    <div class="profile-section">
-                        <h2><i class="fas fa-cog"></i> Settings</h2>
-                        <div class="settings-list">
-                            <div class="settings-item">
-                                <div class="settings-label">
-                                    <i class="fas fa-bell"></i>
-                                    <span>Notifications</span>
-                                </div>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
+                <div class="profile-sections">
+                    <!-- Achievements Section -->
+                    <div class="profile-section achievements-section">
+                        <h2><i class="fas fa-trophy"></i> Achievements</h2>
+                        <div class="achievements-stats">
+                            <div class="achievement-stat">
+                                <div class="stat-number">142</div>
+                                <div class="stat-label">Total Achievements</div>
                             </div>
-                            <div class="settings-item">
-                                <div class="settings-label">
-                                    <i class="fas fa-user-friends"></i>
-                                    <span>Show Online Status</span>
-                                </div>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
+                            <div class="achievement-stat">
+                                <div class="stat-number">85%</div>
+                                <div class="stat-label">Completion Rate</div>
                             </div>
-                            <div class="settings-item">
-                                <div class="settings-label">
-                                    <i class="fas fa-gamepad"></i>
-                                    <span>Game Activity</span>
+                            <div class="achievement-stat">
+                                <div class="stat-number">12</div>
+                                <div class="stat-label">Rare Achievements</div>
+                            </div>
+                        </div>
+                        <div class="achievement-categories">
+                            <div class="achievement-category">
+                                <h3><i class="fas fa-star"></i> Recent Achievements</h3>
+                                <div class="achievement-list">
+                                    <div class="achievement-item">
+                                        <div class="achievement-icon">
+                                            <i class="fas fa-star"></i>
+                                        </div>
+                                        <div class="achievement-name">Goal Master</div>
+                                        <div class="achievement-desc">Score 100 goals in ELEVEN 28</div>
+                                        <div class="achievement-date">Unlocked: 2 days ago</div>
+                                    </div>
+                                    <div class="achievement-item">
+                                        <div class="achievement-icon">
+                                            <i class="fas fa-medal"></i>
+                                        </div>
+                                        <div class="achievement-name">Speed Demon</div>
+                                        <div class="achievement-desc">Win 10 races in VELOCITY 28</div>
+                                        <div class="achievement-date">Unlocked: 5 days ago</div>
+                                    </div>
+                                    <div class="achievement-item">
+                                        <div class="achievement-icon">
+                                            <i class="fas fa-crown"></i>
+                                        </div>
+                                        <div class="achievement-name">Cricket Legend</div>
+                                        <div class="achievement-desc">Score a century in CrickIT 28</div>
+                                        <div class="achievement-date">Unlocked: 1 week ago</div>
+                                    </div>
                                 </div>
-                                <label class="toggle-switch">
-                                    <input type="checkbox" checked>
-                                    <span class="toggle-slider"></span>
-                                </label>
+                            </div>
+                            <div class="achievement-category">
+                                <h3><i class="fas fa-gem"></i> Rare Achievements</h3>
+                                <div class="achievement-list">
+                                    <div class="achievement-item rare">
+                                        <div class="achievement-icon">
+                                            <i class="fas fa-trophy"></i>
+                                        </div>
+                                        <div class="achievement-name">Ultimate Champion</div>
+                                        <div class="achievement-desc">Win 100 matches in all games</div>
+                                        <div class="achievement-rarity">Only 2% of players have this</div>
+                                    </div>
+                                    <div class="achievement-item rare">
+                                        <div class="achievement-icon">
+                                            <i class="fas fa-crown"></i>
+                                        </div>
+                                        <div class="achievement-name">Speed King</div>
+                                        <div class="achievement-desc">Complete all races under record time</div>
+                                        <div class="achievement-rarity">Only 5% of players have this</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Games Section -->
+                    <div class="profile-section games-section">
+                        <h2><i class="fas fa-gamepad"></i> Gaming Activity</h2>
+                        <div class="games-stats">
+                            <div class="game-stat">
+                                <div class="stat-number">24</div>
+                                <div class="stat-label">Games Owned</div>
+                            </div>
+                            <div class="game-stat">
+                                <div class="stat-number">156</div>
+                                <div class="stat-label">Hours Played</div>
+                            </div>
+                            <div class="game-stat">
+                                <div class="stat-number">8</div>
+                                <div class="stat-label">Active Games</div>
+                            </div>
+                        </div>
+                        <div class="games-categories">
+                            <div class="games-category">
+                                <h3><i class="fas fa-clock"></i> Recently Played</h3>
+                                <div class="game-list">
+                                    <div class="game-item">
+                                        <div class="game-icon">
+                                            <img src="Mumbai City FC.png" alt="ELEVEN 28">
+                                        </div>
+                                        <div class="game-details">
+                                            <div class="game-name">ELEVEN 28</div>
+                                            <div class="game-stats">
+                                                <span><i class="fas fa-clock"></i> 2 hours ago</span>
+                                                <span><i class="fas fa-hourglass"></i> 45 hours played</span>
+                                            </div>
+                                            <div class="game-progress">
+                                                <div class="progress-bar">
+                                                    <div class="progress" style="width: 75%"></div>
+                                                </div>
+                                                <span class="progress-text">75% Completed</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="game-item">
+                                        <div class="game-icon">
+                                            <img src="VELOCITY.png" alt="VELOCITY 28">
+                                        </div>
+                                        <div class="game-details">
+                                            <div class="game-name">VELOCITY 28</div>
+                                            <div class="game-stats">
+                                                <span><i class="fas fa-clock"></i> Yesterday</span>
+                                                <span><i class="fas fa-hourglass"></i> 32 hours played</span>
+                                            </div>
+                                            <div class="game-progress">
+                                                <div class="progress-bar">
+                                                    <div class="progress" style="width: 60%"></div>
+                                                </div>
+                                                <span class="progress-text">60% Completed</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="game-item">
+                                        <div class="game-icon">
+                                            <img src="To Play.png" alt="CrickIT 28">
+                                        </div>
+                                        <div class="game-details">
+                                            <div class="game-name">CrickIT 28</div>
+                                            <div class="game-stats">
+                                                <span><i class="fas fa-clock"></i> 3 days ago</span>
+                                                <span><i class="fas fa-hourglass"></i> 28 hours played</span>
+                                            </div>
+                                            <div class="game-progress">
+                                                <div class="progress-bar">
+                                                    <div class="progress" style="width: 40%"></div>
+                                                </div>
+                                                <span class="progress-text">40% Completed</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="games-category">
+                                <h3><i class="fas fa-star"></i> Most Played</h3>
+                                <div class="game-list">
+                                    <div class="game-item">
+                                        <div class="game-icon">
+                                            <img src="Mumbai City FC.png" alt="ELEVEN 28">
+                                        </div>
+                                        <div class="game-details">
+                                            <div class="game-name">ELEVEN 28</div>
+                                            <div class="game-stats">
+                                                <span><i class="fas fa-trophy"></i> 15 Achievements</span>
+                                                <span><i class="fas fa-hourglass"></i> 45 hours played</span>
+                                            </div>
+                                            <div class="game-milestones">
+                                                <span class="milestone"><i class="fas fa-medal"></i> League Champion</span>
+                                                <span class="milestone"><i class="fas fa-star"></i> MVP</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="game-item">
+                                        <div class="game-icon">
+                                            <img src="VELOCITY.png" alt="VELOCITY 28">
+                                        </div>
+                                        <div class="game-details">
+                                            <div class="game-name">VELOCITY 28</div>
+                                            <div class="game-stats">
+                                                <span><i class="fas fa-trophy"></i> 12 Achievements</span>
+                                                <span><i class="fas fa-hourglass"></i> 32 hours played</span>
+                                            </div>
+                                            <div class="game-milestones">
+                                                <span class="milestone"><i class="fas fa-flag-checkered"></i> Race Master</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
