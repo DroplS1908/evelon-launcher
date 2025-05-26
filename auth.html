@@ -17,7 +17,7 @@
             --primary: #39ff14;
             --primary-hover: #2ecc71;
             --dark: #0d0d0d;
-            --dark-light: #080808;
+            --dark-light: #080808;  
             --panel-bg: #0a0a0ad9;
             --card-bg: #222;
             --card-hover: #2a2a2a;
@@ -72,6 +72,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.1);
         }
 
         .auth-box::before {
@@ -81,9 +82,9 @@
             right: 0;
             width: 100%;
             height: 2px;
-            background: var(--primary);
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
             animation: scan-line 3s linear infinite;
-            box-shadow: 0 0 8px var(--primary);
+            box-shadow: 0 0 15px var(--primary);
         }
 
         @keyframes scan-line {
@@ -146,37 +147,38 @@
         }
 
         .tabs {
-            margin-bottom: 20px; /* Reduced from 30px */
+            display: flex;
+            background: var(--bg-element);
+            border-radius: 10px;
+            padding: 5px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(57, 255, 20, 0.1);
         }
 
         .tab {
             flex: 1;
-            padding: 15px;
+            padding: 12px;
             text-align: center;
             color: var(--text-secondary);
             cursor: pointer;
             transition: var(--transition);
             font-weight: 500;
             position: relative;
+            border-radius: 8px;
         }
 
         .tab.active {
-            color: var(--primary);
+            color: var(--dark);
+            background: var(--primary);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
         }
 
         .tab.active::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--primary);
-            box-shadow: 0 0 10px var(--primary);
+            display: none;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             position: relative;
         }
 
@@ -194,17 +196,18 @@
             padding: 15px 15px 15px 45px;
             background: var(--bg-element);
             border: 1px solid rgba(57, 255, 20, 0.1);
-            border-radius: 10px;
+            border-radius: 12px;
             color: var(--text);
             font-family: "Poppins", sans-serif;
             font-size: 15px;
             transition: var(--transition);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .form-group input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 10px rgba(57, 255, 20, 0.2);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.15), inset 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .form-group input:focus + i {
@@ -214,10 +217,10 @@
         .auth-btn {
             width: 100%;
             padding: 15px;
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            border-radius: 10px;
+            background: var(--primary);
+            border: none;
+            color: var(--dark);
+            border-radius: 12px;
             font-family: "Poppins", sans-serif;
             font-size: 16px;
             font-weight: 600;
@@ -225,34 +228,23 @@
             transition: var(--transition);
             position: relative;
             overflow: hidden;
-            z-index: 1;
-        }
-
-        .auth-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: var(--primary);
-            transition: var(--transition);
-            z-index: -1;
+            box-shadow: 0 4px 15px rgba(57, 255, 20, 0.2);
         }
 
         .auth-btn:hover {
-            color: var(--dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(57, 255, 20, 0.3);
         }
 
-        .auth-btn:hover::before {
-            left: 0;
+        .auth-btn::before {
+            display: none;
         }
 
         .divider {
             display: flex;
             align-items: center;
             text-align: center;
-            margin: 30px 0;
+            margin: 25px 0;
             color: var(--text-muted);
         }
 
@@ -264,7 +256,11 @@
         }
 
         .divider span {
-            padding: 0 10px;
+            padding: 0 15px;
+            font-size: 14px;
+            background: var(--panel-bg);
+            position: relative;
+            z-index: 1;
         }
 
         .social-login {
@@ -276,7 +272,7 @@
         .social-btn {
             width: 50px;
             height: 50px;
-            border-radius: 50%;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -284,6 +280,7 @@
             border: 1px solid rgba(57, 255, 20, 0.1);
             cursor: pointer;
             transition: var(--transition);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .social-btn i {
@@ -293,7 +290,7 @@
         }
 
         .social-btn:hover {
-            transform: translateY(-5px);
+            transform: translateY(-3px);
             background: var(--bg-element-hover);
             border-color: var(--primary);
             box-shadow: 0 5px 15px rgba(57, 255, 20, 0.2);
@@ -331,6 +328,7 @@
             margin-bottom: 25px;
             color: var(--text-secondary);
             font-size: 14px;
+            padding: 0 5px;
         }
 
         .remember-me {
@@ -340,17 +338,22 @@
         }
 
         .remember-me input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
             accent-color: var(--primary);
+            cursor: pointer;
         }
 
         .forgot-password {
             color: var(--primary);
             text-decoration: none;
             transition: var(--transition);
+            font-weight: 500;
         }
 
         .forgot-password:hover {
-            text-decoration: underline;
+            text-decoration: none;
+            opacity: 0.8;
         }
 
         /* Cyberpunk Background */
