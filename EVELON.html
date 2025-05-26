@@ -721,7 +721,9 @@
             display: flex;
             flex-direction: column;
             gap: 30px;
-            margin-bottom: 50px;
+            margin: 0 auto 50px auto;
+            max-width: 95%;
+            width: 1400px;
         }
 
         .featured-game-main {
@@ -4086,6 +4088,114 @@
         .game-card .btn-primary {
             display: none;
         }
+
+        /* Cyberpunk Background */
+        .cyber-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100vh;
+            overflow: hidden;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--primary);
+            filter: blur(5px);
+            opacity: 0.5;
+            animation: float 10s infinite;
+        }
+
+        .dot {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 50%;
+            filter: blur(1px);
+            animation: blink 2s infinite;
+        }
+
+        .line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            height: 1px;
+            width: 100px;
+            filter: blur(1px);
+            animation: scan 8s linear infinite;
+        }
+
+        .hexagon {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            animation: rotate 10s linear infinite;
+            filter: blur(1px);
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            50% {
+                transform: translateY(0) translateX(20px);
+            }
+            75% {
+                transform: translateY(20px) translateX(10px);
+            }
+        }
+
+        @keyframes blink {
+            0%, 100% {
+                opacity: 0.2;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes scan {
+            0% {
+                transform: translateY(-100vh) rotate(45deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(45deg);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Grid Pattern */
+        .grid-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(57, 255, 20, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(57, 255, 20, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+            opacity: 0.2;
+            z-index: -1;
+        }
     </style>
     <!-- Add Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
@@ -4111,6 +4221,10 @@
 </head>
 
 <body>
+    <!-- Cyberpunk Background -->
+    <div class="cyber-background">
+        <div class="grid-pattern"></div>
+    </div>
 
     <div class="loading-screen" id="loadingScreen">
         <div class="cyber-background">
@@ -4825,357 +4939,6 @@
                                         Wishlist
                                     </button>
                                 </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-header">
-                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-fire"></i> Most Popular Games</h2>
-                <a href="#" class="view-all">View All</a>
-            </div>
-
-            <div id="popular-games" class="games-wrapper">
-                <div class="games-section"></div>
-            </div>
-
-            <div class="section-header">
-                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-star"></i> New Releases</h2>
-                <a href="#" class="view-all">View All</a>
-            </div>
-
-            <div id="new-releases" class="games-wrapper">
-                <div class="games-section"></div>
-            </div>
-
-            <div class="section-header">
-                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-tags"></i> Games on Sale</h2>
-                <a href="#" class="view-all">View All</a>
-            </div>
-
-            <div id="games-on-sale" class="games-wrapper">
-                <div class="games-section"></div>
-            </div>
-
-            <div class="section-header">
-                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-clock"></i> Coming Soon</h2>
-                <a href="#" class="view-all">View All</a>
-            </div>
-
-            <div class="games-wrapper">
-                <div class="games-section">
-                    <div class="game-card">
-                        <a href="eleven.html">
-                            <img src="Mumbai City FC.png" alt="ELEVEN 28" />
-                            <h3>ELEVEN 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="velocity.html">
-                            <img src="VELOCITY.png" alt="VELOCITY 28" />
-                            <h3>VELOCITY 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="crickit.html">
-                            <img src="To Play.png" alt="CrickIT 28" />
-                            <h3>CrickIT 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
-                            <img src="Add a heading (2).png" alt="FIREBACK!" />
-                            <h3>FIREBACK!</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-header">
-                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-trophy"></i> Top Rated</h2>
-                <a href="#" class="view-all">View All</a>
-            </div>
-
-            <div class="games-wrapper">
-                <div class="games-section">
-                    <div class="game-card">
-                        <a href="eleven.html">
-                            <img src="Mumbai City FC.png" alt="ELEVEN 28" />
-                            <h3>ELEVEN 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="velocity.html">
-                            <img src="VELOCITY.png" alt="VELOCITY 28" />
-                            <h3>VELOCITY 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="crickit.html">
-                            <img src="To Play.png" alt="CrickIT 28" />
-                            <h3>CrickIT 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
-                            <img src="Add a heading (2).png" alt="FIREBACK!" />
-                            <h3>FIREBACK!</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-header">
-                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-gun"></i> Action Games</h2>
-                <a href="#" class="view-all">View All</a>
-            </div>
-
-            <div class="games-wrapper">
-                <div class="games-section">
-                    <div class="game-card">
-                        <a href="eleven.html">
-                            <img src="Mumbai City FC.png" alt="ELEVEN 28" />
-                            <h3>ELEVEN 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="velocity.html">
-                            <img src="VELOCITY.png" alt="VELOCITY 28" />
-                            <h3>VELOCITY 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="crickit.html">
-                            <img src="To Play.png" alt="CrickIT 28" />
-                            <h3>CrickIT 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
-                            <img src="Add a heading (2).png" alt="FIREBACK!" />
-                            <h3>FIREBACK!</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-header">
-                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-hat-wizard"></i> RPG Adventures</h2>
-                <a href="#" class="view-all">View All</a>
-            </div>
-
-            <div class="games-wrapper">
-                <div class="games-section">
-                    <div class="game-card">
-                        <a href="eleven.html">
-                            <img src="Mumbai City FC.png" alt="ELEVEN 28" />
-                            <h3>ELEVEN 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="velocity.html">
-                            <img src="VELOCITY.png" alt="VELOCITY 28" />
-                            <h3>VELOCITY 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="crickit.html">
-                            <img src="To Play.png" alt="CrickIT 28" />
-                            <h3>CrickIT 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
-                            <img src="Add a heading (2).png" alt="FIREBACK!" />
-                            <h3>FIREBACK!</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-header">
-                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-flag-checkered"></i> Racing Games</h2>
-                <a href="#" class="view-all">View All</a>
-            </div>
-
-            <div class="games-wrapper">
-                <div class="games-section">
-                    <div class="game-card">
-                        <a href="eleven.html">
-                            <img src="Mumbai City FC.png" alt="ELEVEN 28" />
-                            <h3>ELEVEN 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="velocity.html">
-                            <img src="VELOCITY.png" alt="VELOCITY 28" />
-                            <h3>VELOCITY 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="crickit.html">
-                            <img src="To Play.png" alt="CrickIT 28" />
-                            <h3>CrickIT 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
-                            <img src="Add a heading (2).png" alt="FIREBACK!" />
-                            <h3>FIREBACK!</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="section-header">
-                <h2>&nbsp;&nbsp;&nbsp;<i class="fas fa-crown"></i> Exclusive Games</h2>
-                <a href="#" class="view-all">View All</a>
-            </div>
-
-            <div class="games-wrapper">
-                <div class="games-section">
-                    <div class="game-card">
-                        <a href="eleven.html">
-                            <img src="Mumbai City FC.png" alt="ELEVEN 28" />
-                            <h3>ELEVEN 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="velocity.html">
-                            <img src="VELOCITY.png" alt="VELOCITY 28" />
-                            <h3>VELOCITY 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="crickit.html">
-                            <img src="To Play.png" alt="CrickIT 28" />
-                            <h3>CrickIT 28</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="game-card">
-                        <a href="EVELON_product.html?title=FIREBACK!&image=Add%20a%20heading%20(2).png&desc=Tactical shooter game">
-                            <img src="Add a heading (2).png" alt="FIREBACK!" />
-                            <h3>FIREBACK!</h3>
-                            <div class="game-overlay">
-                                <button class="btn-primary">
-                                    <i class="fas fa-download"></i> Download
-                                </button>
                             </div>
                         </a>
                     </div>
@@ -6428,6 +6191,57 @@
             populateSection('new-releases', game => game.isNew);
             populateSection('games-on-sale', game => game.onSale);
         });
+    </script>
+
+    <script>
+        function createElements() {
+            const background = document.querySelector('.cyber-background');
+            
+            // Create shapes
+            for (let i = 0; i < 15; i++) {
+                const shape = document.createElement('div');
+                shape.className = 'shape';
+                shape.style.width = Math.random() * 50 + 20 + 'px';
+                shape.style.height = shape.style.width;
+                shape.style.left = Math.random() * 100 + '%';
+                shape.style.top = Math.random() * 100 + '%';
+                shape.style.animationDelay = Math.random() * 5 + 's';
+                shape.style.opacity = Math.random() * 0.3;
+                background.appendChild(shape);
+            }
+
+            // Create dots
+            for (let i = 0; i < 50; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'dot';
+                dot.style.left = Math.random() * 100 + '%';
+                dot.style.top = Math.random() * 100 + '%';
+                dot.style.animationDelay = Math.random() * 2 + 's';
+                background.appendChild(dot);
+            }
+
+            // Create scanning lines
+            for (let i = 0; i < 5; i++) {
+                const line = document.createElement('div');
+                line.className = 'line';
+                line.style.left = Math.random() * 100 + '%';
+                line.style.animationDelay = Math.random() * 8 + 's';
+                background.appendChild(line);
+            }
+
+            // Create hexagons
+            for (let i = 0; i < 10; i++) {
+                const hexagon = document.createElement('div');
+                hexagon.className = 'hexagon';
+                hexagon.style.left = Math.random() * 100 + '%';
+                hexagon.style.top = Math.random() * 100 + '%';
+                hexagon.style.animationDelay = Math.random() * 5 + 's';
+                background.appendChild(hexagon);
+            }
+        }
+
+        // Initialize background elements
+        document.addEventListener('DOMContentLoaded', createElements);
     </script>
 </body>
 
